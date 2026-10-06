@@ -1,0 +1,292 @@
+# 下層・旧新宿（底宿）
+# 新しい場所は、該当する街区（district）の下に足す。IDは lo- で始める。
+
+# ---- 層 ----
+- id: lo-old
+  type: layer
+  parent: shinjuku
+  name: 旧新宿
+  reading: きゅうしんじゅく
+  alias: 底宿
+  en: Old Shinjuku, Below
+  tags: [木漏れ日の水, 静けさ, 懐かしい, 神秘]
+  access: open
+  best_time: 正午・夜
+  map: {x: 35.2, y: 70.4}
+  name_origin: >-
+    正式名は「旧新宿」。住人は親しみを込めて「底宿（そこじゅく）」と呼ぶ。
+    「新宿」を縮めた「宿」に、水の底の「底」をかぶせた言葉遊びで、悪い意味はない。
+  summary: 封水された旧市街。窓の外を魚が泳ぐ、水底の公共の街。
+  text: places/lower.md
+
+# ---- 街区 ----
+- id: lo-station
+  type: district
+  parent: lo-old
+  name: 旧駅舎区
+  reading: きゅうえきしゃく
+  en: The Old Station Ward
+  tags: [懐かしい, 木漏れ日の水, 賑わい]
+  access: open
+  best_time: 昼
+  adjacent:
+    - {to: lo-rails, via: 透き廊}
+    - {to: lo-towers, via: 透き廊}
+  name_origin: >-
+    沈む前の大きな駅舎と、それを囲む建物の一帯。駅としての役目は終えたが、「駅」と呼ぶのをやめた人はいない。
+  summary: 沈んだ大駅舎を中心とする、下層の玄関。
+  body: |-
+    かつて一日に何百万人もが行き交った駅舎が、苔と海藻をまとってそのまま眠る一帯。主要な建物はすべて封水され、降り筒の第一口がその中心に降りてくる。
+    下層を訪ねる人の多くは、まずここから歩きはじめる。
+
+- id: lo-rails
+  type: district
+  parent: lo-old
+  name: 沈線回廊
+  reading: ちんせんかいろう
+  en: The Sunken Rail Corridor
+  tags: [静けさ, 懐かしい, ひとり向き]
+  access: open
+  best_time: 午後
+  adjacent:
+    - {to: lo-towers, via: 透き廊}
+  name_origin: >-
+    沈んだ線路が谷のように続く一帯。その上をガラスの通路が走ることから「回廊」と呼ばれる。
+  summary: 沈んだ線路と車両が眠る谷。ガラスの回廊から眺める。
+  body: |-
+    駅舎の南へ、何本もの線路が水底を平行に延びていく。車両の何台かは線路の上にそのまま残り、魚と海藻の住まいになっている。
+    回廊は静かで、足音と、送気の小さな音しか聞こえない。
+
+- id: lo-towers
+  type: district
+  parent: lo-old
+  name: 沈楼街
+  reading: ちんろうがい
+  en: The Drowned Towers
+  tags: [神秘, 灯り, 夜が本番]
+  access: open
+  best_time: 夜
+  name_origin: >-
+    沈んだ高い建物（楼）が並ぶ街並みであることから。
+  summary: 沈んだビルが並ぶ一帯。夜になると、光る魚が窓を灯す。
+  body: |-
+    駅舎の東と西に並ぶ、沈んだビルの街並み。封水されたビルの中には、郵便局や教室や展示室が入っている。
+    夜になると窓という窓に灯りがともり、水の中に、もうひとつの夜景が浮かび上がる。
+
+# ---- スポット ----
+- id: lo-concourse
+  type: spot
+  parent: lo-station
+  category: landmark
+  name: 旧駅舎大広間
+  reading: きゅうえきしゃおおひろま
+  en: The Old Station Concourse
+  tags: [木漏れ日の水, 懐かしい, 賑わい, 青い光]
+  access: open
+  best_time: 昼
+  map: {x: 47.5, y: 71.5}
+  adjacent:
+    - {to: lo-sukiro, via: 南口}
+    - {to: lo-post, via: 西口通路}
+    - {to: lo-light-well, via: 天窓の下}
+  name_origin: >-
+    昔の駅のコンコース（中央通路）を、封水して広間として開いたことから。
+  summary: 窓の外を魚が横切る、駅舎まるごとの水中回廊。下層の顔。
+  body: |-
+    降り筒を降りると、そこは沈んだ駅舎の中央通路だ。天井は高く、壁の窓はすべて厚いガラスに替えられ、外では魚の群れが列車のように横切っていく。
+    昔の発車標や柱の案内板は外されずに残され、手入れされて、うっすらと青い光の中に浮かんでいる。
+    入館料はなく、ベンチに座って一日じゅう水を眺めている人もいる。昼どき、天窓から差す光が床に揺れる模様は、下層でいちばん多く絵に描かれてきた。
+  rumor: 発車標のひとつは、ときどき勝手に行き先を表示する。表示される駅名は、いまの地図のどこにもない。
+
+- id: lo-light-well
+  type: spot
+  parent: lo-station
+  category: mystic
+  name: 光井戸
+  reading: ひかりいど
+  en: The Light Well
+  tags: [木漏れ日の水, 静けさ, 神秘, ひとり向き]
+  access: open
+  best_time: 正午
+  map: {x: 50, y: 59}
+  name_origin: >-
+    ビルの谷間が井戸のように縦に抜けていて、そこへ陽の光が汲み込まれるように落ちてくることから。
+  summary: 正午だけ、陽の光が真上から水底まで落ちてくる場所。
+  body: |-
+    駅舎の北側で、周りのビルがちょうど四角い筒のように囲んでいる場所がある。正午の前後わずかな時間、太陽がその真上に来ると、光の柱が水面から水底までまっすぐ降りてくる。
+    封水された展望室の床に立つと、光の柱の中を、細かな泡と小さな魚がゆっくり昇っていくのが見える。
+    正午になると、静かに人が集まってきて、光が傾くとまた静かに去っていく。
+  rumor: 光の柱の中に入った手紙は、宛名がなくても届くべき人に届く、と言われている。
+
+- id: lo-sukiro
+  type: route
+  parent: lo-rails
+  category: sightseeing
+  name: 透き廊
+  reading: すきろう
+  en: The Clear Corridor
+  tags: [木漏れ日の水, 青い光, 静けさ]
+  access: open
+  best_time: 午後
+  map: {x: 55, y: 76.5}
+  adjacent:
+    - {to: lo-train-gallery, via: 回廊の南端}
+    - {to: lo-hikari-tower, via: 東の分かれ道}
+  name_origin: >-
+    壁も天井も透き通ったガラスの廊下であることから。
+  summary: 沈んだ線路に沿って建物どうしを結ぶ、ガラスの通路。
+  body: |-
+    駅舎の南口から、沈んだ線路の上をまっすぐ延びるガラスの通路。壁も天井も透明で、歩いていると水の中を散歩しているような気分になる。
+    頭上では光がゆらぎ、足もとでは苔むしたレールが谷のように続く。魚たちは通路に慣れていて、ガラスのすぐ向こうで並んで泳ぐ。
+    ところどころに腰掛けがあり、潜守がガラスを磨いているのに出くわすこともある。
+  rumor: 回廊の中ほどで立ち止まって耳を澄ますと、昔の駅の構内放送が、水を通してかすかに聞こえるという。
+
+- id: lo-train-gallery
+  type: spot
+  parent: lo-rails
+  category: sightseeing
+  name: 眠り車両の展示室
+  reading: ねむりしゃりょうのてんじしつ
+  en: The Sleeping Railcars Gallery
+  tags: [懐かしい, 静けさ, 青い光, 子ども連れ]
+  access: open
+  best_time: 午後
+  map: {x: 60, y: 87.5}
+  adjacent:
+    - {to: lo-moss-arcade, via: 線路沿いの通路}
+    - {to: lo-deep-platform, via: 保全区域の手前まで}
+  name_origin: >-
+    線路の上で止まったまま眠っている車両を、封水した旧ホームの窓から眺める展示室。
+  summary: 線路の上で眠る昔の車両を、ホームの窓から間近に眺める展示室。
+  body: |-
+    沈線回廊の南端、封水された旧ホームが細長い展示室になっている。窓のすぐ外の線路には、昔の車両が何両も、止まったときのまま並んでいる。
+    車内はいまや魚と海藻の住まいで、座席には貝が並び、吊り革の輪を小魚がくぐっていく。
+    窓辺の札には、それぞれの車両がどこからどこへ走っていたかが書かれていて、子どもたちは札と窓を見比べながら行ったり来たりする。
+  rumor: いちばん端の車両だけは、車内の灯りが消えたことがないという。電気は、どこからも来ていないはずなのに。
+
+- id: lo-moss-arcade
+  type: spot
+  parent: lo-rails
+  category: mystic
+  name: 苔の地下街
+  reading: こけのちかがい
+  en: The Moss Arcade
+  tags: [緑, 静けさ, 神秘, 発光]
+  access: limited
+  access_note: 潜守の案内つきで入る（通路が入り組んでいて迷いやすいため）
+  best_time: 夕方
+  map: {x: 41.5, y: 87}
+  name_origin: >-
+    昔の地下商店街。沈んだあと、天井から床まで苔に覆われたことから。
+  summary: 苔に覆われた昔の地下商店街。ほのかに緑に光る通路を、案内つきで歩く。
+  body: |-
+    駅舎の地下に広がっていた昔の商店街。封水された通路の内側はしっとりと湿り、壁も天井も、柔らかな苔に覆われている。
+    この苔は暗がりでほのかに緑の光を帯びる性質があり、灯りを落とすと、通路全体がぼんやりと浮かび上がる。
+    店の看板や陳列棚もそのまま残っていて、苔の下から昔の店の名前が少しだけ透けて見える。通路が入り組んでいるので、入るのは潜守の案内つきの回だけだ。
+  rumor: 案内の潜守は、毎回少しずつ違う道を通る。それでも必ず同じ出口に着くのが、いちばん不思議なところだ。
+
+- id: lo-deep-platform
+  type: spot
+  parent: lo-rails
+  category: mystic
+  name: 最深ホーム
+  reading: さいしんホーム
+  en: The Deepest Platform
+  tags: [静けさ, 神秘, 青い光]
+  access: closed
+  access_note: 保全区域（濾し貝の苗床があるため）。眠り車両の展示室の窓から一部を眺められる
+  best_time: —
+  map: {x: 44, y: 93}
+  name_origin: >-
+    旧新宿でいちばん深いところにある、昔の地下ホーム。
+  summary: いちばん深い旧ホーム。濾し貝の苗床で、立ち入りは潜守だけ。
+  body: |-
+    旧新宿でいちばん深い場所にある、昔の地下ホーム。水温が一年じゅう変わらないため、濾し貝の苗床として使われている。
+    ここで育った若い貝は、潜守の手で街じゅうの杭へ移され、やがて新宿の水を澄ませる仕事を始める。言ってみれば、街の水の生まれる場所だ。
+    立ち入りは潜守だけに限られているが、眠り車両の展示室のいちばん奥の窓から、青く沈んだホームの端を眺めることができる。
+  rumor: 苗床の世話をしていると、発車ベルが一度だけ鳴るのを聞くことがある。聞いた潜守は、その年いちばんの貝を育てるという。
+
+- id: lo-post
+  type: spot
+  parent: lo-towers
+  category: daily
+  name: 底郵便局
+  reading: そこゆうびんきょく
+  en: The Bottom Post Office
+  tags: [生活感, 懐かしい, 手仕事]
+  access: open
+  best_time: 午前
+  map: {x: 27.5, y: 72}
+  adjacent:
+    - {to: lo-quiet-hall, via: 裏通路}
+  name_origin: >-
+    水底にある郵便局。底宿の「底」をそのまま冠した。
+  summary: 今も営業している水底の郵便局。魚の消印が押せる。
+  body: |-
+    駅舎の西隣、丸い看板を掲げた封水ビルの一階で、今も郵便局が営業している。手紙や小包は気送管の筒に入れられ、空気の力で上層まで一気に送られていく。
+    窓口では、ここでしか押せない魚の形の消印が人気で、観光客は自分宛てに絵葉書を出していく。
+    局員は全員、潜りの心得がある。管が詰まると、自分たちで外から直しに行くからだ。
+  rumor: 局の奥には、宛先不明のまま百年待っている手紙の棚がある。ときどき、それを受け取りに来る人がいる。
+
+- id: lo-quiet-hall
+  type: spot
+  parent: lo-towers
+  category: mystic
+  name: 無音の間
+  reading: むおんのま
+  en: The Hall of No Sound
+  tags: [静けさ, 神秘, ひとり向き, 青い光]
+  access: limited
+  access_note: 室内では会話禁止（静けさを守るため）
+  best_time: いつでも
+  map: {x: 17, y: 73}
+  name_origin: >-
+    中に入ると、外の音も自分の声も、ふっと遠くなることから。
+  summary: 音がすっと消える、青い大広間。ここでは誰も話さない。
+  body: |-
+    西の沈楼街の外れ、古いビルの吹き抜けを封水した大きな部屋。厚いガラスと水と壁のつくりが重なって、中に入ると外の音がほとんど聞こえなくなる。
+    部屋の中では会話をしない決まりで、訪れた人は窓辺に座り、青い光の中を魚が横切るのをただ眺める。
+    考えごとをしたい住人や、眠れない夜を過ごす人が、静かに出入りしている。
+  rumor: ここで一度だけ声を出すと、それは上層の誰かの夢の中で聞こえる、と言われている。だから誰も話さない。
+
+- id: lo-hikari-tower
+  type: spot
+  parent: lo-towers
+  category: mystic
+  name: 灯魚の塔
+  reading: ひうおのとう
+  en: The Glowfish Tower
+  tags: [発光, 夜が本番, 神秘, 青い光]
+  access: open
+  best_time: 夜
+  map: {x: 69, y: 74.5}
+  adjacent:
+    - {to: lo-diving-school, via: 東の通路}
+  name_origin: >-
+    量販店だった高いビルに、夜に光る小魚・灯魚が棲みついたことから。
+  summary: 灯魚が棲む塔。夜になると、窓という窓がほのかに光る。
+  body: |-
+    駅舎の東に立つ、沈む前は大きな量販店だった塔。外側に残る赤い看板の下、ひとつひとつの窓の奥に、灯魚と呼ばれる小魚が群れで棲んでいる。
+    日が沈むと灯魚はいっせいに淡い青白い光を帯び、塔の窓がひとつ、またひとつと灯っていく。
+    封水された中層階の展望室からは、光る群れが窓の外を渦を巻いて昇っていくのが見える。下層の夜景の主役は、この塔だ。
+  rumor: 灯魚の光は、上の街で灯幕が明るい夜ほど強くなる。上と下で、光の挨拶をしているのだという。
+
+- id: lo-diving-school
+  type: spot
+  parent: lo-towers
+  category: daily
+  name: 潜守の詰所と潜り教室
+  reading: せんしゅのつめしょともぐりきょうしつ
+  en: The Keepers' Station & Diving School
+  tags: [手仕事, 生活感, 子ども連れ]
+  access: open
+  best_time: 朝
+  map: {x: 88, y: 77}
+  name_origin: >-
+    潜守たちの詰所と、潜りを教える教室が、同じ建物に入っていることから。
+  summary: 街を手入れする職人・潜守の拠点。潜りの初心者教室も開いている。
+  body: |-
+    東の沈楼街の端、小さな封水ビルに、潜守たちの詰所がある。毎朝ここで点検の持ち場が割り振られ、潜守たちは道具袋を下げて、それぞれの建物へ散っていく。
+    同じ建物の二階は潜り教室になっていて、子どもから観光客まで、誰でも短い講習を受けられる。
+    窓辺には、潜守が手入れの合間に拾い集めた貝殻と、各建物の継ぎ目の点検表が並んでいる。
+  rumor: 詰所の点検表には、どの建物にも載っていない部屋がひとつだけ記されている。古い潜守は「あれは点検しなくていい部屋だ」と笑う。

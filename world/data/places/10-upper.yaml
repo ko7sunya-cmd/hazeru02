@@ -1,0 +1,254 @@
+# 上層・新都市（あがり）
+# 新しい場所は、該当する街区（district）の下に足す。IDは up- で始める。
+
+# ---- 層 ----
+- id: up-city
+  type: layer
+  parent: shinjuku
+  name: 新都市
+  reading: しんとし
+  alias: あがり
+  en: The Upper City
+  tags: [賑わい, 生活感, 眺望, 風通し]
+  access: open
+  best_time: 一日中
+  map: {x: 53, y: 17.7}
+  adjacent:
+    - {to: bd-market, via: 杭見坂と荷揚げ昇降機}
+  name_origin: >-
+    正式名は「新都市」。住人は「あがり」と呼ぶ。水から上がって暮らす場所という意味と、
+    双六の「上がり」、つまり長い道のりの末にたどり着いた場所という意味が重なっている。
+  summary: 古い新宿の上に杭を打ち、百年かけて積み上げた暮らしの層。
+  text: places/upper.md
+
+# ---- 街区 ----
+- id: up-terrace
+  type: district
+  parent: up-city
+  name: 大桟橋テラス
+  reading: おおさんばしテラス
+  en: The Great Pier Terrace
+  tags: [賑わい, 待ち合わせ, 生活感]
+  access: open
+  best_time: 昼
+  adjacent:
+    - {to: up-towers, via: 渡り廊下}
+    - {to: up-gardens, via: 屋上階段}
+  name_origin: >-
+    最初期の桟橋が何枚も継ぎ合わされ、いつのまにか一枚の広いテラスになった。
+    それでも「桟橋」の名前だけは手放されなかった。
+  summary: 新都市のまんなか。広場と商店が連なる、いちばん人の多い床。
+  body: |-
+    何百本もの杭に支えられた、新都市でいちばん広い床。商店のひさしと植え込みが段々に重なり、通りは緩やかな坂でつながっている。
+    床板の色が場所ごとに少しずつ違うのは、継ぎ足された年代の違いで、住人はそれを「床の年輪」と呼ぶ。
+
+- id: up-towers
+  type: district
+  parent: up-city
+  name: 塔町
+  reading: とうまち
+  en: Tower Quarter
+  tags: [ネオン, 眺望, 夜が本番]
+  access: open
+  best_time: 夕方〜夜
+  adjacent:
+    - {to: up-gardens, via: 空中回廊}
+  name_origin: >-
+    沈む前から建っていた高層ビルが、水に浸かったあとも残った一帯。上に伸びるしかなかった街の、
+    いちばん背の高い部分という意味で、いつしか「塔町」と呼ばれた。
+  summary: 灯幕に覆われた高層の街。夜になると水面まで色が落ちる。
+  body: |-
+    古い高層ビルの上半分に、新しい床と外壁を継いだ塔が集まる。壁面を覆う灯幕が、昼は潮位と天気を、夜は色とりどりの光を映す。
+    見上げる街であると同時に、新都市でいちばん遠くまで見渡せる街でもある。
+
+- id: up-gardens
+  type: district
+  parent: up-city
+  name: 段々屋上
+  reading: だんだんおくじょう
+  en: The Terraced Rooftops
+  tags: [生活感, 緑, 風通し, 朝が本番]
+  access: open
+  best_time: 朝
+  name_origin: >-
+    高さの違うビルの屋上を、階段と板橋でつないでできた住宅地。上から見ると田んぼのような段々になっていることから。
+  summary: 庭と洗濯物と猫の街。新都市の住人の多くはここで暮らしている。
+  body: |-
+    屋上どうしを板橋でつないだ住宅地。どの家にも小さな庭があり、雨水を受ける桶と、送気塔の煙突が並ぶ。
+    観光客が足を延ばすことは少ないが、新都市らしさがいちばん濃く残る場所でもある。
+
+# ---- スポット ----
+- id: up-dome-plaza
+  type: spot
+  parent: up-terrace
+  category: landmark
+  name: 水鏡ドーム広場
+  reading: みずかがみドームひろば
+  en: Mirror Dome Plaza
+  tags: [待ち合わせ, 水音, 賑わい, 木漏れ日の水]
+  access: open
+  best_time: 朝〜昼
+  map: {x: 59.8, y: 28.6}
+  adjacent:
+    - {to: up-hatsukui, via: 中央通り}
+    - {to: up-lanterns, via: 渡り廊下}
+  name_origin: >-
+    ドームの足元に張られた浅い水盤が、ガラス屋根と空を鏡のように映すことから。
+  summary: 噴水を抱いたガラスのドーム。新都市の待ち合わせといえば、ここ。
+  body: |-
+    大桟橋テラスの東寄りにある、円いガラス屋根の広場。屋根の下には浅い水盤が張られ、晴れた日には空と雲がそっくり映り込む。
+    中央の噴水には、降り筒の管を通って下層から汲み上げた水が使われている。濾し貝に濾された水は驚くほど澄んでいて、子どもたちは裸足で水盤を渡っていく。
+    「ドームの下で」と言えば、それだけで待ち合わせが成立する。
+  rumor: 噴水の水には、下層の駅の匂いがかすかに残っている、と古い住人は言う。
+
+- id: up-hatsukui
+  type: spot
+  parent: up-terrace
+  category: mystic
+  name: 初杭
+  reading: はつくい
+  en: The First Pile
+  tags: [懐かしい, 静けさ, 神秘]
+  access: open
+  best_time: 早朝
+  map: {x: 47, y: 30.5}
+  adjacent:
+    - {to: up-kuimi, via: テラス西口}
+  name_origin: >-
+    新都市を建てるとき、最初に水底へ打ち込まれた一本の杭。その上に最初の床が張られた。
+  summary: 新都市で最初に打たれた杭。テラスのまんなかに、ひっそり残っている。
+  body: |-
+    大桟橋テラスのほぼ中央に、床から腰ほどの高さだけ頭を出した古い杭がある。表面は手でなでられ続けて、つやつやと黒い。
+    これが新都市で最初に打たれた杭で、ここから百年分の床が四方へ広がっていった。
+    住人は、引っ越してきた日と旅立つ日に、この杭に手を置いていく。
+  rumor: 耳を当てると、沈んだ駅を出ていく電車の音がする、と子どもたちは信じている。
+
+- id: up-kuimi
+  type: route
+  parent: up-terrace
+  category: sightseeing
+  name: 杭見坂
+  reading: くいみざか
+  en: Pile-Viewing Slope
+  tags: [眺望, 手仕事, 潮の匂い]
+  access: open
+  best_time: 昼
+  map: {x: 17, y: 30}
+  adjacent:
+    - {to: bd-horo-row, via: 坂の下の桟橋}
+    - {to: bd-market}
+  name_origin: >-
+    坂を下りながら、新都市を支える杭の林をすぐ近くで見られることから。
+  summary: 杭の林のあいだを縫って、テラスから市場まで降りていく長い階段。
+  body: |-
+    大桟橋テラスの西の端から、境界の市場へ下りていく木の階段。手すりのすぐ向こうに、新都市を支える杭が林のように並ぶ。
+    杭には、補修された年ごとに色の違う帯が巻かれていて、下るほど古い帯が現れる。水面近くでは、杭いっぱいに付いた濾し貝が、潮に合わせてかすかに口を開け閉めしているのが見える。
+  rumor: 杭の帯をすべて数えた人は、新都市の正しい年齢を知ることができるらしい。まだ誰も数え終わっていない。
+
+- id: up-lanterns
+  type: spot
+  parent: up-towers
+  category: sightseeing
+  name: 灯幕通り
+  reading: ともしまくどおり
+  en: Lantern-Screen Avenue
+  tags: [ネオン, 賑わい, 夜が本番, 水面の反射]
+  access: open
+  best_time: 夜
+  map: {x: 64, y: 22}
+  adjacent:
+    - {to: up-shiomi, via: 塔町の大通り}
+    - {to: up-horizon, via: 塔の昇降機}
+  name_origin: >-
+    塔の壁面を覆う表示幕を、住人は昔の「灯り」と「幕」をあわせて灯幕と呼ぶ。それが通りの名前になった。
+  summary: 塔の壁一面に灯幕が並ぶ大通り。夜は水面まで光の色に染まる。
+  body: |-
+    塔町を東西に抜ける大通り。両側の塔の壁を灯幕が覆い、昼は潮位と天気予報、住人が出した伝言や誕生日の祝いを映す。
+    日が落ちると幕はゆっくり色を変えはじめ、その光が桟橋のすき間から水面へ落ちて、境界の市場の天井までほんのり染める。
+    通りの店は夜のほうが賑わう。
+  rumor: 年に一度、すべての幕が同じ青一色になる夜がある。誰がそう決めたのか、知っている人はいない。
+
+- id: up-shiomi
+  type: spot
+  parent: up-towers
+  category: landmark
+  name: 潮見塔
+  reading: しおみとう
+  en: Tide-Watch Tower
+  tags: [生活感, 待ち合わせ, 灯り]
+  access: open
+  best_time: いつでも
+  map: {x: 21, y: 20}
+  adjacent:
+    - {to: up-hoshiba, via: 空中回廊}
+  name_origin: >-
+    壁に縦に走る光の帯が、そのときの潮位を示す。住人はこの塔を見て潮を知る（潮見する）ことから。
+  summary: 星の紋章を掲げた塔。光の帯で潮の高さを知らせる、街の時計がわり。
+  body: |-
+    塔町の西端に立つ、星の紋章を掲げた古い塔。壁を縦に走る光の帯が、潮が満ちれば上へ、引けば下へと、一日かけてゆっくり伸び縮みする。
+    住人は時計を見るようにこの塔を見上げ、「いま七分目だから、舟はまだ出ないね」というふうに話す。
+    塔の足元には、潮見の帯の読み方を記した古い看板が残っている。
+  rumor: 光の帯が一度だけ、潮と関係なく最上段まで伸びたことがある。その日は街じゅうで、なぜか良いことばかり起きたという。
+
+- id: up-horizon
+  type: spot
+  parent: up-towers
+  category: landmark
+  name: 水平線デッキ
+  reading: すいへいせんデッキ
+  en: Horizon Deck
+  tags: [眺望, 夕焼け, 風の音, ひとり向き]
+  access: open
+  access_note: 強風の日は閉鎖（洗濯物と帽子がよく飛ぶため）
+  best_time: 夕方
+  map: {x: 47.5, y: 7.5}
+  name_origin: >-
+    新都市でいちばん高い展望床。ここからなら、どの方角を向いても水平線が見えることから。
+  summary: 新都市でいちばん高い場所。遠くの水上町と、沈んだ塔の頭が見渡せる。
+  body: |-
+    塔町でいちばん背の高い塔の最上部、アンテナのすぐ下に張られた展望床。足元には新都市の屋根と庭が広がり、その外側は見渡すかぎりの水だ。
+    晴れた日には、遠くに浮かぶほかの水上町や、水面から頭だけ出した昔の高層ビルが、点々と並んで見える。
+    夕方には人が増えるが、誰もあまり喋らない。
+  rumor: 夕焼けがいちばん赤い日には、水平線の向こうに、まだ沈んでいない昔の新宿が見えることがあるという。
+
+- id: up-rain-garden
+  type: spot
+  parent: up-gardens
+  category: daily
+  name: 雨受け庭
+  reading: あまうけにわ
+  en: The Rain-Catching Gardens
+  tags: [緑, 生活感, 朝が本番, 静けさ]
+  access: open
+  best_time: 朝・雨上がり
+  map: {x: 85, y: 19.5}
+  adjacent:
+    - {to: up-hoshiba, via: 屋上の板橋}
+  name_origin: >-
+    雨水を受けて溜める庭であることから。新都市では、真水はまず空から受け取るものだった。
+  summary: 雨水を溜めて野菜を育てる屋上庭園。ベンチで朝ごはんを食べる人が多い。
+  body: |-
+    段々屋上の東側に広がる庭の連なり。どの庭にも大きな雨受けの桶があり、そこから細い樋で畑へ水が引かれている。
+    育った野菜は、毎朝杭見坂を下って境界の市場へ運ばれていく。
+    雨上がりの朝には、葉の上の滴と送気塔の白い湯気がいっしょに光って、新都市でいちばん静かで明るい場所になる。
+  rumor: 庭のどこかに、雨の味で天気を当てるおばあさんがいる。外れたことはないらしい。
+
+- id: up-hoshiba
+  type: spot
+  parent: up-gardens
+  category: daily
+  name: 干し場横丁
+  reading: ほしばよこちょう
+  en: Laundry Lane
+  tags: [生活感, 風通し, 懐かしい, 猫]
+  access: open
+  best_time: 午前
+  map: {x: 7, y: 17}
+  name_origin: >-
+    潮風がよく抜けるので、昔から洗濯物を干す場所として使われてきた路地。いつのまにか小さな店も集まった。
+  summary: 洗濯物の旗がはためく細い路地。小さな商店と猫が多い。
+  body: |-
+    段々屋上の西のはずれ、海からの風がまっすぐ抜けてくる細い路地。家々のあいだに張られた紐に洗濯物がはためいて、路地全体が旗の通りのように見える。
+    角には駄菓子屋と修理屋と湯屋があり、どの店先にも猫が一匹ずつ座っている。
+    観光の案内にはほとんど載らないが、新都市の暮らしを知りたい人には、まずここを勧める住人が多い。
+  rumor: 横丁の猫は全部で十三匹。数えるたびにどこかの一匹が入れ替わっている。

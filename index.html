@@ -3,10 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>hazeru02</title>
+<title>新宿・水上都市 ロケーションガイド</title>
+<meta name="description" content="水の上に、もうひとつの新宿がある。上層・境界・下層、三つの層の街並みを地図から歩くロケーションガイド。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<h1>hazeru02</h1>
-<p>準備中</p>
+<header class="site-header">
+  <a class="site-title" href="#shinjuku">
+    <span class="site-title__ja">新宿・水上都市</span>
+    <span class="site-title__en">LOCATION GUIDE</span>
+  </a>
+  <p class="site-tagline">水の上に、もうひとつの新宿がある。</p>
+</header>
+
+<div class="toolbar" role="toolbar" aria-label="地図の絞り込み">
+  <div class="tabs" id="layer-tabs" role="group" aria-label="層"></div>
+  <div class="chips" id="category-chips" role="group" aria-label="楽しみ方"></div>
+</div>
+
+<main class="layout">
+  <section class="map-wrap" aria-label="ロケーションマップ">
+    <div class="map" id="map">
+      <img class="map__image" src="assets/img/shinjuku-map.jpg" width="1055" height="1125"
+           alt="新宿・水上都市の鳥瞰図。上に杭の上の新都市、水面に水上マーケット、水中に沈んだ旧新宿駅周辺が描かれている。">
+      <div class="map__pins" id="pins"></div>
+    </div>
+    <p class="map-hint">点を選ぶと、その場所の解説が開きます。</p>
+  </section>
+
+  <aside class="panel" id="panel" aria-live="polite" tabindex="-1"></aside>
+</main>
+
+<noscript><p class="noscript">このガイドの表示には JavaScript が必要です。</p></noscript>
+<script src="assets/data/world.js"></script>
+<script src="assets/js/map.js"></script>
 </body>
 </html>

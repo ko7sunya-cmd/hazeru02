@@ -1,0 +1,278 @@
+# 境界・水上マーケット（みぎわ市）
+# 新しい場所は、該当する街区（district）の下に足す。IDは bd- で始める。
+
+# ---- 層 ----
+- id: bd-market
+  type: layer
+  parent: shinjuku
+  name: 境界エリア・水上マーケット
+  reading: きょうかいエリア・すいじょうマーケット
+  alias: みぎわ市
+  en: The Waterline Market
+  tags: [賑わい, 潮の匂い, 湯気, 水音]
+  access: open
+  best_time: 朝・夕方
+  map: {x: 35.5, y: 46.5}
+  adjacent:
+    - {to: lo-old, via: 降り筒}
+  name_origin: >-
+    「汀（みぎわ）」は水際のこと。水面に立つ市場なので、自然とこう呼ばれるようになった。
+  summary: 水面の高さに浮かぶ市場。上と下と、よその町をつなぐ玄関口。
+  text: places/border.md
+
+# ---- 街区 ----
+- id: bd-stalls
+  type: district
+  parent: bd-market
+  name: 幌屋台桟橋
+  reading: ほろやたいさんばし
+  en: Awning Pier
+  tags: [賑わい, 湯気, 生活感]
+  access: open
+  best_time: 朝・夕方
+  adjacent:
+    - {to: bd-rings, via: 浮き橋}
+    - {to: bd-harbor, via: 荷車道}
+  name_origin: >-
+    色とりどりの幌（日除けの布）を張った屋台が、桟橋の上にぎっしり並ぶことから。
+  summary: 屋台と幌が重なりあう、市場の台所。
+  body: |-
+    境界の西側に延びる、いちばん古い桟橋の一帯。橙、赤、白の幌が重なって、上から見ると布の屋根がひとつながりの模様になる。
+    朝は上層の菜園の野菜と水上町の魚が並び、夕方は焼き物と汁物の湯気が立つ。
+
+- id: bd-rings
+  type: district
+  parent: bd-market
+  name: 輪の間
+  reading: わのま
+  en: The Rings
+  tags: [音楽, 水面の反射, 夕焼け]
+  access: open
+  best_time: 夕方
+  adjacent:
+    - {to: bd-harbor, via: 浮き橋}
+  name_origin: >-
+    円い浮き台がいくつも並び、それらのあいだの水面を人々が「間」と呼んだことから。
+  summary: 円い浮き台が並ぶ、市場の広場。夕方になると音楽が始まる。
+  body: |-
+    市場の中ほどに、円形の浮き台が点々と浮かぶ一帯。浮き台どうしは細い浮き橋でつながり、潮に合わせてそれぞれがわずかに違う高さで揺れている。
+    昼は荷さばきの場所、夕方からは人が集まる広場になる。
+
+- id: bd-harbor
+  type: district
+  parent: bd-market
+  name: 舟溜まり
+  reading: ふなだまり
+  en: The Boat Basin
+  tags: [手仕事, 潮の匂い, 賑わい]
+  access: open
+  best_time: 早朝
+  adjacent:
+    - {to: up-city, via: 荷揚げ昇降機}
+  name_origin: >-
+    舟が寄り集まって停まる場所。昔からある普通の言葉が、そのまま地名になった。
+  summary: 荷舟と水上バスが行き交う、市場の東の港。
+  body: |-
+    境界の東側に開けた港の一帯。赤い荷揚げクレーンを中心に、荷舟、渡し舟、水上バスがひっきりなしに出入りする。
+    降り筒の第一口もこの一角にあり、市場でいちばん人の流れが速い。
+
+# ---- スポット ----
+- id: bd-horo-row
+  type: spot
+  parent: bd-stalls
+  category: daily
+  name: 幌通り
+  reading: ほろどおり
+  en: Awning Row
+  tags: [賑わい, 湯気, 生活感, 潮の匂い]
+  access: open
+  best_time: 夕方
+  map: {x: 15, y: 48.5}
+  adjacent:
+    - {to: bd-shizumimono, via: 桟橋づたい}
+    - {to: bd-oyogiba, via: 階段}
+  name_origin: >-
+    幌屋台桟橋のなかでも、とくに屋台が密に並ぶ一本道。単に「幌の通り」と呼ばれているうちに縮まった。
+  summary: 焼き魚の煙と汁物の湯気が混ざる、屋台の一本道。
+  body: |-
+    幌屋台桟橋の背骨にあたる一本道。両側に屋台が肩を寄せあい、串焼きの煙と、貝の汁の湯気と、呼び込みの声が同時に流れてくる。
+    上層の住人は仕事帰りに一品だけ買って帰り、下層の潜守たちは長椅子に並んで夕飯を済ませる。
+    桟橋の板のすき間から水面がちらちら見え、落とした串を魚が持っていく。
+  rumor: いちばん奥の屋台は看板を出していないが、注文すると、その日いちばん欲しかった味が出てくるらしい。
+
+- id: bd-shizumimono
+  type: spot
+  parent: bd-stalls
+  category: sightseeing
+  name: 沈み物市
+  reading: しずみものいち
+  en: The Sunken Goods Market
+  tags: [懐かしい, 手仕事, ひとり向き]
+  access: open
+  best_time: 午後
+  map: {x: 26.5, y: 45}
+  adjacent:
+    - {to: bd-nozoki, via: 浮き橋}
+  name_origin: >-
+    下層の手入れの途中で出てきた古い品、「沈み物」を売り買いする市であることから。
+  summary: 下層から上がってきた古い品を売る露店。古い切符、看板の文字、時計。
+  body: |-
+    潜守たちが建物を手入れするとき、壁の裏や床下から出てきた古い品は、まずここへ運ばれる。
+    古い切符、看板から外れた一文字、止まった腕時計、どこかの店の鍵。どれも丁寧に洗われて、小さな札をつけて並べられている。
+    売り手の多くは元潜守で、品物がどの建物の何階から出てきたかを、尋ねればいくらでも話してくれる。
+  rumor: 看板の文字を全部買い集めると、昔の新宿のどこかの店の名前がひとつ完成する、と言われている。
+
+- id: bd-nozoki
+  type: spot
+  parent: bd-rings
+  category: sightseeing
+  name: 覗き床茶屋
+  reading: のぞきどこぢゃや
+  en: The Glass-Floor Teahouse
+  tags: [静けさ, 木漏れ日の水, 眺望, ひとり向き]
+  access: open
+  best_time: 昼
+  map: {x: 40, y: 44.5}
+  adjacent:
+    - {to: bd-ring-stage, via: 浮き橋}
+    - {to: lo-concourse, via: 床の真下}
+  name_origin: >-
+    床の一部がガラス張りで、真下の水中を覗けることから。
+  summary: ガラスの床ごしに、真下の旧駅舎を眺めながらお茶が飲める。
+  body: |-
+    青い屋根が目印の茶屋。座敷の床の半分が厚いガラスになっていて、その真下には沈んだ旧駅舎の屋根が、緑の苔をまとって横たわっている。
+    昼どきには光がまっすぐ水に差し込み、屋根の上を魚の群れが影を落としながら通り過ぎていく。
+    名物は濾し貝の出汁で炊いた粥。急いでいる人は来ない店だ。
+  rumor: ガラスの床をじっと見ていると、下の大広間からこちらを見上げている人と目が合うことがある。たいていは手を振ってくれる。
+
+- id: bd-ring-stage
+  type: spot
+  parent: bd-rings
+  category: sightseeing
+  name: 輪舞台
+  reading: わぶたい
+  en: The Ring Stage
+  tags: [音楽, 夕焼け, 賑わい, 夜が本番]
+  access: open
+  best_time: 夕方〜夜
+  map: {x: 56, y: 41}
+  adjacent:
+    - {to: bd-lantern, via: 舟で}
+    - {to: bd-orizutsu, via: 浮き橋}
+  name_origin: >-
+    輪の間でいちばん大きな円い浮き台。いつからか、ここで演奏や踊りが行われるようになった。
+  summary: 円い大きな浮き台。夕暮れになると、誰からともなく演奏が始まる。
+  body: |-
+    輪の間でいちばん大きな、二重の柵をめぐらせた円形の浮き台。昼は荷さばきに使われ、日が傾くと、誰からともなく楽器を持った人が集まってくる。
+    演目は決まっていない。上層の学生の合奏の日もあれば、水上町から来た旅芸人の日もある。
+    潮が動くと舞台全体がゆっくり上下し、それに合わせて踊る「潮踊り」は、境界でしか見られない。
+  rumor: 満潮と日没が重なる日には、舞台の下の水の中からも拍手が聞こえるという。
+
+- id: bd-lantern
+  type: spot
+  parent: bd-rings
+  category: mystic
+  name: 灯籠舟の夕市
+  reading: とうろうぶねのゆういち
+  en: The Lantern-Boat Evening Market
+  tags: [灯り, 水面の反射, 夜が本番, 神秘]
+  access: open
+  best_time: 日没後
+  map: {x: 50, y: 52.5}
+  adjacent:
+    - {to: bd-waterbus, via: 舟で}
+  name_origin: >-
+    日が沈むと、灯籠を吊るした小舟が集まって市を開くことから。
+  summary: 日没とともに、灯籠を吊るした小舟が集まって開く水の上の夜市。
+  body: |-
+    日没の鐘が鳴ると、輪の間の南の水面に、灯籠を吊るした小舟がどこからともなく集まってくる。舟と舟は舷を寄せて一つの通りになり、客は舟から舟へと渡り歩いて買い物をする。
+    売り物は甘い物、小さな灯り、手紙用の紙、そして下層の灯魚を模した飴細工。
+    灯籠の光は澄んだ水を通って下層まで届き、旧駅舎の屋根の上に、ゆらゆらとした光の模様を落とす。
+  rumor: 満月の晩だけ、灯籠舟が一艘多い。数え直すと合っているので、誰も困ってはいない。
+
+- id: bd-crane
+  type: spot
+  parent: bd-harbor
+  category: landmark
+  name: 赤鶴の荷揚げ場
+  reading: あかづるのにあげば
+  en: The Red Crane Dock
+  tags: [手仕事, 待ち合わせ, 賑わい]
+  access: open
+  best_time: 早朝
+  map: {x: 79, y: 41}
+  adjacent:
+    - {to: bd-waterbus, via: 桟橋}
+    - {to: bd-orizutsu, via: 桟橋}
+  name_origin: >-
+    赤く塗られた荷揚げクレーンが、長い首を伸ばす鶴に見えることから、赤鶴と呼ばれる。
+  summary: 赤いクレーンが立つ荷揚げ場。市場のどこからでも見える、待ち合わせの目印。
+  body: |-
+    舟溜まりの真ん中に、赤く塗られた背の高い荷揚げクレーンが立つ。水上町から届いた荷や、下層から上げられた資材を、長い首でゆっくりと桟橋へ下ろしていく。
+    早朝の荷揚げは見物人が出るほどの手際で、合図の笛と腕の動きだけで、重い木箱が寸分違わず台車に収まる。
+    「赤鶴の足元で」は、「ドームの下で」に並ぶ待ち合わせの決まり文句だ。
+  rumor: 赤鶴は年に一度、誰も操作していないのに、首を北へ向けている朝がある。その年は豊漁になるらしい。
+
+- id: bd-waterbus
+  type: route
+  parent: bd-harbor
+  category: daily
+  name: 水上バスのりば
+  reading: すいじょうバスのりば
+  en: Water Bus Terminal
+  tags: [生活感, 潮の匂い, 風通し]
+  access: open
+  best_time: いつでも
+  map: {x: 82, y: 45.5}
+  name_origin: >-
+    昔の陸の「バス」の呼び名を、そのまま水の上の乗合舟に引き継いだ。
+  summary: ほかの水上町へ向かう乗合舟の発着所。新宿の玄関口。
+  body: |-
+    舟溜まりの東端にある、屋根つきの発着所。白い船体に青い線の水上バスが、ほかの水上町や、水面に頭を出した遠くの塔の町を結んでいる。
+    待合所の壁には、潮の時刻に合わせて少しずつずれていく時刻表が貼られ、乗る人はまず潮見塔の帯を確かめてから時刻表を見る。
+    初めて新宿に来た人の多くは、ここで赤鶴を見上げるところから旅が始まる。
+  rumor: 時刻表のいちばん下に、行き先の書かれていない便が一本だけ載っている。乗った人の話は、なぜか誰に聞いても楽しそうだ。
+
+- id: bd-orizutsu
+  type: route
+  parent: bd-harbor
+  category: landmark
+  name: 降り筒・第一口
+  reading: おりづつ・だいいちぐち
+  en: The Descent Tube, Gate One
+  tags: [木漏れ日の水, 神秘, 待ち合わせ]
+  access: open
+  best_time: 朝・夕方（通勤の時間は混む）
+  map: {x: 73.5, y: 41.5}
+  adjacent:
+    - {to: lo-concourse, via: 降り筒}
+    - {to: lo-old, via: 降り筒}
+  name_origin: >-
+    水面から下層へまっすぐ降りる筒状の昇降機であることから。最初に作られた一本なので「第一口」。
+  summary: 水面から下層の旧駅舎へ、ガラスの筒でまっすぐ降りる昇降機。
+  body: |-
+    境界の塔に掲げられた大きな看板が入口の目印。乗り場から乗り込むガラスの籠は、水面を抜けて、ゆっくりと下層の旧駅舎の大広間まで降りていく。
+    降りるあいだ、籠の外では光が青から緑へと色を変え、杭に群れる魚がすぐそばをかすめていく。
+    朝夕は通勤の住人で混み、昼は初めて下層へ降りる観光客で混む。料金はかからない。
+  rumor: 籠の中でいちど目を閉じて数を十まで数えると、降りきったとき、ほんの少しだけ違う階に着いている気がするという。
+
+- id: bd-oyogiba
+  type: spot
+  parent: bd-stalls
+  category: daily
+  name: 泳ぎ段
+  reading: およぎだん
+  en: The Swimming Steps
+  tags: [子ども連れ, 水音, 木漏れ日の水, 朝が本番]
+  access: limited
+  access_note: 日没後は遊泳禁止（夜の荷舟から泳ぐ人が見えにくいため）
+  best_time: 午前
+  map: {x: 12.5, y: 53}
+  name_origin: >-
+    桟橋の端から水の中へ、段々に下りていく石段。泳ぎに入るための段であることから。
+  summary: 桟橋から水の中へ下りていく石段。子どもたちの泳ぎ場で、潜り始めの場所。
+  body: |-
+    幌屋台桟橋の南の端で、石段が水の中まで続いている。昔のビルの外階段をそのまま使ったもので、水の中でも段がずっと下へ続いているのが見える。
+    朝は子どもたちの泳ぎ場で、昼は潜りを習う人の練習場になる。
+    水が澄んでいるので、段に腰かけて足をつけているだけでも、ずっと下にある旧新宿の屋根が見える。
+  rumor: 段をいちばん下まで数えた子どもはまだいない。途中で、いつも魚の群れに数をわからなくされるからだ。
