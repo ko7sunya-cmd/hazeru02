@@ -164,6 +164,22 @@
     return p.body.length ? `<div class="prose">${p.body.map((t) => `<p>${esc(t)}</p>`).join("")}</div>` : "";
   }
 
+  function coursesSection() {
+    const list = (W.courses || [])
+      .map((c) => {
+        const ch = (W.characters || []).find((x) => x.id === c.character);
+        const icon = ch ? `<img class="course-card__icon" src="${esc(ch.icon)}" alt="" width="56" height="56">` : "";
+        return (
+          `<li><button type="button" class="course-card" data-course="${esc(c.id)}">${icon}` +
+          `<span class="course-card__text"><span class="course-card__label">${ch ? esc(ch.short) + "と歩く" : "コース"}</span>` +
+          `<span class="course-card__title">${esc(c.title)}</span>` +
+          `<span class="course-card__sub">${esc(c.subtitle || c.summary)}${c.duration ? `（${esc(c.duration)}）` : ""}</span></span></button></li>`
+        );
+      })
+      .join("");
+    return list ? `<h3 class="section-title">ガイドと歩く</h3><ul class="place-list course-list">${list}</ul>` : "";
+  }
+
   function legend() {
     return (
       `<h3 class="section-title">楽しみ方の分類</h3><ul class="legend">` +
@@ -214,6 +230,7 @@
       `<dt>おすすめ</dt><dd>${esc(p.best_time || "—")}</dd>` +
       `<dt>雰囲気</dt><dd><span class="tags">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</span></dd></dl>` +
       prose(p) +
+      (p.type === "world" ? coursesSection() : "") +
       (p.rumor ? `<section class="note-box note-box--rumor"><h3>住人の噂</h3><p>${esc(p.rumor)}</p></section>` : "") +
       `<section class="note-box"><h3>名前の由来</h3><p>${esc(p.name_origin)}</p></section>` +
       (p.type === "world" ? legend() : "") +
@@ -224,6 +241,11 @@
   }
 
   $panel.addEventListener("click", (e) => {
+    const c = e.target.closest("[data-course]");
+    if (c) {
+      openCourse(c.dataset.course);
+      return;
+    }
     const g = e.target.closest("[data-go]");
     if (g) {
       go(g.dataset.go, { scroll: true });
@@ -247,6 +269,7 @@
   }
 
   function select(id, scroll) {
+    if (window.GuideCourse) window.GuideCourse.close();
     const p = byId.get(id) || byId.get(ROOT_ID);
     state.selected = p.id;
     renderPanel(p);
@@ -255,17 +278,37 @@
     if (scroll && mobile.matches) $panel.scrollIntoView({ block: "start" });
   }
 
-  const fromHash = () => select(decodeURIComponent(location.hash.slice(1)) || ROOT_ID, false);
-  window.addEventListener("popstate", fromHash);
-  window.addEventListener("hashchange", fromHash);
+  // #course/<コースID>[/<何番目の場所か>] ならコースを開く。それ以外は場所の表示。
+  function route() {
+    const h = decodeURIComponent(location.hash.slice(1));
+    const m = h.match(/^course\/([^/]+)(?:\/(\d+))?$/);
+    if (m && window.GuideCourse && (W.courses || []).some((c) => c.id === m[1])) {
+      window.GuideCourse.open(m[1], m[2] ? Number(m[2]) - 1 : 0);
+      return;
+    }
+    select(m ? ROOT_ID : h || ROOT_ID, false);
+  }
+
+  function openCourse(id) {
+    const h = "#course/" + id;
+    if (!location.hash.startsWith(h)) history.pushState(null, "", h);
+    route();
+    if (mobile.matches) window.scrollTo({ top: 0 });
+  }
+
+  window.addEventListener("popstate", route);
+  window.addEventListener("hashchange", route);
 
   document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
+    if (e.key !== "Escape" || document.body.classList.contains("is-course")) return;
     const p = byId.get(state.selected);
     if (p && p.parent) go(p.parent);
   });
 
+  // コース画面（course.js）が使う口
+  window.GuideMap = { W, byId, esc, ROOT_ID, $pins, $panel, mobile, go, route, openCourse };
+
   renderToolbar();
   renderPins();
-  select(decodeURIComponent(location.hash.slice(1)) || ROOT_ID, false);
+  route();
 })();

@@ -68,3 +68,12 @@ tags:
     - 神秘
     - 手仕事
     - 猫
+
+# キャラクターの表情ID。台本（courses）ではここにあるIDを指定する。
+# キャラ側にその表情の画像が無いあいだは、normal の画像で代用される。
+expressions:
+  normal: 通常
+  smile: 笑う
+  surprise: 驚く
+  quiet: 静か
+  tease: いたずら

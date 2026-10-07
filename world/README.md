@@ -9,8 +9,11 @@ world/
 ├─ README.md            このファイル（編集ルール）
 ├─ canon.md             確定事項と空気感のルール。書く前に必ず読む
 ├─ glossary.md          用語集
+├─ characters/          案内役の人物シート（Markdown）
 ├─ data/
-│   ├─ vocab.yaml       使える分類・タグの一覧
+│   ├─ vocab.yaml       使える分類・タグ・表情IDの一覧
+│   ├─ characters/      案内役のデータ（アイコン画像のパスなど）
+│   ├─ courses/         案内役ごとのコース（台本）
 │   └─ places/          場所データ（ファイル名の数字順に読み込まれる）
 │       ├─ 00-world.yaml
 │       ├─ 10-upper.yaml    上層・新都市
@@ -29,7 +32,14 @@ world/
 4. `python3 tools/build_world.py` を実行する。エラーが出たら直して再実行する。
 5. 新しい言葉を作ったら `glossary.md` に、新しいタグは `vocab.yaml` に足す。
 
-## 項目一覧
+## 案内役とコースを足す手順
+
+- **コースを足す**: `data/courses/` に YAML を1ファイル足す。`steps` に場所IDを順に並べ、各 step に `lines`（セリフ）と、任意で `detour`（寄り道）を書く。場所には `map` 座標が必要。
+- **案内役を足す**: `data/characters/` に YAML を足し、人物シートを `characters/` に書く。アイコン画像は `assets/img/` に置く。
+- **表情**: 台本では `vocab.yaml` の表情ID（normal / smile / surprise / quiet / tease）を使う。キャラ側に画像が無い表情は、normal の画像で代用される。画像ができたら、キャラのYAMLの `expressions` に足すだけでよい。
+- セリフの `who:` は、省略するとキャラ本人、`narration` なら地の文。
+
+## 項目一覧（場所）
 
 | 項目 | 必須 | 内容 |
 |---|---|---|
