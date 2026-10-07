@@ -1,0 +1,17 @@
+# キャラクター: 凪野 つゆ
+# 表情は normal / smile / quiet の3種。surprise・tease は画像が無いので normal で代用される。
+- id: tsuyu
+  name: 凪野 つゆ
+  short: つゆ
+  reading: なぎの つゆ
+  title: 夜番の潜守
+  color: "#9b94f0"
+  icon: assets/img/heroine/tsuyu-normal.webp
+  expressions:
+    normal: assets/img/heroine/tsuyu-normal.webp
+    smile: assets/img/heroine/tsuyu-smile.webp
+    quiet: assets/img/heroine/tsuyu-quiet.webp
+  intro: >-
+    夜の底宿で、封水された建物の継ぎ目を点検して歩く潜守。
+    口数は少ないが、建物の小さな音や、灯魚の数をよく覚えている。
+  sheet: characters/tsuyu.md

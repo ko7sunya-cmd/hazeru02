@@ -226,11 +226,11 @@
       `<p class="place-en">${esc(p.en)}</p>` +
       (p.alias ? `<p class="place-alias">住人の呼び名 <strong>${esc(p.alias)}</strong></p>` : "") +
       `<p class="place-summary">${esc(p.summary)}</p>` +
+      (p.type === "world" ? coursesSection() : "") +
       `<dl class="meta"><dt>立ち入り</dt><dd>${access}</dd>` +
       `<dt>おすすめ</dt><dd>${esc(p.best_time || "—")}</dd>` +
       `<dt>雰囲気</dt><dd><span class="tags">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</span></dd></dl>` +
       prose(p) +
-      (p.type === "world" ? coursesSection() : "") +
       (p.rumor ? `<section class="note-box note-box--rumor"><h3>住人の噂</h3><p>${esc(p.rumor)}</p></section>` : "") +
       `<section class="note-box"><h3>名前の由来</h3><p>${esc(p.name_origin)}</p></section>` +
       (p.type === "world" ? legend() : "") +

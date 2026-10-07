@@ -333,7 +333,7 @@ button { font: inherit; color: inherit; }
 }
 
 /* ---- guide courses ---- */
-.course-list { display: grid; gap: 10px; }
+.course-list { display: grid; gap: 10px; margin-bottom: 22px; }
 .course-card {
   display: flex;
   align-items: center;
