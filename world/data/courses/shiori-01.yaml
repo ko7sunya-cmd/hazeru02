@@ -10,6 +10,12 @@ summary: 水底の郵便局から、上層の最初の杭まで。宛名のな�
 steps:
   - place: lo-post
     time: 朝
+    echoes:
+      - after: tsuyu-night-1
+        label: 夜番の話
+        lines:
+          - {expr: normal, text: 「この局の朝は、夜番の潜守が帰ってくる時間でもあるの。凪野つゆ……今日は、もう上がったみたい」}
+          - {expr: smile, text: 「机の上の点検帳に、几帳面な字で『異常なし』って書いてある。つゆの字。見ると、ちょっと安心する」}
     lines:
       - {who: narration, text: 底郵便局の窓口の奥で、気送管の筒が、ことん、ことんと落ちてくる。上の街から届く朝いちばんの便だ。}
       - {expr: smile, text: 「あ、来た来た。同行の人だよね？　紙谷しおり、配達人の三年目。今日はよろしく」}
@@ -23,6 +29,12 @@ steps:
 
   - place: lo-concourse
     time: 朝
+    echoes:
+      - after: tsuyu-night-1
+        label: 夜番の話
+        lines:
+          - {expr: quiet, text: 「ここ、夜はつゆの担当。夜の発車標は、動かない日が多いんだって」}
+          - {expr: normal, text: 「見たことないな、夜の大広間。いつか、昼の私と夜のあの子で、同じ場所の話をしてみたい」}
     lines:
       - {who: narration, text: 降り筒の乗り場へ向かう途中、旧駅舎の大広間を抜ける。窓の外を、魚の群れが列車のように横切っていく。}
       - {expr: normal, text: 「ここ、朝がいちばん好き。まだ人が少なくて、足音が天井まで届くんだ」}
@@ -47,6 +59,11 @@ steps:
 
   - place: bd-crane
     time: 朝
+    echoes:
+      - after: himari-market-1
+        label: 案内所の話
+        lines:
+          - {expr: smile, text: 「そうだ、案内所のひまりが、初めてのお客さんには、まずここを見せるんだって。赤鶴を見上げる顔が、いちばん素直らしい」}
     lines:
       - {who: narration, text: 舟溜まりの真ん中で、赤い長い首のクレーンが、木箱をゆっくり持ち上げている。}
       - {expr: smile, text: 「赤鶴！　朝の荷揚げ、見ていく？　笛の合図と腕の動きだけで、重い箱がぴたっと台車に収まるの」}
@@ -63,6 +80,12 @@ steps:
 
   - place: bd-horo-row
     time: 昼
+    echoes:
+      - after: himari-market-1
+        label: 案内所の話
+        lines:
+          - {expr: tease, text: 「ひまりは、この通りの串焼きを『初心者の一本目』って勧めてる。私は、貝の汁派なんだけど」}
+          - {expr: normal, text: 「どっちも間違いじゃない。好みは、人の数だけある」}
     lines:
       - {who: narration, text: 昼どきの幌の下は、串焼きの煙と貝の汁の湯気でいっぱいだ。橙と赤の布が、潮風にゆるく揺れている。}
       - {expr: smile, text: 「はい、乾物の箱、お届けでーす！　……おじさん、今日もいい匂い」}

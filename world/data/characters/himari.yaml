@@ -1,0 +1,18 @@
+# キャラクター: 千草 ひまり
+# 表情は normal / smile / tease / quiet の4種。surprise は画像が無いので normal で代用される。
+- id: himari
+  name: 千草 ひまり
+  short: ひまり
+  reading: ちぐさ ひまり
+  title: みぎわ市の案内人
+  color: "#f2d04d"
+  icon: assets/img/heroine/himari-normal.webp
+  expressions:
+    normal: assets/img/heroine/himari-normal.webp
+    smile: assets/img/heroine/himari-smile.webp
+    tease: assets/img/heroine/himari-tease.webp
+    quiet: assets/img/heroine/himari-quiet.webp
+  intro: >-
+    水上マーケットの案内所で、初めて来た人を迎える案内人。
+    おすすめを選ぶのが得意で、おいしそうに食べる人を見るのが好き。
+  sheet: characters/himari.md

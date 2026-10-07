@@ -10,6 +10,12 @@ summary: 日没の水上の市から、水底の無音の間まで。夜番の�
 steps:
   - place: bd-lantern
     time: 日没
+    echoes:
+      - after: himari-market-1
+        label: 案内所の話
+        lines:
+          - {expr: normal, text: 「……昼に、案内所の子が、ここの灯籠舟の話をしていた。『夜は、つゆちゃんに聞いて』って」}
+          - {expr: quiet, text: 「人に勧めるの、上手な子。……わたしは、そういうの、苦手」}
     lines:
       - {who: narration, text: 日没の鐘が、水の上を渡っていく。輪の間の南の水面に、灯籠を吊るした小舟が、ひとつ、またひとつと集まってくる。}
       - {expr: normal, text: 「……あなたが、同行者？　話は聞いてる。凪野つゆ。夜番の潜守」}
@@ -31,6 +37,12 @@ steps:
 
   - place: lo-concourse
     time: 夜
+    echoes:
+      - after: shiori-delivery-1
+        label: 朝の話
+        lines:
+          - {expr: normal, text: 「朝の配達人が、この広間が好きって言ってたらしい。朝がいちばん好き、って」}
+          - {expr: smile, text: 「……わかる。わたしは夜のほうが好きだけど、朝の足音の響き方は、きっと、いい」}
     lines:
       - {who: narration, text: 夜の大広間は、昼とは別の場所のようだった。青い常夜灯が床に落ち、窓の外では魚たちが、眠る前の、ゆっくりした列で泳いでいる。}
       - {expr: normal, text: 「ここの夜は、人が少ない。足音がしないから、魚の音が聞こえる気がする。……聞こえないけど」}

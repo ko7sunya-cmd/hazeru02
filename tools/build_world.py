@@ -146,6 +146,7 @@ def validate_story(characters, courses, by_id, vocab):
             errors.append(f"{where}: sheet {c['sheet']} がない")
 
     seen = set()
+    course_ids = {co.get("id") for co in courses}
     for co in courses:
         where = f"{co['_file']}:{co.get('id', '?')}"
         for key in ("id", "character", "title", "steps"):
@@ -176,6 +177,14 @@ def validate_story(characters, courses, by_id, vocab):
             elif not by_id[step["place"]].get("map"):
                 errors.append(f"{where}: step {n} の場所 {step['place']} に map 座標がない")
             check_lines(step.get("lines"), f"step {n}")
+            for e in step.get("echoes") or []:
+                if e.get("after") not in course_ids:
+                    errors.append(f"{where}: step {n} の echoes の after {e.get('after')} がコースIDに存在しない")
+                elif e["after"] == co.get("id"):
+                    errors.append(f"{where}: step {n} の echoes が自分自身のコースを指している")
+                if not e.get("label"):
+                    errors.append(f"{where}: step {n} の echoes に label がない")
+                check_lines(e.get("lines"), f"step {n} の echoes（{e.get('after')}）")
             d = step.get("detour")
             if d:
                 if d.get("place") not in by_id:

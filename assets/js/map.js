@@ -24,6 +24,40 @@
   const esc = (s) =>
     String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
+  // 歩き終えたコースの記録。ブラウザ内にだけ保存し、使えない環境では「記録なし」として動く。
+  const STORE_KEY = "shinjuku.completed";
+  const loadCompleted = () => {
+    try {
+      const v = JSON.parse(localStorage.getItem(STORE_KEY) || "[]");
+      return new Set(Array.isArray(v) ? v : []);
+    } catch (e) {
+      return new Set();
+    }
+  };
+  const markCompleted = (id) => {
+    try {
+      const done = loadCompleted();
+      done.add(id);
+      localStorage.setItem(STORE_KEY, JSON.stringify([...done]));
+    } catch (e) {
+      /* 保存できなくても、コースは遊べる */
+    }
+  };
+
+  // 場所ID -> その場所を通るコースの一覧（step は1始まり。寄り道で通る場合は detour: true）
+  const charById = new Map((W.characters || []).map((c) => [c.id, c]));
+  const visits = new Map();
+  (W.courses || []).forEach((c) =>
+    c.steps.forEach((st, i) => {
+      const add = (pid, detour) => {
+        if (!visits.has(pid)) visits.set(pid, []);
+        visits.get(pid).push({ course: c, step: i + 1, detour });
+      };
+      add(st.place, false);
+      if (st.detour) add(st.detour.place, true);
+    })
+  );
+
   const catColor = (p) => (p.category ? W.categories[p.category].color : "var(--accent)");
 
   // ---- toolbar ----
@@ -165,19 +199,40 @@
   }
 
   function coursesSection() {
+    const done = loadCompleted();
     const list = (W.courses || [])
       .map((c) => {
-        const ch = (W.characters || []).find((x) => x.id === c.character);
+        const ch = charById.get(c.character);
         const icon = ch ? `<img class="course-card__icon" src="${esc(ch.icon)}" alt="" width="56" height="56">` : "";
+        const badge = done.has(c.id) ? `<span class="course-card__done">歩いた</span>` : "";
         return (
           `<li><button type="button" class="course-card" data-course="${esc(c.id)}">${icon}` +
-          `<span class="course-card__text"><span class="course-card__label">${ch ? esc(ch.short) + "と歩く" : "コース"}</span>` +
+          `<span class="course-card__text"><span class="course-card__label">${ch ? esc(ch.short) + "と歩く" : "コース"}${badge}</span>` +
           `<span class="course-card__title">${esc(c.title)}</span>` +
           `<span class="course-card__sub">${esc(c.subtitle || c.summary)}${c.duration ? `（${esc(c.duration)}）` : ""}</span></span></button></li>`
         );
       })
       .join("");
     return list ? `<h3 class="section-title">ガイドと歩く</h3><ul class="place-list course-list">${list}</ul>` : "";
+  }
+
+  // この場所を通るコース。押すと、そのコースを該当の場所から開く。
+  function visitsSection(p) {
+    const list = visits.get(p.id);
+    if (!list) return "";
+    const items = list
+      .map((v) => {
+        const ch = charById.get(v.course.character);
+        const icon = ch ? `<img class="course-card__icon" src="${esc(ch.icon)}" alt="" width="40" height="40">` : "";
+        return (
+          `<li><button type="button" class="course-card course-card--small" data-course="${esc(v.course.id)}" data-step="${v.step}">${icon}` +
+          `<span class="course-card__text"><span class="course-card__label">${ch ? esc(ch.short) + "と歩く" : "コース"}</span>` +
+          `<span class="course-card__title">${esc(v.course.title)}</span>` +
+          `<span class="course-card__sub">${v.step}か所目${v.detour ? "の寄り道" : ""}から開く</span></span></button></li>`
+        );
+      })
+      .join("");
+    return `<h3 class="section-title">ここを訪れるコース</h3><ul class="place-list course-list">${items}</ul>`;
   }
 
   function legend() {
@@ -232,6 +287,7 @@
       `<dt>雰囲気</dt><dd><span class="tags">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</span></dd></dl>` +
       prose(p) +
       (p.rumor ? `<section class="note-box note-box--rumor"><h3>住人の噂</h3><p>${esc(p.rumor)}</p></section>` : "") +
+      visitsSection(p) +
       `<section class="note-box"><h3>名前の由来</h3><p>${esc(p.name_origin)}</p></section>` +
       (p.type === "world" ? legend() : "") +
       childList(p) +
@@ -243,7 +299,7 @@
   $panel.addEventListener("click", (e) => {
     const c = e.target.closest("[data-course]");
     if (c) {
-      openCourse(c.dataset.course);
+      openCourse(c.dataset.course, c.dataset.step ? Number(c.dataset.step) : undefined);
       return;
     }
     const g = e.target.closest("[data-go]");
@@ -289,9 +345,9 @@
     select(m ? ROOT_ID : h || ROOT_ID, false);
   }
 
-  function openCourse(id) {
-    const h = "#course/" + id;
-    if (!location.hash.startsWith(h)) history.pushState(null, "", h);
+  function openCourse(id, step) {
+    const h = "#course/" + id + (step ? "/" + step : "");
+    if (location.hash !== h) history.pushState(null, "", h);
     route();
     if (mobile.matches) window.scrollTo({ top: 0 });
   }
@@ -306,7 +362,7 @@
   });
 
   // コース画面（course.js）が使う口
-  window.GuideMap = { W, byId, esc, ROOT_ID, $pins, $panel, mobile, go, route, openCourse };
+  window.GuideMap = { W, byId, esc, ROOT_ID, $pins, $panel, mobile, go, route, openCourse, charById, visits, loadCompleted, markCompleted };
 
   renderToolbar();
   renderPins();

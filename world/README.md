@@ -38,6 +38,8 @@ world/
 - **案内役を足す**: `data/characters/` に YAML を足し、人物シートを `characters/` に書く。アイコン画像は `assets/img/` に置く。
 - **表情**: 台本では `vocab.yaml` の表情ID（normal / smile / surprise / quiet / tease）を使う。キャラ側に画像が無い表情は、normal の画像で代用される。画像ができたら、キャラのYAMLの `expressions` に足すだけでよい。
 - セリフの `who:` は、省略するとキャラ本人、`narration` なら地の文。
+- **呼応**: step に `echoes` を足すと、`after` のコースを歩き終えた人にだけ、その場所の本線のあとに数行が加わる。`label`（区切りの見出し）と `lines` を書く。歩いた記録はブラウザ内（localStorage）にだけ残る。
+- **場所からコースへのリンク**: 場所の解説ページには、その場所を通るコースが自動で並ぶ。コースの steps と detour に場所IDを書くだけで、リンクが付く。
 
 ## 項目一覧（場所）
 

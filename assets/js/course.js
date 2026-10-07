@@ -14,7 +14,7 @@
   const $marker = document.getElementById("course-marker");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  const S = { course: null, char: null, step: 0, mode: "main", i: 0, j: 0, tookDetour: false };
+  const S = { course: null, char: null, step: 0, mode: "main", i: 0, j: 0, tookDetour: false, queue: [] };
   let $log = null;
   let $actions = null;
 
@@ -99,12 +99,38 @@
     );
   }
 
+  // この場所を、別のコースでも歩く場合のリンク
+  function alsoHere(placeId) {
+    const others = (G.visits.get(placeId) || []).filter((v) => v.course.id !== S.course.id);
+    if (!others.length) return "";
+    const links = others
+      .map((v) => {
+        const ch = G.charById.get(v.course.character);
+        return `<button type="button" class="course-also__link" data-course="${esc(v.course.id)}" data-step="${v.step}">${ch ? esc(ch.short) + "と歩く：" : ""}${esc(v.course.title)}（${v.step}か所目${v.detour ? "の寄り道" : ""}）</button>`;
+      })
+      .join("");
+    return `<p class="course-also"><span>この場所は、別のコースでも通ります</span>${links}</p>`;
+  }
+
+  // 別のコースを歩き終えた人にだけ出る「呼応」の数行を、本線のセリフの後ろにつなぐ
+  function buildQueue(st) {
+    const done = G.loadCompleted();
+    const queue = [...st.lines];
+    (st.echoes || []).forEach((e) => {
+      if (!done.has(e.after)) return;
+      queue.push({ divider: e.label, echo: true });
+      queue.push(...e.lines);
+    });
+    return queue;
+  }
+
   function enterStep(n) {
     S.step = Math.max(0, Math.min(n, S.course.steps.length - 1));
     S.mode = "main";
     S.i = 0;
     S.j = 0;
     S.tookDetour = false;
+    S.queue = buildQueue(curStep());
     history.replaceState(null, "", `#course/${S.course.id}/${S.step + 1}`);
 
     const st = curStep();
@@ -119,6 +145,7 @@
       `<span class="course-place__sub">${esc(p.en)}</span>` +
       `</div>` +
       peek(p) +
+      alsoHere(st.place) +
       `<div class="log" id="course-log" aria-live="polite"></div>` +
       `<div class="actions" id="course-actions"></div>`;
     $log = document.getElementById("course-log");
@@ -150,22 +177,30 @@
     $log.appendChild(el);
   }
 
-  function appendDivider(text) {
+  function appendDivider(text, echo) {
     const el = document.createElement("p");
-    el.className = "msg-divider";
+    el.className = "msg-divider" + (echo ? " msg-divider--echo" : "");
     el.textContent = text;
     $log.appendChild(el);
   }
 
-  const lines = () => (S.mode === "main" ? curStep().lines : curStep().detour.lines);
+  const lines = () => (S.mode === "main" ? S.queue : curStep().detour.lines);
   const pointer = () => (S.mode === "main" ? S.i : S.j);
+  const advancePointer = () => {
+    if (S.mode === "main") S.i++;
+    else S.j++;
+  };
 
   function next({ focus = true } = {}) {
     const ls = lines();
+    // 見出し（呼応の区切り）は、次のセリフと一緒に出す
+    while (pointer() < ls.length && ls[pointer()].divider) {
+      appendDivider(ls[pointer()].divider, ls[pointer()].echo);
+      advancePointer();
+    }
     if (pointer() < ls.length) {
       appendLine(ls[pointer()]);
-      if (S.mode === "main") S.i++;
-      else S.j++;
+      advancePointer();
     }
     renderActions(focus);
     if (focus) {
@@ -198,6 +233,19 @@
   }
 
   function showEnd() {
+    G.markCompleted(S.course.id);
+    const done = G.loadCompleted();
+    const others = (W.courses || []).filter((c) => c.id !== S.course.id);
+    const next = others.length
+      ? `<div class="course-end__next"><p>ほかのコース</p>` +
+        others
+          .map((c) => {
+            const ch = G.charById.get(c.character);
+            return `<button type="button" class="course-end__course" data-course="${esc(c.id)}">${ch ? esc(ch.short) + "と歩く：" : ""}${esc(c.title)}${done.has(c.id) ? "（歩いた）" : ""}</button>`;
+          })
+          .join("") +
+        `</div>`
+      : "";
     $actions.innerHTML =
       `<div class="course-end">` +
       `<img class="course-end__icon" src="${esc(S.char.icon)}" alt="" width="64" height="64">` +
@@ -206,7 +254,7 @@
       `<div class="course-end__buttons">` +
       `<button type="button" class="act" data-act="replay">もう一度歩く</button>` +
       `<button type="button" class="act act--primary" data-act="exit">地図にもどる</button>` +
-      `</div></div>`;
+      `</div>${next}</div>`;
     $actions.querySelector(".act--primary").focus({ preventScroll: true });
     $actions.scrollIntoView({ block: "nearest", behavior: reduceMotion.matches ? "auto" : "smooth" });
   }
