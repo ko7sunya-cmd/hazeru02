@@ -41,6 +41,20 @@ window.WORLD = {
   "quiet": "静か",
   "tease": "いたずら"
  },
+ "timeSlots": {
+  "朝": "morning",
+  "午前": "morning",
+  "昼前": "morning",
+  "雨上がりの朝": "morning",
+  "昼": "day",
+  "昼下がり": "day",
+  "午後": "day",
+  "夕方": "dusk",
+  "夕方前": "dusk",
+  "日没前": "dusk",
+  "日没": "dusk",
+  "夜": "night"
+ },
  "places": [
   {
    "id": "shinjuku",
@@ -1307,6 +1321,15 @@ window.WORLD = {
    "map": {
     "x": 47.5,
     "y": 71.5
+   },
+   "art": {
+    "morning": {
+     "src": "assets/img/places/lo-concourse-morning.webp",
+     "sm": "assets/img/places/lo-concourse-morning-sm.webp",
+     "w": 1000,
+     "h": 1500,
+     "smw": 667
+    }
    },
    "name_origin": "昔の駅のコンコース（中央通路）を、封水して広間として開いたことから。",
    "summary": "窓の外を魚が横切る、駅舎まるごとの水中回廊。下層の顔。",

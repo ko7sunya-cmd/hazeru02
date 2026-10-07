@@ -85,6 +85,8 @@
   access: open
   best_time: 昼
   map: {x: 47.5, y: 71.5}
+  art:
+    morning: assets/img/places/lo-concourse-morning.webp
   adjacent:
     - {to: lo-sukiro, via: 南口}
     - {to: lo-post, via: 西口通路}

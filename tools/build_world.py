@@ -18,6 +18,12 @@ ROOT = Path(__file__).resolve().parent.parent
 WORLD = ROOT / "world"
 OUT = ROOT / "assets" / "data" / "world.js"
 
+try:
+    from PIL import Image  # 画像の縦横サイズを調べるため。無くても動く（サイズ指定なしになる）
+except ImportError:  # pragma: no cover
+    Image = None
+
+ART_KEYS = ("default", "morning", "day", "dusk", "night")
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 REQUIRED = ["id", "type", "name", "reading", "en", "tags", "access", "name_origin", "summary"]
 LAYER_PREFIX = {"up-city": "up-", "bd-market": "bd-", "lo-old": "lo-"}
@@ -103,6 +109,16 @@ def validate(places, vocab, tag_set):
         if m is not None:
             if not all(isinstance(m.get(k), (int, float)) and 0 <= m[k] <= 100 for k in ("x", "y")):
                 errors.append(f"{where}: map の x, y は 0〜100 の数値（画像に対する%）")
+        art = p.get("art")
+        if art is not None:
+            if not isinstance(art, dict) or not art:
+                errors.append(f"{where}: art は {{時間帯: 画像パス}} の形で書く")
+            else:
+                for k, path in art.items():
+                    if k not in ART_KEYS:
+                        errors.append(f"{where}: art のキー {k} は {', '.join(ART_KEYS)} のどれか")
+                    elif not (ROOT / str(path)).exists():
+                        errors.append(f"{where}: art の画像 {path} がない")
         if p.get("text") and not (WORLD / p["text"]).exists():
             errors.append(f"{where}: text のファイル {p['text']} がない")
 
@@ -120,6 +136,13 @@ def validate(places, vocab, tag_set):
             elif adj["to"] == p["id"]:
                 errors.append(f"{where}: 自分自身に隣接している")
     return errors, by_id
+
+
+def time_slot_of(label, vocab):
+    for key, labels in vocab["time_slots"].items():
+        if label in labels:
+            return key
+    return None
 
 
 def validate_story(characters, courses, by_id, vocab):
@@ -177,6 +200,8 @@ def validate_story(characters, courses, by_id, vocab):
             elif not by_id[step["place"]].get("map"):
                 errors.append(f"{where}: step {n} の場所 {step['place']} に map 座標がない")
             check_lines(step.get("lines"), f"step {n}")
+            if step.get("time") and time_slot_of(step["time"], vocab) is None:
+                errors.append(f"{where}: step {n} の time「{step['time']}」が vocab.yaml の time_slots にない")
             for e in step.get("echoes") or []:
                 if e.get("after") not in course_ids:
                     errors.append(f"{where}: step {n} の echoes の after {e.get('after')} がコースIDに存在しない")
@@ -205,6 +230,25 @@ def layer_of(p, by_id):
             return p["id"]
         p = by_id.get(p.get("parent"))
     return None
+
+
+def build_art(art):
+    """art の各画像に、スマホ用（-sm）と縦横サイズを添える。"""
+    out = {}
+    for key, path in art.items():
+        full = ROOT / path
+        sm_path = re.sub(r"\.webp$", "-sm.webp", path)
+        item = {"src": path}
+        if (ROOT / sm_path).exists() and sm_path != path:
+            item["sm"] = sm_path
+        if Image is not None:
+            with Image.open(full) as im:
+                item["w"], item["h"] = im.size
+            if "sm" in item:
+                with Image.open(ROOT / sm_path) as im:
+                    item["smw"] = im.size[0]
+        out[key] = item
+    return out
 
 
 def build_story(characters, courses):
@@ -242,6 +286,8 @@ def build(places, by_id, vocab):
         for key in ("name_origin", "summary", "rumor", "access_note"):
             if isinstance(item.get(key), str):
                 item[key] = tidy(item[key])
+        if p.get("art"):
+            item["art"] = build_art(p["art"])
         item["layer"] = layer
         item["children"] = [c["id"] for c in places if c.get("parent") == p["id"]]
         item["adjacent"] = [{"to": to, **info} for to, info in adjacency[p["id"]].items()]
@@ -255,6 +301,7 @@ def build(places, by_id, vocab):
         "access": vocab["access"],
         "types": vocab["types"],
         "expressions": vocab["expressions"],
+        "timeSlots": {label: key for key, labels in vocab["time_slots"].items() for label in labels},
         "places": out,
     }
     return data, errors

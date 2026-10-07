@@ -40,6 +40,7 @@ world/
 - **表情**: 台本では `vocab.yaml` の表情ID（normal / smile / surprise / quiet / tease）を使う。キャラ側に画像が無い表情は、normal の画像で代用される。画像ができたら、キャラのYAMLの `expressions` に足すだけでよい。
 - セリフの `who:` は、省略するとキャラ本人、`narration` なら地の文。
 - **呼応**: step に `echoes` を足すと、`after` のコースを歩き終えた人にだけ、その場所の本線のあとに数行が加わる。`label`（区切りの見出し）と `lines` を書く。歩いた記録はブラウザ内（localStorage）にだけ残る。
+- **ロケーションイラスト**: 場所に `art: {morning: assets/img/places/xxx.webp}` のように書く。キーは `default`（時間帯を問わない）／`morning`／`day`／`dusk`／`night`。コースの `time`（「朝」「夜」など）は、`vocab.yaml` の `time_slots` で時間帯に対応づけられ、合う絵があればその場所のカードの上に出る。合う絵が無ければ何も出ない。`-sm.webp`（スマホ用）が同じ場所にあれば、自動で出し分ける。発注書は `art/` にある。
 - **場所からコースへのリンク**: 場所の解説ページには、その場所を通るコースが自動で並ぶ。コースの steps と detour に場所IDを書くだけで、リンクが付く。
 
 ## 項目一覧（場所）
