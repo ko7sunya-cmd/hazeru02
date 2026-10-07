@@ -1,0 +1,16 @@
+# キャラクター: 若葉 すず
+# 表情は normal / smile の2種。ほかの表情は画像が無いので normal で代用される。
+- id: suzu
+  name: 若葉 すず
+  short: すず
+  reading: わかば すず
+  title: 屋上庭の庭師
+  color: "#7fe0a8"
+  icon: assets/img/heroine/suzu-normal.webp
+  expressions:
+    normal: assets/img/heroine/suzu-normal.webp
+    smile: assets/img/heroine/suzu-smile.webp
+  intro: >-
+    段々屋上の雨受け庭を預かる庭師。雨の味と洗濯物の揺れ方で、その日の天気を読む。
+    口数は多くないが、同じ場所に長くいる人の目で、街をよく見ている。
+  sheet: characters/suzu.md

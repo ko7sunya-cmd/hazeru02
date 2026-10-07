@@ -34,7 +34,7 @@ world/
 
 ## 案内役とコースを足す手順
 
-- **コースを足す**: `data/courses/` に YAML を1ファイル足す。`steps` に場所IDを順に並べ、各 step に `lines`（セリフ）と、任意で `detour`（寄り道）を書く。場所には `map` 座標が必要。
+- **コースを足す**: `data/courses/` に YAML を1ファイル足す。一覧での並びは `order`（小さい順。省略すると最後）で決まる。`steps` に場所IDを順に並べ、各 step に `lines`（セリフ）と、任意で `detour`（寄り道）を書く。場所には `map` 座標が必要。
 - **案内役を足す**: `data/characters/` に YAML を足し、人物シートを `characters/` に書く。アイコン画像は `assets/img/` に置く。
 - **表情**: 台本では `vocab.yaml` の表情ID（normal / smile / surprise / quiet / tease）を使う。キャラ側に画像が無い表情は、normal の画像で代用される。画像ができたら、キャラのYAMLの `expressions` に足すだけでよい。
 - セリフの `who:` は、省略するとキャラ本人、`narration` なら地の文。

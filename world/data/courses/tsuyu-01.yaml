@@ -2,6 +2,7 @@
 # しおりの「昼・上へ・賑やか」に対して、「夜・下へ・静か」のコース。
 # 表情は normal / smile / quiet のみ使う（つゆの絵がその3種のため）。
 id: tsuyu-night-1
+order: 2
 character: tsuyu
 title: つゆの夜番
 subtitle: 灯魚が灯るまでの、静かな見回り
@@ -91,6 +92,12 @@ steps:
 
   - place: lo-hikari-tower
     time: 夜
+    echoes:
+      - after: suzu-garden-1
+        label: 庭師の話
+        lines:
+          - {expr: normal, text: 「上の街の灯幕が明るい夜ほど、ここの光も強くなる……って話、屋上庭の庭師から聞いた。すず、だったかな」}
+          - {expr: quiet, text: 「本当かどうか、聞いたことはない。聞かないほうが、いい気がして」}
     lines:
       - {who: narration, text: 沈んだ塔の窓が、ひとつ、またひとつと灯っていく。淡い青白い光は、灯魚の群れがいっせいにまとったものだ。}
       - {expr: normal, text: 「始まった。毎晩、日没のおよそ二時間あと」}

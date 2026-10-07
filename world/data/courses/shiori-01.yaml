@@ -2,6 +2,7 @@
 # steps は本線。各 step の detour は、隣の場所へ寄り道する任意の分岐（終わると本線へ戻る）。
 # lines の who: は省略するとキャラ本人、narration は地の文。expr はキャラの expressions にある表情ID。
 id: shiori-delivery-1
+order: 1
 character: shiori
 title: しおりの配達日和
 subtitle: 底から空まで、配達について歩く一日
@@ -113,6 +114,12 @@ steps:
 
   - place: up-hatsukui
     time: 夕方
+    echoes:
+      - after: suzu-garden-1
+        label: 庭師の話
+        lines:
+          - {expr: normal, text: 「この杭のそばで、夕方によく空を見上げてる子がいるの。屋上庭の庭師の、若葉すず。雨の味で、天気を当てるんだって」}
+          - {expr: tease, text: 「私が手紙を置く時間は、いつも見られてるかも。……見られても、困らないけど」}
     lines:
       - {who: narration, text: 大桟橋テラスのまんなかに、床から腰の高さだけ頭を出した、黒くつやつやの杭がある。夕方の光が、床板の年輪を金色に染めていた。}
       - {expr: quiet, text: 「着いた。ここが、今日の最後の寄り道」}
@@ -125,6 +132,11 @@ steps:
 
   - place: up-lanterns
     time: 夜
+    echoes:
+      - after: suzu-garden-1
+        label: 庭師の話
+        lines:
+          - {expr: smile, text: 「この通りの天気予報、すずはあんまり信じてないんだって。自分の舌のほうが当たるって、勝負してるらしいよ」}
     lines:
       - {who: narration, text: 日が落ちると、塔の壁の灯幕が、ゆっくり色を変えはじめる。光は桟橋のすき間から水面へ落ちて、境界の市場の天井をほんのり染めた。}
       - {expr: smile, text: 「配達、おしまい！　今日は一緒に歩いてくれて、ありがとう」}

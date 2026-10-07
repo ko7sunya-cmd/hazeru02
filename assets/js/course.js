@@ -65,6 +65,8 @@
     const p = point(placeId);
     $marker.style.setProperty("--x", p.x + "%");
     $marker.style.setProperty("--y", p.y + "%");
+    // 地図の上端に近い場所では、アイコンが切れないよう点の下に出す
+    $marker.classList.toggle("is-below", p.y < 14);
   }
 
   // ---- panel ----

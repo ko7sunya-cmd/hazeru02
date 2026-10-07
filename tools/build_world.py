@@ -214,7 +214,7 @@ def build_story(characters, courses):
         item["intro"] = tidy(item["intro"])
         chars.append(item)
     out = []
-    for co in courses:
+    for co in sorted(courses, key=lambda c: (c.get("order", 999), c["id"])):
         item = {k: v for k, v in co.items() if not k.startswith("_")}
         item["summary"] = tidy(item.get("summary", ""))
         out.append(item)

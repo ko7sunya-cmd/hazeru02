@@ -3,6 +3,7 @@
 # 表情は normal / smile / tease / quiet を使う。
 # echoes は、別のコースを歩き終えた人にだけ、その場所で追加される数行（localStorage に歩いた記録を持つ）。
 id: himari-market-1
+order: 3
 character: himari
 title: ひまりの市場案内
 subtitle: はじめてのみぎわ市、昼から夕方まで
