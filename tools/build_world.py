@@ -39,6 +39,16 @@ def load_places():
     return places
 
 
+def load_dir(sub):
+    items = []
+    for path in sorted((WORLD / "data" / sub).rglob("*.yaml")):
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or []
+        for item in data if isinstance(data, list) else [data]:
+            item["_file"] = str(path.relative_to(ROOT))
+            items.append(item)
+    return items
+
+
 def parse_markdown(path):
     """先頭の段落を lead、`## 見出し` ごとに sections にまとめる（段落だけの簡易版）。"""
     lead, sections, current = [], [], None
@@ -112,6 +122,72 @@ def validate(places, vocab, tag_set):
     return errors, by_id
 
 
+def validate_story(characters, courses, by_id, vocab):
+    errors = []
+    chars = {}
+    for c in characters:
+        where = f"{c['_file']}:{c.get('id', '?')}"
+        for key in ("id", "name", "short", "reading", "title", "icon", "expressions", "intro"):
+            if not c.get(key):
+                errors.append(f"{where}: 必須項目 {key} がない")
+        if c.get("id") in chars:
+            errors.append(f"{where}: キャラID {c['id']} が重複")
+        chars[c.get("id")] = c
+        exprs = c.get("expressions") or {}
+        if "normal" not in exprs:
+            errors.append(f"{where}: expressions に normal が必要")
+        for e in exprs:
+            if e not in vocab["expressions"]:
+                errors.append(f"{where}: 表情ID {e} が vocab.yaml の expressions にない")
+        for path in [c.get("icon"), c.get("portrait"), *exprs.values()]:
+            if path and not (ROOT / path).exists():
+                errors.append(f"{where}: 画像 {path} がない")
+        if c.get("sheet") and not (WORLD / c["sheet"]).exists():
+            errors.append(f"{where}: sheet {c['sheet']} がない")
+
+    seen = set()
+    for co in courses:
+        where = f"{co['_file']}:{co.get('id', '?')}"
+        for key in ("id", "character", "title", "steps"):
+            if not co.get(key):
+                errors.append(f"{where}: 必須項目 {key} がない")
+        if co.get("id") in seen:
+            errors.append(f"{where}: コースID {co['id']} が重複")
+        seen.add(co.get("id"))
+        char = chars.get(co.get("character"))
+        if char is None:
+            errors.append(f"{where}: キャラ {co.get('character')} が存在しない")
+            continue
+
+        def check_lines(lines, label):
+            if not lines:
+                errors.append(f"{where}: {label} に lines がない")
+            for i, ln in enumerate(lines or [], 1):
+                if not str(ln.get("text", "")).strip():
+                    errors.append(f"{where}: {label} の {i} 行目に text がない")
+                if ln.get("who", "character") not in ("character", "narration"):
+                    errors.append(f"{where}: {label} の {i} 行目の who が不正")
+                if ln.get("expr") and ln["expr"] not in vocab["expressions"]:
+                    errors.append(f"{where}: {label} の {i} 行目の表情 {ln['expr']} が vocab.yaml にない")
+
+        for n, step in enumerate(co.get("steps") or [], 1):
+            if step.get("place") not in by_id:
+                errors.append(f"{where}: step {n} の場所 {step.get('place')} が存在しない")
+            elif not by_id[step["place"]].get("map"):
+                errors.append(f"{where}: step {n} の場所 {step['place']} に map 座標がない")
+            check_lines(step.get("lines"), f"step {n}")
+            d = step.get("detour")
+            if d:
+                if d.get("place") not in by_id:
+                    errors.append(f"{where}: step {n} の寄り道先 {d.get('place')} が存在しない")
+                elif not by_id[d["place"]].get("map"):
+                    errors.append(f"{where}: step {n} の寄り道先 {d['place']} に map 座標がない")
+                if not d.get("label"):
+                    errors.append(f"{where}: step {n} の寄り道に label がない")
+                check_lines(d.get("lines"), f"step {n} の寄り道")
+    return errors
+
+
 def layer_of(p, by_id):
     seen = set()
     while p and p["id"] not in seen:
@@ -120,6 +196,20 @@ def layer_of(p, by_id):
             return p["id"]
         p = by_id.get(p.get("parent"))
     return None
+
+
+def build_story(characters, courses):
+    chars = []
+    for c in characters:
+        item = {k: v for k, v in c.items() if not k.startswith("_") and k != "sheet"}
+        item["intro"] = tidy(item["intro"])
+        chars.append(item)
+    out = []
+    for co in courses:
+        item = {k: v for k, v in co.items() if not k.startswith("_")}
+        item["summary"] = tidy(item.get("summary", ""))
+        out.append(item)
+    return chars, out
 
 
 def build(places, by_id, vocab):
@@ -155,6 +245,7 @@ def build(places, by_id, vocab):
         "categories": vocab["categories"],
         "access": vocab["access"],
         "types": vocab["types"],
+        "expressions": vocab["expressions"],
         "places": out,
     }
     return data, errors
@@ -163,9 +254,14 @@ def build(places, by_id, vocab):
 def main():
     vocab, tag_set = load_vocab()
     places = load_places()
+    characters = load_dir("characters")
+    courses = load_dir("courses")
     errors, by_id = validate(places, vocab, tag_set)
     if not errors:
+        errors += validate_story(characters, courses, by_id, vocab)
+    if not errors:
         data, more = build(places, by_id, vocab)
+        data["characters"], data["courses"] = build_story(characters, courses)
         errors += more
     if errors:
         print("検証エラー:", file=sys.stderr)
@@ -177,6 +273,7 @@ def main():
     for p in places:
         counts[p["type"]] = counts.get(p["type"], 0) + 1
     summary = "、".join(f"{vocab['types'][t]} {n}" for t, n in counts.items())
+    summary += f"、キャラ {len(characters)}、コース {len(courses)}"
     if "--check" in sys.argv:
         print(f"OK（{summary}）")
         return
