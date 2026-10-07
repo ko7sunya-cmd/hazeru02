@@ -10,6 +10,7 @@ world/
 ├─ canon.md             確定事項と空気感のルール。書く前に必ず読む
 ├─ glossary.md          用語集
 ├─ characters/          案内役の人物シート（Markdown）
+├─ art/                 ロケーションイラストの発注書（Markdown）
 ├─ data/
 │   ├─ vocab.yaml       使える分類・タグ・表情IDの一覧
 │   ├─ characters/      案内役のデータ（アイコン画像のパスなど）
