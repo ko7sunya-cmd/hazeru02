@@ -43,7 +43,7 @@
 
 ## 表情アイコンの指示（差分用）
 
-基準は `assets/img/heroine/shiori-icon.jpg`。同じ服装・髪型・色のまま、表情だけを変える。
+基準は `assets/img/heroine/shiori-icon.webp`。同じ服装・髪型・色のまま、表情だけを変える。
 
 | 表情ID | 状況 | 指示 |
 |---|---|---|

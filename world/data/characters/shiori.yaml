@@ -7,10 +7,10 @@
   reading: かみや しおり
   title: 気送管の配達人
   color: "#7fb8f0"
-  icon: assets/img/heroine/shiori-icon.jpg
-  portrait: assets/img/heroine/shiori-full.jpg
+  icon: assets/img/heroine/shiori-icon.webp
+  portrait: assets/img/heroine/shiori-full.webp
   expressions:
-    normal: assets/img/heroine/shiori-icon.jpg
+    normal: assets/img/heroine/shiori-icon.webp
   intro: >-
     底郵便局から屋上の庭まで、毎日この街を縦に行き来している配達人。
     道草が好きで、近道と裏道と、住人の好物をだいたい知っている。
