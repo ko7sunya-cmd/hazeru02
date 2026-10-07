@@ -41,6 +41,20 @@ window.WORLD = {
   "quiet": "静か",
   "tease": "いたずら"
  },
+ "timeSlots": {
+  "朝": "morning",
+  "午前": "morning",
+  "昼前": "morning",
+  "雨上がりの朝": "morning",
+  "昼": "day",
+  "昼下がり": "day",
+  "午後": "day",
+  "夕方": "dusk",
+  "夕方前": "dusk",
+  "日没前": "dusk",
+  "日没": "dusk",
+  "夜": "night"
+ },
  "places": [
   {
    "id": "shinjuku",
@@ -764,6 +778,15 @@ window.WORLD = {
     "x": 15,
     "y": 48.5
    },
+   "art": {
+    "day": {
+     "src": "assets/img/places/bd-horo-row.webp",
+     "sm": "assets/img/places/bd-horo-row-sm.webp",
+     "w": 750,
+     "h": 1125,
+     "smw": 667
+    }
+   },
    "name_origin": "幌屋台桟橋のなかでも、とくに屋台が密に並ぶ一本道。単に「幌の通り」と呼ばれているうちに縮まった。",
    "summary": "焼き魚の煙と汁物の湯気が混ざる、屋台の一本道。",
    "rumor": "いちばん奥の屋台は看板を出していないが、注文すると、その日いちばん欲しかった味が出てくるらしい。",
@@ -931,6 +954,15 @@ window.WORLD = {
     "x": 50,
     "y": 52.5
    },
+   "art": {
+    "default": {
+     "src": "assets/img/places/bd-lantern.webp",
+     "sm": "assets/img/places/bd-lantern-sm.webp",
+     "w": 1000,
+     "h": 1500,
+     "smw": 667
+    }
+   },
    "name_origin": "日が沈むと、灯籠を吊るした小舟が集まって市を開くことから。",
    "summary": "日没とともに、灯籠を吊るした小舟が集まって開く水の上の夜市。",
    "rumor": "満月の晩だけ、灯籠舟が一艘多い。数え直すと合っているので、誰も困ってはいない。",
@@ -968,6 +1000,15 @@ window.WORLD = {
    "map": {
     "x": 79,
     "y": 41
+   },
+   "art": {
+    "default": {
+     "src": "assets/img/places/bd-crane.webp",
+     "sm": "assets/img/places/bd-crane-sm.webp",
+     "w": 1000,
+     "h": 1500,
+     "smw": 667
+    }
    },
    "name_origin": "赤く塗られた荷揚げクレーンが、長い首を伸ばす鶴に見えることから、赤鶴と呼ばれる。",
    "summary": "赤いクレーンが立つ荷揚げ場。市場のどこからでも見える、待ち合わせの目印。",
@@ -1044,6 +1085,15 @@ window.WORLD = {
    "map": {
     "x": 73.5,
     "y": 41.5
+   },
+   "art": {
+    "morning": {
+     "src": "assets/img/places/bd-orizutsu-morning.webp",
+     "sm": "assets/img/places/bd-orizutsu-morning-sm.webp",
+     "w": 1024,
+     "h": 1536,
+     "smw": 667
+    }
    },
    "name_origin": "水面から下層へまっすぐ降りる筒状の昇降機であることから。最初に作られた一本なので「第一口」。",
    "summary": "水面から下層の旧駅舎へ、ガラスの筒でまっすぐ降りる昇降機。",
@@ -1307,6 +1357,15 @@ window.WORLD = {
    "map": {
     "x": 47.5,
     "y": 71.5
+   },
+   "art": {
+    "morning": {
+     "src": "assets/img/places/lo-concourse-morning.webp",
+     "sm": "assets/img/places/lo-concourse-morning-sm.webp",
+     "w": 1000,
+     "h": 1500,
+     "smw": 667
+    }
    },
    "name_origin": "昔の駅のコンコース（中央通路）を、封水して広間として開いたことから。",
    "summary": "窓の外を魚が横切る、駅舎まるごとの水中回廊。下層の顔。",

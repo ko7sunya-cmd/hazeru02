@@ -497,3 +497,8 @@ body.is-course .toolbar { display: none; }
 @media (max-width: 900px) {
   .course-marker.is-below { margin-top: 12px; }
 }
+
+/* ロケーションイラスト（場所の解説・コース画面）。絵が無い場所では何も出ない */
+.place-art, .course-art { margin: 0 0 16px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); }
+.course-art { margin: 14px 0 12px; }
+.place-art img, .course-art img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 35%; }

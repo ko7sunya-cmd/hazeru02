@@ -77,3 +77,11 @@ expressions:
   surprise: 驚く
   quiet: 静か
   tease: いたずら
+
+# コースの time（自由な文字）を、イラストの時間帯（art のキー）へ対応づける表。
+# コースで新しい time を使うときは、ここへ足す（ビルド時にチェックされる）。
+time_slots:
+  morning: [朝, 午前, 昼前, 雨上がりの朝]
+  day: [昼, 昼下がり, 午後]
+  dusk: [夕方, 夕方前, 日没前, 日没]
+  night: [夜]

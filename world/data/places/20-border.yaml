@@ -88,6 +88,8 @@
   access: open
   best_time: 夕方
   map: {x: 15, y: 48.5}
+  art:
+    day: assets/img/places/bd-horo-row.webp
   adjacent:
     - {to: bd-shizumimono, via: 桟橋づたい}
     - {to: bd-oyogiba, via: 階段}
@@ -179,6 +181,8 @@
   access: open
   best_time: 日没後
   map: {x: 50, y: 52.5}
+  art:
+    default: assets/img/places/bd-lantern.webp
   adjacent:
     - {to: bd-waterbus, via: 舟で}
   name_origin: >-
@@ -201,6 +205,8 @@
   access: open
   best_time: 早朝
   map: {x: 79, y: 41}
+  art:
+    default: assets/img/places/bd-crane.webp
   adjacent:
     - {to: bd-waterbus, via: 桟橋}
     - {to: bd-orizutsu, via: 桟橋}
@@ -244,6 +250,8 @@
   access: open
   best_time: 朝・夕方（通勤の時間は混む）
   map: {x: 73.5, y: 41.5}
+  art:
+    morning: assets/img/places/bd-orizutsu-morning.webp
   adjacent:
     - {to: lo-concourse, via: 降り筒}
     - {to: lo-old, via: 降り筒}

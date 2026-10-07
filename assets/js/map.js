@@ -58,6 +58,28 @@
     })
   );
 
+  // ---- ロケーションイラスト ----
+  // コースの time（「朝」「夜」など）を、イラストの時間帯（morning/day/dusk/night）へ。
+  const timeKeyOf = (label) => (W.timeSlots || {})[label] || null;
+
+  // 指定の時間帯の絵を返す。無ければ、時間帯を問わない default。どちらも無ければ null（地図で代用する）。
+  // 時間帯の指定が無い（場所の解説ページ）ときは、使える絵のどれか。
+  function artFor(place, timeKey) {
+    const art = place && place.art;
+    if (!art) return null;
+    if (timeKey) return art[timeKey] || art.default || null;
+    return art.default || art.day || art.morning || art.dusk || art.night || null;
+  }
+
+  function artHtml(place, art, cls) {
+    const dims = art.w && art.h ? ` width="${art.w}" height="${art.h}"` : "";
+    const srcset = art.sm && art.smw && art.w ? ` srcset="${esc(art.sm)} ${art.smw}w, ${esc(art.src)} ${art.w}w" sizes="(max-width: 900px) 100vw, 440px"` : "";
+    return (
+      `<figure class="${cls}"><img src="${esc(art.src)}"${srcset}${dims} loading="lazy" decoding="async" ` +
+      `alt="${esc(place.name)}のイラスト"></figure>`
+    );
+  }
+
   const catColor = (p) => (p.category ? W.categories[p.category].color : "var(--accent)");
 
   // ---- toolbar ----
@@ -273,8 +295,10 @@
         `</ul>`
       : "";
 
+    const art = artFor(p);
     $panel.innerHTML =
       crumbHtml +
+      (art ? artHtml(p, art, "place-art") : "") +
       `<div class="eyebrow">${badges.join("")}</div>` +
       `<h2 class="place-name${p.name.length > 10 ? " place-name--long" : ""}">${esc(p.name)}</h2>` +
       `<p class="place-reading">${esc(p.reading)}</p>` +
@@ -362,7 +386,7 @@
   });
 
   // コース画面（course.js）が使う口
-  window.GuideMap = { W, byId, esc, ROOT_ID, $pins, $panel, mobile, go, route, openCourse, charById, visits, loadCompleted, markCompleted };
+  window.GuideMap = { W, byId, esc, ROOT_ID, $pins, $panel, mobile, go, route, openCourse, charById, visits, loadCompleted, markCompleted, timeKeyOf, artFor, artHtml };
 
   renderToolbar();
   renderPins();

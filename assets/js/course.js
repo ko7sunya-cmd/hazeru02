@@ -138,8 +138,10 @@
     const st = curStep();
     const p = place(st.place);
     const stage = document.getElementById("course-stage");
+    const art = G.artFor(p, G.timeKeyOf(st.time));
     stage.innerHTML =
       progress() +
+      (art ? G.artHtml(p, art, "course-art") : "") +
       `<div class="course-place">` +
       `<span class="course-place__time">${esc(st.time || "")}</span>` +
       `<span class="course-place__no">${S.step + 1} / ${S.course.steps.length}</span>` +
