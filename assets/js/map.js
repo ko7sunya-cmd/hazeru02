@@ -386,7 +386,7 @@
   window.addEventListener("hashchange", route);
 
   document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape" || document.body.classList.contains("is-course")) return;
+    if (e.key !== "Escape" || document.body.classList.contains("stage-open")) return;
     const p = byId.get(state.selected);
     if (p && p.parent) go(p.parent);
   });

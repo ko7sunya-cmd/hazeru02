@@ -86,7 +86,11 @@
   best_time: 昼
   map: {x: 47.5, y: 71.5}
   art:
-    morning: assets/img/places/lo-concourse-morning.webp
+    morning:
+      src: assets/img/places/lo-concourse-morning.webp
+      focus: {x: 50, y: 43}
+      ripple:
+        - {x: [0, 100], y: [62, 100], power: 0.8}
   adjacent:
     - {to: lo-sukiro, via: 南口}
     - {to: lo-post, via: 西口通路}
@@ -112,7 +116,11 @@
   best_time: 正午
   map: {x: 50, y: 59}
   art:
-    day: assets/img/places/lo-light-well.webp
+    day:
+      src: assets/img/places/lo-light-well.webp
+      focus: {x: 50, y: 38}
+      ripple:
+        - {x: [0, 100], y: [78, 100], power: 0.9}
   name_origin: >-
     ビルの谷間が井戸のように縦に抜けていて、そこへ陽の光が汲み込まれるように落ちてくることから。
   summary: 正午だけ、陽の光が真上から水底まで落ちてくる場所。
@@ -265,7 +273,11 @@
   best_time: 夜
   map: {x: 69, y: 74.5}
   art:
-    night: assets/img/places/lo-hikari-tower-night.webp
+    night:
+      src: assets/img/places/lo-hikari-tower-night.webp
+      focus: {x: 58, y: 36}
+      ripple:
+        - {x: [0, 100], y: [75, 100], power: 1.0}
   adjacent:
     - {to: lo-diving-school, via: 東の通路}
   name_origin: >-

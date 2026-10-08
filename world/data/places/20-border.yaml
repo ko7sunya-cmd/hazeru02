@@ -89,7 +89,11 @@
   best_time: 夕方
   map: {x: 15, y: 48.5}
   art:
-    day: assets/img/places/bd-horo-row.webp
+    day:
+      src: assets/img/places/bd-horo-row.webp
+      focus: {x: 50, y: 34}
+      ripple:
+        - {x: [84, 100], y: [50, 64], power: 0.5}
   adjacent:
     - {to: bd-shizumimono, via: 桟橋づたい}
     - {to: bd-oyogiba, via: 階段}
@@ -136,7 +140,11 @@
   best_time: 昼
   map: {x: 40, y: 44.5}
   art:
-    day: assets/img/places/bd-nozoki.webp
+    day:
+      src: assets/img/places/bd-nozoki.webp
+      focus: {x: 57, y: 45}
+      ripple:
+        - {x: [40, 100], y: [52, 88], power: 0.9}
   adjacent:
     - {to: bd-ring-stage, via: 浮き橋}
     - {to: lo-concourse, via: 床の真下}
@@ -184,7 +192,11 @@
   best_time: 日没後
   map: {x: 50, y: 52.5}
   art:
-    default: assets/img/places/bd-lantern.webp
+    default:
+      src: assets/img/places/bd-lantern.webp
+      focus: {x: 50, y: 42}
+      ripple:
+        - {x: [0, 100], y: [52, 100], power: 1.0}
   adjacent:
     - {to: bd-waterbus, via: 舟で}
   name_origin: >-
@@ -208,7 +220,12 @@
   best_time: 早朝
   map: {x: 79, y: 41}
   art:
-    default: assets/img/places/bd-crane.webp
+    default:
+      src: assets/img/places/bd-crane.webp
+      focus: {x: 45, y: 33}
+      ripple:
+        - {x: [0, 42], y: [78, 100], power: 0.9}
+        - {x: [42, 100], y: [60, 100], power: 0.9}
   adjacent:
     - {to: bd-waterbus, via: 桟橋}
     - {to: bd-orizutsu, via: 桟橋}
@@ -253,7 +270,12 @@
   best_time: 朝・夕方（通勤の時間は混む）
   map: {x: 73.5, y: 41.5}
   art:
-    morning: assets/img/places/bd-orizutsu-morning.webp
+    morning:
+      src: assets/img/places/bd-orizutsu-morning.webp
+      focus: {x: 50, y: 38}
+      ripple:
+        - {x: [0, 36], y: [33, 100], power: 0.8}
+        - {x: [62, 100], y: [33, 100], power: 0.8}
   adjacent:
     - {to: lo-concourse, via: 降り筒}
     - {to: lo-old, via: 降り筒}

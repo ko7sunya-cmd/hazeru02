@@ -40,7 +40,17 @@ world/
 - **表情**: 台本では `vocab.yaml` の表情ID（normal / smile / surprise / quiet / tease）を使う。キャラ側に画像が無い表情は、normal の画像で代用される。画像ができたら、キャラのYAMLの `expressions` に足すだけでよい。
 - セリフの `who:` は、省略するとキャラ本人、`narration` なら地の文。
 - **呼応**: step に `echoes` を足すと、`after` のコースを歩き終えた人にだけ、その場所の本線のあとに数行が加わる。`label`（区切りの見出し）と `lines` を書く。歩いた記録はブラウザ内（localStorage）にだけ残る。
-- **ロケーションイラスト**: 場所に `art: {morning: assets/img/places/xxx.webp}` のように書く。キーは `default`（時間帯を問わない）／`morning`／`day`／`dusk`／`night`。コースの `time`（「朝」「夜」など）は、`vocab.yaml` の `time_slots` で時間帯に対応づけられ、合う絵があればその場所のカードの上に出る。合う絵が無ければ何も出ない。`-sm.webp`（スマホ用）が同じ場所にあれば、自動で出し分ける。発注書は `art/` にある。
+- **ロケーションイラスト**: 場所に `art: {morning: assets/img/places/xxx.webp}` のように書く（キーは `default`／`morning`／`day`／`dusk`／`night`）。画像パスだけでもよいが、次のように、見せ所と波紋の範囲も書ける。
+  ```yaml
+  art:
+    day:
+      src: assets/img/places/xxx.webp
+      focus: {x: 50, y: 35}        # 見せたい点（画像に対する%）。文字の箱より上に寄せて表示される
+      zoom: 1                      # 任意。1〜3
+      ripple:                      # 任意。タップで輪が広がる範囲（水面・床だけ。空や建物は入れない）
+        - {x: [0, 100], y: [62, 100], power: 0.8}   # 左右・上下の%、強さ 0〜1
+  ```
+  コースの `time`（「朝」「夜」など）は、`vocab.yaml` の `time_slots` で時間帯に対応づけられ、合う絵があれば画面に出る。朝と昼は互いに代用する。合う絵が無ければ、地図の窓を出す。`-sm.webp`（スマホ用）が同じ場所にあれば、自動で出し分ける。発注書と、見せ所の原本は `art/` にある。
 - **場所からコースへのリンク**: 場所の解説ページには、その場所を通るコースが自動で並ぶ。コースの steps と detour に場所IDを書くだけで、リンクが付く。
 
 ## 項目一覧（場所）

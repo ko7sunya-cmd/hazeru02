@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/stage.css">
 </head>
 <body>
 <header class="site-header">
@@ -29,11 +30,6 @@
     <div class="map" id="map">
       <img class="map__image" src="assets/img/shinjuku-map.webp" width="1055" height="1125"
            alt="新宿・水上都市の鳥瞰図。上に杭の上の新都市、水面に水上マーケット、水中に沈んだ旧新宿駅周辺が描かれている。">
-      <div class="map__course" id="course-layer" hidden>
-        <svg class="map__route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-        <div class="course-stops" aria-hidden="true"></div>
-        <div class="course-marker" id="course-marker" aria-hidden="true"><img alt="" width="44" height="44"></div>
-      </div>
       <div class="map__pins" id="pins"></div>
     </div>
     <p class="map-hint">点を選ぶと、その場所の解説が開きます。</p>
@@ -45,6 +41,6 @@
 <noscript><p class="noscript">このガイドの表示には JavaScript が必要です。</p></noscript>
 <script src="assets/data/world.js"></script>
 <script src="assets/js/map.js"></script>
-<script src="assets/js/course.js"></script>
+<script src="assets/js/stage.js"></script>
 </body>
 </html>

@@ -286,6 +286,23 @@ window.WORLD = {
    "art": {
     "day": {
      "src": "assets/img/places/up-dome-plaza.webp",
+     "focus": {
+      "x": 50,
+      "y": 30
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        50,
+        100
+       ],
+       "power": 1.0
+      }
+     ],
      "sm": "assets/img/places/up-dome-plaza-sm.webp",
      "w": 750,
      "h": 1125,
@@ -413,6 +430,23 @@ window.WORLD = {
    "art": {
     "day": {
      "src": "assets/img/places/up-lanterns.webp",
+     "focus": {
+      "x": 50,
+      "y": 38
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        66,
+        100
+       ],
+       "power": 0.5
+      }
+     ],
      "sm": "assets/img/places/up-lanterns-sm.webp",
      "w": 750,
      "h": 1125,
@@ -799,6 +833,23 @@ window.WORLD = {
    "art": {
     "day": {
      "src": "assets/img/places/bd-horo-row.webp",
+     "focus": {
+      "x": 50,
+      "y": 34
+     },
+     "ripple": [
+      {
+       "x": [
+        84,
+        100
+       ],
+       "y": [
+        50,
+        64
+       ],
+       "power": 0.5
+      }
+     ],
      "sm": "assets/img/places/bd-horo-row-sm.webp",
      "w": 750,
      "h": 1125,
@@ -889,6 +940,23 @@ window.WORLD = {
    "art": {
     "day": {
      "src": "assets/img/places/bd-nozoki.webp",
+     "focus": {
+      "x": 57,
+      "y": 45
+     },
+     "ripple": [
+      {
+       "x": [
+        40,
+        100
+       ],
+       "y": [
+        52,
+        88
+       ],
+       "power": 0.9
+      }
+     ],
      "sm": "assets/img/places/bd-nozoki-sm.webp",
      "w": 750,
      "h": 1125,
@@ -984,6 +1052,23 @@ window.WORLD = {
    "art": {
     "default": {
      "src": "assets/img/places/bd-lantern.webp",
+     "focus": {
+      "x": 50,
+      "y": 42
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        52,
+        100
+       ],
+       "power": 1.0
+      }
+     ],
      "sm": "assets/img/places/bd-lantern-sm.webp",
      "w": 1000,
      "h": 1500,
@@ -1031,6 +1116,34 @@ window.WORLD = {
    "art": {
     "default": {
      "src": "assets/img/places/bd-crane.webp",
+     "focus": {
+      "x": 45,
+      "y": 33
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        42
+       ],
+       "y": [
+        78,
+        100
+       ],
+       "power": 0.9
+      },
+      {
+       "x": [
+        42,
+        100
+       ],
+       "y": [
+        60,
+        100
+       ],
+       "power": 0.9
+      }
+     ],
      "sm": "assets/img/places/bd-crane-sm.webp",
      "w": 1000,
      "h": 1500,
@@ -1116,6 +1229,34 @@ window.WORLD = {
    "art": {
     "morning": {
      "src": "assets/img/places/bd-orizutsu-morning.webp",
+     "focus": {
+      "x": 50,
+      "y": 38
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        36
+       ],
+       "y": [
+        33,
+        100
+       ],
+       "power": 0.8
+      },
+      {
+       "x": [
+        62,
+        100
+       ],
+       "y": [
+        33,
+        100
+       ],
+       "power": 0.8
+      }
+     ],
      "sm": "assets/img/places/bd-orizutsu-morning-sm.webp",
      "w": 1024,
      "h": 1536,
@@ -1388,6 +1529,23 @@ window.WORLD = {
    "art": {
     "morning": {
      "src": "assets/img/places/lo-concourse-morning.webp",
+     "focus": {
+      "x": 50,
+      "y": 43
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        62,
+        100
+       ],
+       "power": 0.8
+      }
+     ],
      "sm": "assets/img/places/lo-concourse-morning-sm.webp",
      "w": 1000,
      "h": 1500,
@@ -1448,6 +1606,23 @@ window.WORLD = {
    "art": {
     "day": {
      "src": "assets/img/places/lo-light-well.webp",
+     "focus": {
+      "x": 50,
+      "y": 38
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        78,
+        100
+       ],
+       "power": 0.9
+      }
+     ],
      "sm": "assets/img/places/lo-light-well-sm.webp",
      "w": 750,
      "h": 1125,
@@ -1722,6 +1897,23 @@ window.WORLD = {
    "art": {
     "night": {
      "src": "assets/img/places/lo-hikari-tower-night.webp",
+     "focus": {
+      "x": 58,
+      "y": 36
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        75,
+        100
+       ],
+       "power": 1.0
+      }
+     ],
      "sm": "assets/img/places/lo-hikari-tower-night-sm.webp",
      "w": 1000,
      "h": 1500,
