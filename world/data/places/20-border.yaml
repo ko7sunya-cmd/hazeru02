@@ -135,6 +135,8 @@
   access: open
   best_time: 昼
   map: {x: 40, y: 44.5}
+  art:
+    day: assets/img/places/bd-nozoki.webp
   adjacent:
     - {to: bd-ring-stage, via: 浮き橋}
     - {to: lo-concourse, via: 床の真下}

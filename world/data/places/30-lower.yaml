@@ -111,6 +111,8 @@
   access: open
   best_time: 正午
   map: {x: 50, y: 59}
+  art:
+    day: assets/img/places/lo-light-well.webp
   name_origin: >-
     ビルの谷間が井戸のように縦に抜けていて、そこへ陽の光が汲み込まれるように落ちてくることから。
   summary: 正午だけ、陽の光が真上から水底まで落ちてくる場所。
@@ -262,6 +264,8 @@
   access: open
   best_time: 夜
   map: {x: 69, y: 74.5}
+  art:
+    night: assets/img/places/lo-hikari-tower-night.webp
   adjacent:
     - {to: lo-diving-school, via: 東の通路}
   name_origin: >-

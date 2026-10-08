@@ -283,6 +283,15 @@ window.WORLD = {
     "x": 59.8,
     "y": 28.6
    },
+   "art": {
+    "day": {
+     "src": "assets/img/places/up-dome-plaza.webp",
+     "sm": "assets/img/places/up-dome-plaza-sm.webp",
+     "w": 750,
+     "h": 1125,
+     "smw": 667
+    }
+   },
    "name_origin": "ドームの足元に張られた浅い水盤が、ガラス屋根と空を鏡のように映すことから。",
    "summary": "噴水を抱いたガラスのドーム。新都市の待ち合わせといえば、ここ。",
    "rumor": "噴水の水には、下層の駅の匂いがかすかに残っている、と古い住人は言う。",
@@ -400,6 +409,15 @@ window.WORLD = {
    "map": {
     "x": 64,
     "y": 22
+   },
+   "art": {
+    "day": {
+     "src": "assets/img/places/up-lanterns.webp",
+     "sm": "assets/img/places/up-lanterns-sm.webp",
+     "w": 750,
+     "h": 1125,
+     "smw": 667
+    }
    },
    "name_origin": "塔の壁面を覆う表示幕を、住人は昔の「灯り」と「幕」をあわせて灯幕と呼ぶ。それが通りの名前になった。",
    "summary": "塔の壁一面に灯幕が並ぶ大通り。夜は水面まで光の色に染まる。",
@@ -867,6 +885,15 @@ window.WORLD = {
    "map": {
     "x": 40,
     "y": 44.5
+   },
+   "art": {
+    "day": {
+     "src": "assets/img/places/bd-nozoki.webp",
+     "sm": "assets/img/places/bd-nozoki-sm.webp",
+     "w": 750,
+     "h": 1125,
+     "smw": 667
+    }
    },
    "name_origin": "床の一部がガラス張りで、真下の水中を覗けることから。",
    "summary": "ガラスの床ごしに、真下の旧駅舎を眺めながらお茶が飲める。",
@@ -1418,6 +1445,15 @@ window.WORLD = {
     "x": 50,
     "y": 59
    },
+   "art": {
+    "day": {
+     "src": "assets/img/places/lo-light-well.webp",
+     "sm": "assets/img/places/lo-light-well-sm.webp",
+     "w": 750,
+     "h": 1125,
+     "smw": 667
+    }
+   },
    "name_origin": "ビルの谷間が井戸のように縦に抜けていて、そこへ陽の光が汲み込まれるように落ちてくることから。",
    "summary": "正午だけ、陽の光が真上から水底まで落ちてくる場所。",
    "rumor": "光の柱の中に入った手紙は、宛名がなくても届くべき人に届く、と言われている。",
@@ -1682,6 +1718,15 @@ window.WORLD = {
    "map": {
     "x": 69,
     "y": 74.5
+   },
+   "art": {
+    "night": {
+     "src": "assets/img/places/lo-hikari-tower-night.webp",
+     "sm": "assets/img/places/lo-hikari-tower-night-sm.webp",
+     "w": 1000,
+     "h": 1500,
+     "smw": 667
+    }
    },
    "name_origin": "量販店だった高いビルに、夜に光る小魚・灯魚が棲みついたことから。",
    "summary": "灯魚が棲む塔。夜になると、窓という窓がほのかに光る。",

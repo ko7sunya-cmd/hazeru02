@@ -67,7 +67,13 @@
   function artFor(place, timeKey) {
     const art = place && place.art;
     if (!art) return null;
-    if (timeKey) return art[timeKey] || art.default || null;
+    if (timeKey) {
+      if (art[timeKey]) return art[timeKey];
+      if (art.default) return art.default;
+      // 朝と昼は明るさが近いので、どちらかの絵があれば互いに使う。夕方・夜は、合う絵が無ければ出さない。
+      const near = { morning: "day", day: "morning" }[timeKey];
+      return (near && art[near]) || null;
+    }
     return art.default || art.day || art.morning || art.dusk || art.night || null;
   }
 

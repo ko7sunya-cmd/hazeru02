@@ -89,6 +89,8 @@
   access: open
   best_time: 朝〜昼
   map: {x: 59.8, y: 28.6}
+  art:
+    day: assets/img/places/up-dome-plaza.webp
   adjacent:
     - {to: up-hatsukui, via: 中央通り}
     - {to: up-lanterns, via: 渡り廊下}
@@ -156,6 +158,8 @@
   access: open
   best_time: 夜
   map: {x: 64, y: 22}
+  art:
+    day: assets/img/places/up-lanterns.webp
   adjacent:
     - {to: up-shiomi, via: 塔町の大通り}
     - {to: up-horizon, via: 塔の昇降機}
