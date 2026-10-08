@@ -91,7 +91,10 @@
   // ---- toolbar ----
   function renderToolbar() {
     const tabs = [{ id: "all", label: "すべて" }, ...layers.map((l) => ({ id: l.id, label: LAYER_SHORT[l.id] || l.name }))];
-    $tabs.innerHTML = tabs
+    $tabs.innerHTML =
+      `<button type="button" class="tab tab--home" data-home aria-label="ガイドを選ぶ画面にもどる"${state.selected === ROOT_ID ? ' aria-current="page"' : ""}>` +
+      `<span aria-hidden="true">‹</span> ガイドを選ぶ</button><span class="tabs__sep" aria-hidden="true"></span>` +
+      tabs
       .map((t) => `<button type="button" class="tab" data-layer="${t.id}" aria-pressed="${state.layer === t.id}">${esc(t.label)}</button>`)
       .join("");
     $chips.innerHTML = Object.entries(W.categories)
@@ -104,6 +107,13 @@
   }
 
   $tabs.addEventListener("click", (e) => {
+    if (e.target.closest("[data-home]")) {
+      state.layer = "all";
+      renderToolbar();
+      updatePins();
+      go(ROOT_ID, { scroll: true });
+      return;
+    }
     const b = e.target.closest("[data-layer]");
     if (!b) return;
     state.layer = b.dataset.layer;
@@ -303,6 +313,7 @@
 
     const art = artFor(p);
     $panel.innerHTML =
+      (p.type === "world" ? "" : `<button type="button" class="panel-home" data-home-panel>‹ ガイドを選ぶ（はじめにもどる）</button>`) +
       crumbHtml +
       (art ? artHtml(p, art, "place-art") : "") +
       `<div class="eyebrow">${badges.join("")}</div>` +
@@ -327,6 +338,10 @@
   }
 
   $panel.addEventListener("click", (e) => {
+    if (e.target.closest("[data-home-panel]")) {
+      go(ROOT_ID, { scroll: true });
+      return;
+    }
     const c = e.target.closest("[data-course]");
     if (c) {
       openCourse(c.dataset.course, c.dataset.step ? Number(c.dataset.step) : undefined);
@@ -358,6 +373,8 @@
     if (window.GuideCourse) window.GuideCourse.close();
     const p = byId.get(id) || byId.get(ROOT_ID);
     state.selected = p.id;
+    const home = $tabs.querySelector("[data-home]");
+    if (home) (p.id === ROOT_ID ? home.setAttribute("aria-current", "page") : home.removeAttribute("aria-current"));
     renderPanel(p);
     updatePins();
     document.title = p.id === ROOT_ID ? "新宿・水上都市 ロケーションガイド" : `${p.name}｜新宿・水上都市`;
