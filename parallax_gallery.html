@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#06121c">
+<title>深度パララックス・ギャラリー</title>
+<style>
+:root{--accent:#4cc9f0;--accent2:#7ee0ff;--ink:#eaf6ff;--glass:rgba(255,255,255,.13);--edge:rgba(255,255,255,.30)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#06121c;color:var(--ink);overflow:hidden;overscroll-behavior:none;
+  font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+#bg-fb{position:fixed;inset:0;width:100vw;height:100dvh;background:#06121c center/cover no-repeat;display:none}
+#bg-gl,#bg-fx{position:fixed;left:0;top:0;width:100vw;height:100dvh;pointer-events:none;transition:opacity .38s ease}
+#bg-fx{mix-blend-mode:normal}
+body.fade #bg-gl,body.fade #bg-fx{opacity:0}
+#bg-dim{position:fixed;inset:0;pointer-events:none;transition:opacity .35s;
+  background:linear-gradient(to bottom,rgba(0,8,16,.55) 0,rgba(0,8,16,0) 18%,rgba(0,8,16,0) 58%,rgba(0,8,16,.72) 100%)}
+#gal-ui{position:fixed;inset:0;pointer-events:none;transition:opacity .3s;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+body.ui-off #gal-ui,body.ui-off #bg-dim{opacity:0}
+body.ui-off #gal-ui *{pointer-events:none!important}
+.btn{pointer-events:auto;display:inline-flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;
+  width:44px;height:44px;border-radius:50%;font-size:17px;line-height:1;border:1px solid var(--edge);
+  background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.07));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 4px 14px rgba(0,0,0,.28);
+  -webkit-backdrop-filter:blur(10px) saturate(1.2);backdrop-filter:blur(10px) saturate(1.2);
+  transition:transform .12s,background .2s;font-family:inherit}
+.btn:active{transform:scale(.93)}
+.btn[disabled]{opacity:.35;pointer-events:none}
+#top{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 10px);display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+#nav{display:flex;align-items:center;gap:6px;padding:0 4px;height:44px;border-radius:22px;border:1px solid var(--edge);
+  background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.06));box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 4px 14px rgba(0,0,0,.25);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);pointer-events:auto}
+#nav .btn{width:38px;height:38px;border:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:15px}
+#count{min-width:58px;text-align:center;font-size:14px;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+#bottom{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 12px);padding:0 16px;pointer-events:none}
+#title{font-size:15px;letter-spacing:.05em;text-shadow:0 1px 8px rgba(0,0,0,.6);margin:0 4px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:1.4em}
+#bar{pointer-events:auto;height:26px;display:flex;align-items:center;cursor:pointer;touch-action:none;margin:0 2px}
+#bar i{display:block;position:relative;width:100%;height:4px;border-radius:2px;background:rgba(255,255,255,.28);box-shadow:0 1px 6px rgba(0,0,0,.35)}
+#bar b{position:absolute;left:0;top:0;height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+#bar b::after{content:"";position:absolute;right:-6px;top:-4px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(120,220,255,.9)}
+#time{display:flex;justify-content:space-between;font-size:11px;opacity:.8;margin:0 4px 6px;font-variant-numeric:tabular-nums;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+#ctl{display:flex;align-items:center;justify-content:center;gap:18px}
+#play{width:60px;height:60px;font-size:22px;color:#032033;border:1px solid rgba(255,255,255,.6);
+  background:linear-gradient(160deg,#9cecff,var(--accent));box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 6px 20px rgba(76,201,240,.45)}
+#list{position:fixed;left:0;right:0;bottom:0;max-height:62dvh;padding:14px 16px calc(env(safe-area-inset-bottom) + 16px);
+  border-radius:22px 22px 0 0;border:1px solid var(--edge);border-bottom:0;
+  background:linear-gradient(180deg,rgba(18,40,58,.82),rgba(8,20,32,.92));
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  transform:translateY(105%);opacity:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .3s;pointer-events:none;overflow:auto;touch-action:pan-y}
+body.list-on #list{transform:none;opacity:1;pointer-events:auto}
+#list h2{margin:0 0 8px;font-size:13px;font-weight:600;letter-spacing:.12em;opacity:.7}
+.trk{display:flex;gap:10px;align-items:center;padding:11px 8px;border-radius:12px;cursor:pointer;font-size:15px}
+.trk.on{background:rgba(76,201,240,.18);color:var(--accent2)}
+.trk small{opacity:.55;margin-left:auto;font-variant-numeric:tabular-nums}
+.empty{opacity:.65;font-size:13px;line-height:1.7;padding:6px 4px}
+#toast{position:fixed;left:50%;top:70px;transform:translateX(-50%);padding:8px 14px;border-radius:14px;background:rgba(0,0,0,.6);font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div id="bg-fb"></div>
+<canvas id="bg-gl"></canvas>
+<canvas id="bg-fx"></canvas>
+<div id="bg-dim"></div>
+
+<div id="gal-ui">
+  <div id="top">
+    <button class="btn" id="b-close" aria-label="閉じる">✕</button>
+    <div id="nav"><button class="btn" id="b-prev" aria-label="前の絵">◀</button><span id="count">1/1</span><button class="btn" id="b-next" aria-label="次の絵">▶</button></div>
+    <button class="btn" id="b-jump" aria-label="次のギャラリーへ">▷</button>
+  </div>
+  <div id="bottom">
+    <div id="title">曲を追加するとここに表示されます</div>
+    <div id="bar"><i><b id="prog"></b></i></div>
+    <div id="time"><span id="tcur">0:00</span><span id="tdur">0:00</span></div>
+    <div id="ctl">
+      <button class="btn" id="b-list" aria-label="再生リスト">☰</button>
+      <button class="btn" id="b-tprev" aria-label="前の曲">⏮</button>
+      <button class="btn" id="play" aria-label="再生">▶</button>
+      <button class="btn" id="b-tnext" aria-label="次の曲">⏭</button>
+      <span style="width:44px"></span>
+    </div>
+  </div>
+</div>
+
+<div id="list"><h2>PLAYLIST</h2><div id="list-body"></div></div>
+<div id="toast"></div>
+<audio id="au" preload="metadata"></audio>
+
+<script>
+(() => {
+'use strict';
+/* =========================================================
+   設定 ―――― ここだけ編集すれば絵・曲を足せる
+   ========================================================= */
+const COMMON = {
+  strength: 0.50,   // 奥行きの強さ 0〜1（×0.07）
+  light: 0.08,      // カーソル光源（×1.6）
+  bump: 0.50,       // 凹凸の強調
+  particles: 0.13,  // 光の粒子の量
+  focus: 0.96,      // 奥行きの基準面
+  hues: [[198, 225], [38, 52]]   // 粒子の色（青白／暖色）
+};
+// 絵の登録：images/<key>.webp と images/<key>_depth.webp を置いて、ここに1行足す
+// focusV : 窓の縦位置（0=下/1=上）  panBias : 横にどちら寄りで見せるか（-1左/1右）
+const art = (key, o = {}) => ({ ...COMMON, img: `images/${key}.webp`, depth: `images/${key}_depth.webp`, ...o });
+const ART = {
+  'up-lanterns':     art('up-lanterns',     { focusV: 0.60 }),
+  'up-dome-plaza':   art('up-dome-plaza',   { focusV: 0.58 }),
+  'bd-nozoki':       art('bd-nozoki',       { focusV: 0.55, panBias: 0.25 }),
+  'lo-light-well':   art('lo-light-well',   { focusV: 0.62 }),
+  'lo-hikari-tower': art('lo-hikari-tower', { focusV: 0.62, panBias: 0.15, particles: 0.16 }),
+  'bd-lantern':      art('bd-lantern',      { focusV: 0.60, particles: 0.16 }),
+  'bd-horo-row':     art('bd-horo-row',     { focusV: 0.58 }),
+  'bd-orizutsu':     art('bd-orizutsu',     { focusV: 0.62 }),
+  'bd-crane':        art('bd-crane',        { focusV: 0.62 }),
+  'lo-concourse':    art('lo-concourse',    { focusV: 0.58 })
+};
+// ギャラリーの区切り（名前は画面に出さない。▷のジャンプ先に使う）
+const GALLERIES = [
+  { name: '上層・境界', list: ['up-lanterns', 'up-dome-plaza', 'bd-orizutsu', 'bd-crane', 'bd-horo-row', 'bd-lantern', 'bd-nozoki'] },
+  { name: '下層',       list: ['lo-concourse', 'lo-light-well', 'lo-hikari-tower'] }
+];
+// 曲：{title, src}  ―― 空のままでも絵は見られる
+const TRACKS = [
+  // { title: '曲名', src: 'audio/track01.mp3' },
+];
+const GYRO_ENABLED = false;
+
+/* ========================================================= */
+const $ = id => document.getElementById(id);
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const clamp1 = v => clamp(v, -1, 1);
+const GALLERY = GALLERIES.flatMap(g => g.list).filter(k => ART[k]);
+const coarse = matchMedia('(pointer:coarse)').matches;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DPR_CAP = coarse ? 1.25 : 1.75, MIN_FRAME_MS = coarse ? 22 : 0;
+
+const glc = $('bg-gl'), fx = $('bg-fx'), fxc = fx.getContext('2d');
+let gl = null, prog = null, U = {}, dprNow = 1;
+const cache = {}, pending = {}; let order = [];
+let cur = null, idx = 0, showToken = 0, lastT = 0, lastFrame = 0, raf = 0;
+const S = { mx: 0, my: 0, lx: .5, ly: .55, tx: 0, ty: 0, tlx: .5, tly: .55, lastInput: -1e9, gyro: false, gx: 0, gy: 0 };
+
+/* ---------- toast ---------- */
+let toastT = 0;
+function toast(m) { const t = $('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2200); }
+
+/* ---------- 画像読み込み ---------- */
+function loadImage(src) {
+  return new Promise((res, rej) => { const i = new Image(); i.decoding = 'async'; i.onload = () => res(i); i.onerror = () => rej(new Error('load failed: ' + src)); i.src = src; });
+}
+
+/* ---------- WebGL ---------- */
+const VS = 'attribute vec2 p; varying vec2 vUv; void main(){ vUv = p*0.5+0.5; gl_Position = vec4(p,0.,1.); }';
+const FS = `
+precision highp float;
+varying vec2 vUv;
+uniform sampler2D uImg, uDep;
+uniform vec2 uRes, uImgSize, uMouse, uLight, uPan;
+uniform float uStrength, uLightAmt, uBump, uFocus, uFocusV;
+
+float D(vec2 p){ return texture2D(uDep, p).r; }
+
+vec2 cover(vec2 uv){
+  float sa = uRes.x/uRes.y, ia = uImgSize.x/uImgSize.y;
+  vec2 s = sa > ia ? vec2(1.0, ia/sa) : vec2(sa/ia, 1.0);
+  uv = (uv - 0.5) / 1.08 + 0.5;
+  float cx = 0.5 + uPan.x * (1.0 - s.x) * 0.5;
+  float cy = clamp(uFocusV + uPan.y * (1.0 - s.y) * 0.5, s.y*0.5, 1.0 - s.y*0.5);
+  return vec2((uv.x - 0.5) * s.x + cx, (uv.y - 0.5) * s.y + cy);
+}
+
+void main(){
+  vec2 uv = cover(vUv);
+  vec2 dir = uMouse * uStrength;
+  vec2 p = uv;
+  for(int i = 0; i < 5; i++){ p = uv + dir * (D(p) - uFocus); }
+  p = clamp(p, 0.001, 0.999);
+
+  float ca = length(uMouse) * 0.0014;
+  vec2 cd = normalize(vUv - 0.5 + 1e-4) * ca;
+  vec3 col = vec3(texture2D(uImg, p + cd).r, texture2D(uImg, p).g, texture2D(uImg, p - cd).b);
+
+  vec2 sl = texture2D(uDep, p).gb * 2.0 - 1.0;
+  vec3 n = normalize(vec3(-sl * (0.3 + uBump * 1.0), 1.0));
+
+  vec2 d = (uLight - vUv) * vec2(uRes.x/uRes.y, 1.0);
+  vec3 L = normalize(vec3(d, 0.32));
+  float att = exp(-dot(d,d) * 2.6);
+  float diff = max(dot(n, L), 0.0);
+  float base = L.z;
+  vec3 H = normalize(L + vec3(0.,0.,1.));
+  float spec = pow(max(dot(n, H), 0.0), 36.0);
+  float lum = dot(col, vec3(0.299, 0.587, 0.114));
+  float hiMask = 0.35 + 0.65 * smoothstep(0.35, 0.95, lum);
+
+  vec3 lightCol = vec3(1.0, 0.93, 0.84);
+  col *= clamp(1.0 + uLightAmt * att * (diff - base) * 1.2, 0.62, 1.55);
+  col += lightCol * uLightAmt * att * 0.16 * (0.4 + diff);
+  col += lightCol * uLightAmt * spec * att * 0.55 * hiMask;
+
+  float far = 1.0 - D(p);
+  col = mix(col, col + vec3(0.02, 0.05, 0.09), far * 0.35);
+
+  float v = smoothstep(1.15, 0.35, length((vUv - 0.5) * vec2(1.0, 1.1)));
+  col *= mix(0.93, 1.0, v);
+  gl_FragColor = vec4(col, 1.0);
+}`;
+
+function initGL() {
+  gl = glc.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power', preserveDrawingBuffer: false });
+  if (!gl) throw new Error('no webgl');
+  const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; };
+  prog = gl.createProgram(); gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+  gl.useProgram(prog);
+  const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  ['uImg', 'uDep', 'uRes', 'uImgSize', 'uMouse', 'uLight', 'uPan', 'uStrength', 'uLightAmt', 'uBump', 'uFocus', 'uFocusV'].forEach(n => U[n] = gl.getUniformLocation(prog, n));
+  gl.uniform1i(U.uImg, 0); gl.uniform1i(U.uDep, 1);
+  glc.addEventListener('webglcontextlost', e => { e.preventDefault(); cancelAnimationFrame(raf); });
+  glc.addEventListener('webglcontextrestored', () => { gl = null; for (const k in cache) delete cache[k]; order = []; U = {}; try { initGL(); show(idx, true); } catch (e) { fallback(); } });
+}
+function setTexParams() {
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+}
+function makeTex(img, unit) {
+  const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img); setTexParams(); return t;
+}
+function makeTexData(m, unit) {
+  const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, m.w, m.h, 0, gl.RGBA, gl.UNSIGNED_BYTE, m.data); setTexParams(); return t;
+}
+
+/* ---------- 深度マップの加工 ---------- */
+function blur(src, W, H, sigma) {
+  const r = Math.max(1, Math.ceil(sigma * 3)), k = new Float32Array(r * 2 + 1); let s = 0;
+  for (let i = -r; i <= r; i++) { k[i + r] = Math.exp(-(i * i) / (2 * sigma * sigma)); s += k[i + r]; }
+  for (let i = 0; i < k.length; i++) k[i] /= s;
+  const tmp = new Float32Array(W * H), out = new Float32Array(W * H);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { let a = 0; for (let i = -r; i <= r; i++) a += src[y * W + clamp(x + i, 0, W - 1)] * k[i + r]; tmp[y * W + x] = a; }
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { let a = 0; for (let i = -r; i <= r; i++) a += tmp[clamp(y + i, 0, H - 1) * W + x] * k[i + r]; out[y * W + x] = a; }
+  return out;
+}
+function buildMaps(depthImg) {
+  const W = 384, H = Math.max(2, Math.round(W * depthImg.naturalHeight / depthImg.naturalWidth));
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  g.drawImage(depthImg, 0, 0, W, H);
+  const px = g.getImageData(0, 0, W, H).data;
+  const d = new Float32Array(W * H);
+  for (let i = 0; i < d.length; i++) d[i] = px[i * 4] / 255;
+  const soft = blur(d, W, H, 1.4), big = blur(d, W, H, 4.5);
+  const out = new Uint8Array(W * H * 4), K = 40;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const i = y * W + x;
+    const xl = Math.max(0, x - 1), xr = Math.min(W - 1, x + 1), yu = Math.max(0, y - 1), yd = Math.min(H - 1, y + 1);
+    const gx = (big[y * W + xr] - big[y * W + xl]) * 0.5, gy = (big[yd * W + x] - big[yu * W + x]) * 0.5, o = i * 4;
+    out[o] = Math.round(soft[i] * 255);
+    out[o + 1] = Math.round((clamp1(gx * K) * 0.5 + 0.5) * 255);
+    out[o + 2] = Math.round((clamp1(-gy * K) * 0.5 + 0.5) * 255);
+    out[o + 3] = 255;
+  }
+  return { data: out, w: W, h: H };
+}
+
+/* ---------- テクスチャ管理（直近4枚まで） ---------- */
+function touchCache(key) {
+  const i = order.indexOf(key); if (i >= 0) order.splice(i, 1); order.push(key);
+  while (order.length > 4) {
+    const old = order.shift();
+    if (cur && cur.key === old) { order.push(old); break; }
+    const t = cache[old]; if (t) { gl.deleteTexture(t.tImg); gl.deleteTexture(t.tDep); }
+    delete cache[old];
+  }
+}
+function ensureTextures(key) {
+  if (cache[key]) { touchCache(key); return Promise.resolve(cache[key]); }
+  if (pending[key]) return pending[key];
+  const cfg = ART[key];
+  pending[key] = (async () => {
+    const [im, dp] = await Promise.all([loadImage(cfg.img), loadImage(cfg.depth)]);
+    if (!gl) initGL();
+    const maps = buildMaps(dp);
+    cache[key] = { key, cfg, tImg: makeTex(im, 0), tDep: makeTexData(maps, 1), w: im.naturalWidth, h: im.naturalHeight };
+    touchCache(key);
+    return cache[key];
+  })().finally(() => { delete pending[key]; });
+  return pending[key];
+}
+
+/* ---------- フォールバック（WebGL不可：CSS背景のまま） ---------- */
+let fbMode = false;
+function fallback() {
+  fbMode = true; glc.style.display = 'none'; fx.style.display = 'none'; $('bg-fb').style.display = 'block';
+  setFb();
+}
+function setFb() { const k = GALLERY[idx]; if (k) $('bg-fb').style.backgroundImage = `url(${ART[k].img})`; }
+
+/* ---------- サイズ ---------- */
+function resize() {
+  dprNow = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+  const w = Math.round(innerWidth * dprNow), h = Math.round(innerHeight * dprNow);
+  if (glc.width !== w || glc.height !== h) { glc.width = w; glc.height = h; }
+  if (fx.width !== w || fx.height !== h) { fx.width = w; fx.height = h; }
+  if (gl) gl.viewport(0, 0, w, h);
+  if (reduced && cur) render(performance.now());
+}
+
+/* ---------- 光の粒子（2D） ---------- */
+const NP = coarse ? 42 : 70;
+const sprites = {};
+function sprite(h) {
+  const key = Math.round(h / 6);
+  if (sprites[key]) return sprites[key];
+  const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
+  const gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gr.addColorStop(0, `hsla(${h},90%,92%,1)`); gr.addColorStop(.25, `hsla(${h},90%,75%,.55)`); gr.addColorStop(1, `hsla(${h},90%,60%,0)`);
+  g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return sprites[key] = c;
+}
+let parts = [];
+function seedParticles(cfg) {
+  parts = [];
+  for (let i = 0; i < NP; i++) {
+    const hr = cfg.hues[Math.random() < 0.72 ? 0 : 1 % cfg.hues.length];
+    parts.push({ x: Math.random(), y: Math.random(), z: Math.random(), r: 2 + Math.random() * 6, v: 0.004 + Math.random() * 0.012,
+      ph: Math.random() * 6.28, sw: 0.2 + Math.random() * 0.6, h: hr[0] + Math.random() * (hr[1] - hr[0]) });
+  }
+}
+function drawParticles(t, f, cfg, dpr) {
+  const w = fx.width, h = fx.height;
+  fxc.clearRect(0, 0, w, h); fxc.globalCompositeOperation = 'lighter';
+  const amt = clamp(cfg.particles * 4.2, 0, 1);
+  for (const p of parts) {
+    p.y -= p.v * f * 0.01; if (p.y < -0.05) { p.y = 1.05; p.x = Math.random(); }
+    const tw = 0.5 + 0.5 * Math.sin(t * (0.8 + p.sw) + p.ph);
+    const x = (p.x + Math.sin(t * p.sw + p.ph) * 0.012 - S.mx * (p.z - 0.4) * 0.05) * w;
+    const y = (p.y + S.my * (p.z - 0.4) * 0.03) * h;
+    const r = p.r * (0.6 + p.z * 0.9) * dpr * 2.2;
+    fxc.globalAlpha = amt * (0.25 + 0.75 * tw) * (0.5 + 0.5 * p.z);
+    fxc.drawImage(sprite(p.h), x - r, y - r, r * 2, r * 2);
+  }
+  fxc.globalAlpha = 1; fxc.globalCompositeOperation = 'source-over';
+}
+
+/* ---------- 描画ループ ---------- */
+let galleryOn = true;
+function render(now) {
+  if (!cur || !gl) return;
+  const t = now / 1000, dt = Math.min(0.05, Math.max(0, t - lastT)); lastT = t;
+  const cfg = cur.cfg;
+  const idle = (now - S.lastInput) > 2500;
+  let tx = S.tx, ty = S.ty, tlx = S.tlx, tly = S.tly;
+  if (S.gyro) { tx = S.gx; ty = S.gy; tlx = 0.5 + S.gx * 0.35; tly = 0.5 + S.gy * 0.35; }
+  if (idle && !reduced) {
+    const ph = t * 0.58;
+    tx = Math.cos(ph) * 0.26; ty = Math.sin(ph) * 0.20;
+    tlx = 0.5 + Math.cos(ph - 0.9) * 0.22; tly = 0.55 + Math.sin(ph - 0.9) * 0.16;
+  }
+  if (reduced && idle) { tx = 0; ty = 0; tlx = 0.5; tly = 0.55; }
+  const k = 1 - Math.pow(0.0008, dt || 0.016);
+  S.mx += (tx - S.mx) * k; S.my += (ty - S.my) * k; S.lx += (tlx - S.lx) * k; S.ly += (tly - S.ly) * k;
+
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, cur.tImg);
+  gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, cur.tDep);
+  gl.uniform2f(U.uRes, glc.width, glc.height);
+  gl.uniform2f(U.uImgSize, cur.w, cur.h);
+  gl.uniform2f(U.uMouse, S.mx, S.my);
+  gl.uniform2f(U.uLight, S.lx, S.ly);
+  gl.uniform2f(U.uPan, galleryOn ? clamp1((cfg.panBias || 0) + 0.9 * S.mx) : 0, galleryOn ? clamp1(0.8 * S.my) : 0);
+  gl.uniform1f(U.uStrength, cfg.strength * 0.07);
+  gl.uniform1f(U.uLightAmt, cfg.light * 1.6);
+  gl.uniform1f(U.uBump, cfg.bump);
+  gl.uniform1f(U.uFocus, cfg.focus);
+  gl.uniform1f(U.uFocusV, cfg.focusV == null ? 0.74 : cfg.focusV);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  if (reduced) fxc.clearRect(0, 0, fx.width, fx.height); else drawParticles(t, dt * 60, cfg, dprNow);
+}
+function loop(now) {
+  raf = requestAnimationFrame(loop);
+  if (document.hidden) return;
+  if (MIN_FRAME_MS && now - lastFrame < MIN_FRAME_MS) return;
+  lastFrame = now; if (!reduced) render(now);
+}
+function startLoop() { cancelAnimationFrame(raf); lastT = performance.now() / 1000; raf = requestAnimationFrame(loop); }
+document.addEventListener('visibilitychange', () => { if (!document.hidden) startLoop(); else cancelAnimationFrame(raf); });
+
+/* ---------- 絵の切替 ---------- */
+let preloadT = 0;
+function updateCount() { $('count').textContent = `${idx + 1}/${GALLERY.length}`; }
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function show(i, first) {
+  if (!GALLERY.length) return;
+  idx = (i + GALLERY.length) % GALLERY.length; updateCount();
+  const key = GALLERY[idx], token = ++showToken;
+  clearTimeout(preloadT);
+  if (fbMode) { setFb(); return; }
+  if (!first) { document.body.classList.add('fade'); await sleep(380); }
+  try {
+    const tex = await ensureTextures(key);
+    if (token !== showToken) return;
+    cur = tex; seedParticles(tex.cfg); touchCache(key);
+    if (reduced) render(performance.now());
+    document.body.classList.remove('fade');
+    preloadT = setTimeout(() => ensureTextures(GALLERY[(idx + 1) % GALLERY.length]).catch(() => {}), 700);
+  } catch (e) {
+    console.warn(e);
+    if (token !== showToken) return;
+    document.body.classList.remove('fade');
+    if (!gl && !cur) { fallback(); return; }
+    toast('読み込めませんでした：' + key);
+  }
+}
+const next = () => show(idx + 1), prev = () => show(idx - 1);
+function jumpGallery() {
+  let start = 0; const bounds = []; for (const g of GALLERIES) { const n = g.list.filter(k => ART[k]).length; if (n) { bounds.push(start); start += n; } }
+  const nx = bounds.find(b => b > idx); show(nx === undefined ? 0 : nx);
+}
+
+/* ---------- 入力 ---------- */
+function pointerMove(e) {
+  const w = innerWidth, h = innerHeight;
+  S.tx = clamp1((e.clientX / w) * 2 - 1); S.ty = clamp1(1 - (e.clientY / h) * 2);
+  S.tlx = e.clientX / w; S.tly = 1 - e.clientY / h; S.lastInput = performance.now();
+}
+let down = null;
+addEventListener('pointermove', e => { if (e.pointerType === 'mouse' || down) pointerMove(e); });
+addEventListener('pointerdown', e => {
+  if (e.target.closest('.btn,#bar,#list,#nav')) return;
+  down = { x: e.clientX, y: e.clientY, t: performance.now() }; pointerMove(e);
+});
+addEventListener('pointerup', e => {
+  if (!down) return; const dx = e.clientX - down.x, dy = e.clientY - down.y, d = down; down = null;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3) { dx < 0 ? next() : prev(); }
+  else if (dy < -60 && Math.abs(dy) > Math.abs(dx)) setList(true);
+  else if (dy > 60 && Math.abs(dy) > Math.abs(dx)) setList(false);
+  else if (Math.hypot(dx, dy) < 10 && performance.now() - d.t < 400) {
+    if (document.body.classList.contains('list-on')) setList(false); else document.body.classList.toggle('ui-off');
+  }
+});
+addEventListener('pointercancel', () => { down = null; });
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') next(); else if (e.key === 'ArrowLeft') prev();
+  else if (e.key === 'Escape') closeGallery(); else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+});
+function closeGallery() {
+  if (document.body.classList.contains('list-on')) { setList(false); return; }
+  document.dispatchEvent(new CustomEvent('gallery-close'));
+  document.body.classList.add('ui-off');   // 単体では「UIを隠す」。タップで戻る
+}
+$('b-close').onclick = closeGallery; $('b-prev').onclick = prev; $('b-next').onclick = next; $('b-jump').onclick = jumpGallery;
+function setList(on) { document.body.classList.toggle('list-on', !!on); }
+$('b-list').onclick = () => setList(!document.body.classList.contains('list-on'));
+addEventListener('resize', resize);
+
+/* ---------- プレイヤー ---------- */
+const au = $('au'); let ti = -1, started = false, seeking = false;
+const fmt = s => isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '0:00';
+function renderList() {
+  const b = $('list-body');
+  if (!TRACKS.length) { b.innerHTML = '<div class="empty">曲がまだありません。<br>ファイル先頭付近の <code>TRACKS</code> に <code>{ title, src }</code> を足すと、ここに並びます。</div>'; return; }
+  b.innerHTML = TRACKS.map((t, i) => `<div class="trk${i === ti ? ' on' : ''}" data-i="${i}"><span>${t.title}</span></div>`).join('');
+  b.querySelectorAll('.trk').forEach(el => el.onclick = () => { selectTrack(+el.dataset.i, true); setList(false); });
+}
+function selectTrack(i, play) {
+  if (!TRACKS.length) return;
+  ti = (i + TRACKS.length) % TRACKS.length;
+  const tr = TRACKS[ti]; au.src = tr.src; $('title').textContent = tr.title; renderList();
+  if (started) next(); started = true;       // 最初の1曲目では絵を動かさない
+  if (play) au.play().catch(() => {});
+  if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: tr.title });
+}
+function togglePlay() {
+  if (!TRACKS.length) { toast('曲が登録されていません'); return; }
+  if (ti < 0) { selectTrack(0, true); return; }
+  au.paused ? au.play().catch(() => {}) : au.pause();
+}
+$('play').onclick = togglePlay;
+$('b-tnext').onclick = () => TRACKS.length ? selectTrack((ti < 0 ? 0 : ti + 1), true) : toast('曲が登録されていません');
+$('b-tprev').onclick = () => TRACKS.length ? selectTrack((ti < 0 ? 0 : ti - 1), true) : toast('曲が登録されていません');
+au.addEventListener('play', () => $('play').textContent = '⏸'); au.addEventListener('pause', () => $('play').textContent = '▶');
+au.addEventListener('ended', () => selectTrack(ti + 1, true));
+au.addEventListener('timeupdate', () => { if (seeking) return; $('prog').style.width = (au.duration ? au.currentTime / au.duration * 100 : 0) + '%'; $('tcur').textContent = fmt(au.currentTime); });
+au.addEventListener('loadedmetadata', () => $('tdur').textContent = fmt(au.duration));
+au.addEventListener('error', () => { if (au.src) toast('曲を読み込めません'); });
+function seekTo(e) { const r = $('bar').getBoundingClientRect(), f = clamp((e.clientX - r.left) / r.width, 0, 1); $('prog').style.width = f * 100 + '%'; if (au.duration) { au.currentTime = f * au.duration; $('tcur').textContent = fmt(au.currentTime); } }
+$('bar').addEventListener('pointerdown', e => { seeking = true; $('bar').setPointerCapture(e.pointerId); seekTo(e); });
+$('bar').addEventListener('pointermove', e => { if (seeking) seekTo(e); });
+$('bar').addEventListener('pointerup', () => { seeking = false; });
+if ('mediaSession' in navigator) { navigator.mediaSession.setActionHandler('nexttrack', () => $('b-tnext').click()); navigator.mediaSession.setActionHandler('previoustrack', () => $('b-tprev').click()); }
+$('b-tprev').disabled = $('b-tnext').disabled = false;
+
+/* ---------- 起動 ---------- */
+resize(); renderList(); updateCount();
+(async () => {
+  if (!GALLERY.length) { toast('絵が登録されていません'); return; }
+  try { initGL(); } catch (e) { console.warn(e); fallback(); return; }
+  await show(0, true); startLoop();
+})();
+window.__gallery = { show, ART, get cur() { return cur; }, cache, get order() { return order; } };   // 動作確認用
+})();
+</script>
+</body>
+</html>
