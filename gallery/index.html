@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#06121c">
+<title>ギャラリー｜新宿・水上都市</title>
+<style>
+:root{--accent:#4cc9f0;--accent2:#7ee0ff;--ink:#eaf6ff;--glass:rgba(255,255,255,.13);--edge:rgba(255,255,255,.30)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#06121c;color:var(--ink);overflow:hidden;overscroll-behavior:none;
+  font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+#bg-fb{position:fixed;inset:0;width:100vw;height:100dvh;background:#06121c center/cover no-repeat;display:none}
+/* 動きの canvas は assets/js/parallax.js が、この #bg の中に付ける（フェードも parallax.js が行う） */
+#bg{position:fixed;left:0;top:0;width:100vw;height:100dvh;overflow:hidden;pointer-events:none}
+#bg-dim{position:fixed;inset:0;pointer-events:none;transition:opacity .35s;
+  background:linear-gradient(to bottom,rgba(0,8,16,.55) 0,rgba(0,8,16,0) 18%,rgba(0,8,16,0) 58%,rgba(0,8,16,.72) 100%)}
+#gal-ui{position:fixed;inset:0;pointer-events:none;transition:opacity .3s;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+body.ui-off #gal-ui,body.ui-off #bg-dim{opacity:0}
+body.ui-off #gal-ui *{pointer-events:none!important}
+.btn{pointer-events:auto;display:inline-flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;
+  width:44px;height:44px;border-radius:50%;font-size:17px;line-height:1;border:1px solid var(--edge);
+  background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.07));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 4px 14px rgba(0,0,0,.28);
+  -webkit-backdrop-filter:blur(10px) saturate(1.2);backdrop-filter:blur(10px) saturate(1.2);
+  transition:transform .12s,background .2s;font-family:inherit}
+.btn:active{transform:scale(.93)}
+.btn[disabled]{opacity:.35;pointer-events:none}
+#top{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 10px);display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+#nav{display:flex;align-items:center;gap:6px;padding:0 4px;height:44px;border-radius:22px;border:1px solid var(--edge);
+  background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.06));box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 4px 14px rgba(0,0,0,.25);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);pointer-events:auto}
+#nav .btn{width:38px;height:38px;border:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:15px}
+#count{min-width:58px;text-align:center;font-size:14px;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+#bottom{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 12px);padding:0 16px;pointer-events:none}
+#title{font-size:15px;letter-spacing:.05em;text-shadow:0 1px 8px rgba(0,0,0,.6);margin:0 4px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:1.4em}
+#bar{pointer-events:auto;height:26px;display:flex;align-items:center;cursor:pointer;touch-action:none;margin:0 2px}
+#bar i{display:block;position:relative;width:100%;height:4px;border-radius:2px;background:rgba(255,255,255,.28);box-shadow:0 1px 6px rgba(0,0,0,.35)}
+#bar b{position:absolute;left:0;top:0;height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+#bar b::after{content:"";position:absolute;right:-6px;top:-4px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(120,220,255,.9)}
+#time{display:flex;justify-content:space-between;font-size:11px;opacity:.8;margin:0 4px 6px;font-variant-numeric:tabular-nums;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+#ctl{display:flex;align-items:center;justify-content:center;gap:18px}
+#play{width:60px;height:60px;font-size:22px;color:#032033;border:1px solid rgba(255,255,255,.6);
+  background:linear-gradient(160deg,#9cecff,var(--accent));box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 6px 20px rgba(76,201,240,.45)}
+#list{position:fixed;left:0;right:0;bottom:0;max-height:62dvh;padding:14px 16px calc(env(safe-area-inset-bottom) + 16px);
+  border-radius:22px 22px 0 0;border:1px solid var(--edge);border-bottom:0;
+  background:linear-gradient(180deg,rgba(18,40,58,.82),rgba(8,20,32,.92));
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  transform:translateY(105%);opacity:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .3s;pointer-events:none;overflow:auto;touch-action:pan-y}
+body.list-on #list{transform:none;opacity:1;pointer-events:auto}
+#list h2{margin:0 0 8px;font-size:13px;font-weight:600;letter-spacing:.12em;opacity:.7}
+.trk{display:flex;gap:10px;align-items:center;padding:11px 8px;border-radius:12px;cursor:pointer;font-size:15px}
+.trk.on{background:rgba(76,201,240,.18);color:var(--accent2)}
+.trk small{opacity:.55;margin-left:auto;font-variant-numeric:tabular-nums}
+.empty{opacity:.65;font-size:13px;line-height:1.7;padding:6px 4px}
+#toast{position:fixed;left:50%;top:70px;transform:translateX(-50%);padding:8px 14px;border-radius:14px;background:rgba(0,0,0,.6);font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div id="bg-fb"></div>
+<div id="bg"></div>
+<div id="bg-dim"></div>
+
+<div id="gal-ui">
+  <div id="top">
+    <button class="btn" id="b-close" aria-label="閉じる">✕</button>
+    <div id="nav"><button class="btn" id="b-prev" aria-label="前の絵">◀</button><span id="count">1/1</span><button class="btn" id="b-next" aria-label="次の絵">▶</button></div>
+    <button class="btn" id="b-jump" aria-label="次のギャラリーへ">▷</button>
+  </div>
+  <div id="bottom">
+    <div id="title">曲を追加するとここに表示されます</div>
+    <div id="bar"><i><b id="prog"></b></i></div>
+    <div id="time"><span id="tcur">0:00</span><span id="tdur">0:00</span></div>
+    <div id="ctl">
+      <button class="btn" id="b-list" aria-label="再生リスト">☰</button>
+      <button class="btn" id="b-tprev" aria-label="前の曲">⏮</button>
+      <button class="btn" id="play" aria-label="再生">▶</button>
+      <button class="btn" id="b-tnext" aria-label="次の曲">⏭</button>
+      <span style="width:44px"></span>
+    </div>
+  </div>
+</div>
+
+<div id="list"><h2>PLAYLIST</h2><div id="list-body"></div></div>
+<div id="toast"></div>
+<audio id="au" preload="metadata"></audio>
+
+<script src="../assets/data/world.js"></script>
+<script src="../assets/js/parallax.js"></script>
+<script>
+(() => {
+'use strict';
+/* =========================================================
+   設定 ―――― 絵は assets/data/world.js（場所のデータの art）から自動で並ぶ。ここで足すのは曲だけ
+   ========================================================= */
+// 絵の一覧は、場所のデータの「絵がある場所」から作る（手書きの一覧は持たない）。
+// 並びは、層の順（上層 → 境界 → 下層）。層ごとに区切り（名前は画面に出さない。▷のジャンプ先に使う）。
+// 見せ所（focus）は、データの art.focus から。動きの設定値（strength, light, bump, particles, focus）は、
+// 共通の既定値を assets/js/parallax.js に持ち、絵ごとの上書きはデータの art.parallax に書く。
+const LAYER_ORDER = ['up-city', 'bd-market', 'lo-old'];
+const TIME_ORDER = ['default', 'morning', 'day', 'dusk', 'night'];
+const WORLD = window.WORLD || { places: [] };
+const GALLERIES = LAYER_ORDER.map(layer => ({ layer, list: [] }));
+for (const p of WORLD.places) {
+  const g = GALLERIES.find(x => x.layer === p.layer);
+  if (!g || !p.art) continue;
+  for (const t of TIME_ORDER) {
+    const a = p.art[t];
+    if (!a) continue;
+    // 絵は assets/img/places/ が唯一の置き場。ギャラリーでは、スマホ用（-sm）ではなく、大きい版を使う
+    g.list.push({ key: a.key || p.id + '-' + t, name: p.name, src: '../' + a.src, depth: a.depth ? '../' + a.depth : null, focus: a.focus, zoom: a.zoom, parallax: a.parallax });
+  }
+}
+const GALLERY = GALLERIES.flatMap(g => g.list);
+// 曲：{title, src}  ―― 空のままでも絵は見られる
+const TRACKS = [
+  // { title: '曲名', src: 'audio/track01.mp3' },
+];
+/* ========================================================= */
+const $ = id => document.getElementById(id);
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const canGL = Parallax.supported() && Parallax.mount($('bg'), { anchor: { x: 0.5, y: 0.4 }, ignore: '.btn,#bar,#list,#nav', motion: 1 });
+
+/* ---------- toast ---------- */
+let toastT = 0;
+function toast(m) { const t = $('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2200); }
+
+/* ---------- 絵の切替 ---------- */
+let idx = 0, showToken = 0;
+function updateCount() { $('count').textContent = `${GALLERY.length ? idx + 1 : 0}/${GALLERY.length}`; }
+// 動かせないとき（WebGL なし・画像が読めない）は、CSS の背景で、通常の絵を出す
+function setFallback(it) { const f = $('bg-fb'); f.style.display = 'block'; f.style.backgroundImage = `url(${it.src})`; }
+async function show(i, first) {
+  if (!GALLERY.length) return;
+  idx = (i + GALLERY.length) % GALLERY.length; updateCount();
+  const it = GALLERY[idx], token = ++showToken;
+  if (canGL) {
+    const ok = await Parallax.show(it, { first, next: GALLERY[(idx + 1) % GALLERY.length] });   // フェードアウト → 読み込み → フェードイン
+    if (token !== showToken) return;
+    if (ok) { $('bg-fb').style.display = 'none'; return; }
+  }
+  setFallback(it);
+}
+const next = () => show(idx + 1), prev = () => show(idx - 1);
+function jumpGallery() {
+  let start = 0; const bounds = []; for (const g of GALLERIES) { if (g.list.length) { bounds.push(start); start += g.list.length; } }
+  const nx = bounds.find(b => b > idx); show(nx === undefined ? 0 : nx);
+}
+
+/* ---------- 入力（視点と光を動かすのは parallax.js。ここは、スワイプなどの操作だけ） ---------- */
+let down = null;
+addEventListener('pointerdown', e => {
+  if (e.target.closest('.btn,#bar,#list,#nav')) return;
+  down = { x: e.clientX, y: e.clientY, t: performance.now() };
+});
+addEventListener('pointerup', e => {
+  if (!down) return; const dx = e.clientX - down.x, dy = e.clientY - down.y, d = down; down = null;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3) { dx < 0 ? next() : prev(); }
+  else if (dy < -60 && Math.abs(dy) > Math.abs(dx)) setList(true);
+  else if (dy > 60 && Math.abs(dy) > Math.abs(dx)) setList(false);
+  else if (Math.hypot(dx, dy) < 10 && performance.now() - d.t < 400) {
+    if (document.body.classList.contains('list-on')) setList(false); else document.body.classList.toggle('ui-off');
+  }
+});
+addEventListener('pointercancel', () => { down = null; });
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') next(); else if (e.key === 'ArrowLeft') prev();
+  else if (e.key === 'Escape') closeGallery(); else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+});
+function closeGallery() {
+  if (document.body.classList.contains('list-on')) { setList(false); return; }
+  document.dispatchEvent(new CustomEvent('gallery-close'));
+}
+// ✕ は、サイトの通常画面（トップ）に戻る
+document.addEventListener('gallery-close', () => { location.href = '../index.html'; });
+$('b-close').onclick = closeGallery; $('b-prev').onclick = prev; $('b-next').onclick = next; $('b-jump').onclick = jumpGallery;
+function setList(on) { document.body.classList.toggle('list-on', !!on); }
+$('b-list').onclick = () => setList(!document.body.classList.contains('list-on'));
+
+/* ---------- プレイヤー ---------- */
+const au = $('au'); let ti = -1, started = false, seeking = false;
+const fmt = s => isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '0:00';
+function renderList() {
+  const b = $('list-body');
+  if (!TRACKS.length) { b.innerHTML = '<div class="empty">曲がまだありません。<br>ファイル先頭付近の <code>TRACKS</code> に <code>{ title, src }</code> を足すと、ここに並びます。</div>'; return; }
+  b.innerHTML = TRACKS.map((t, i) => `<div class="trk${i === ti ? ' on' : ''}" data-i="${i}"><span>${t.title}</span></div>`).join('');
+  b.querySelectorAll('.trk').forEach(el => el.onclick = () => { selectTrack(+el.dataset.i, true); setList(false); });
+}
+function selectTrack(i, play) {
+  if (!TRACKS.length) return;
+  ti = (i + TRACKS.length) % TRACKS.length;
+  const tr = TRACKS[ti]; au.src = tr.src; $('title').textContent = tr.title; renderList();
+  if (started) next(); started = true;       // 最初の1曲目では絵を動かさない
+  if (play) au.play().catch(() => {});
+  if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: tr.title });
+}
+function togglePlay() {
+  if (!TRACKS.length) { toast('曲が登録されていません'); return; }
+  if (ti < 0) { selectTrack(0, true); return; }
+  au.paused ? au.play().catch(() => {}) : au.pause();
+}
+$('play').onclick = togglePlay;
+$('b-tnext').onclick = () => TRACKS.length ? selectTrack((ti < 0 ? 0 : ti + 1), true) : toast('曲が登録されていません');
+$('b-tprev').onclick = () => TRACKS.length ? selectTrack((ti < 0 ? 0 : ti - 1), true) : toast('曲が登録されていません');
+au.addEventListener('play', () => $('play').textContent = '⏸'); au.addEventListener('pause', () => $('play').textContent = '▶');
+au.addEventListener('ended', () => selectTrack(ti + 1, true));
+au.addEventListener('timeupdate', () => { if (seeking) return; $('prog').style.width = (au.duration ? au.currentTime / au.duration * 100 : 0) + '%'; $('tcur').textContent = fmt(au.currentTime); });
+au.addEventListener('loadedmetadata', () => $('tdur').textContent = fmt(au.duration));
+au.addEventListener('error', () => { if (au.src) toast('曲を読み込めません'); });
+function seekTo(e) { const r = $('bar').getBoundingClientRect(), f = clamp((e.clientX - r.left) / r.width, 0, 1); $('prog').style.width = f * 100 + '%'; if (au.duration) { au.currentTime = f * au.duration; $('tcur').textContent = fmt(au.currentTime); } }
+$('bar').addEventListener('pointerdown', e => { seeking = true; $('bar').setPointerCapture(e.pointerId); seekTo(e); });
+$('bar').addEventListener('pointermove', e => { if (seeking) seekTo(e); });
+$('bar').addEventListener('pointerup', () => { seeking = false; });
+if ('mediaSession' in navigator) { navigator.mediaSession.setActionHandler('nexttrack', () => $('b-tnext').click()); navigator.mediaSession.setActionHandler('previoustrack', () => $('b-tprev').click()); }
+$('b-tprev').disabled = $('b-tnext').disabled = false;
+
+/* ---------- 起動 ---------- */
+renderList(); updateCount();
+if (!GALLERY.length) toast('絵が登録されていません'); else show(0, true);
+window.__gallery = { show, GALLERY, GALLERIES, get canGL() { return canGL; } };   // 動作確認用
+})();
+</script>
+</body>
+</html>

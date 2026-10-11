@@ -111,6 +111,8 @@ window.WORLD = {
       "x": 45,
       "y": 38
      },
+     "key": "up-city",
+     "depth": "assets/img/places/up-city_depth.webp",
      "sm": "assets/img/places/up-city-sm.webp",
      "w": 633,
      "h": 1125,
@@ -316,6 +318,8 @@ window.WORLD = {
        "power": 1.0
       }
      ],
+     "key": "up-dome-plaza",
+     "depth": "assets/img/places/up-dome-plaza_depth.webp",
      "sm": "assets/img/places/up-dome-plaza-sm.webp",
      "w": 750,
      "h": 1125,
@@ -460,6 +464,8 @@ window.WORLD = {
        "power": 0.5
       }
      ],
+     "key": "up-lanterns",
+     "depth": "assets/img/places/up-lanterns_depth.webp",
      "sm": "assets/img/places/up-lanterns-sm.webp",
      "w": 750,
      "h": 1125,
@@ -664,6 +670,8 @@ window.WORLD = {
       "x": 62,
       "y": 32
      },
+     "key": "bd-market",
+     "depth": "assets/img/places/bd-market_depth.webp",
      "sm": "assets/img/places/bd-market-sm.webp",
      "w": 634,
      "h": 1125,
@@ -876,6 +884,8 @@ window.WORLD = {
        "power": 0.5
       }
      ],
+     "key": "bd-horo-row",
+     "depth": "assets/img/places/bd-horo-row_depth.webp",
      "sm": "assets/img/places/bd-horo-row-sm.webp",
      "w": 750,
      "h": 1125,
@@ -983,6 +993,8 @@ window.WORLD = {
        "power": 0.9
       }
      ],
+     "key": "bd-nozoki",
+     "depth": "assets/img/places/bd-nozoki_depth.webp",
      "sm": "assets/img/places/bd-nozoki-sm.webp",
      "w": 750,
      "h": 1125,
@@ -1095,6 +1107,11 @@ window.WORLD = {
        "power": 1.0
       }
      ],
+     "parallax": {
+      "particles": 0.16
+     },
+     "key": "bd-lantern",
+     "depth": "assets/img/places/bd-lantern_depth.webp",
      "sm": "assets/img/places/bd-lantern-sm.webp",
      "w": 1000,
      "h": 1500,
@@ -1170,6 +1187,8 @@ window.WORLD = {
        "power": 0.9
       }
      ],
+     "key": "bd-crane",
+     "depth": "assets/img/places/bd-crane_depth.webp",
      "sm": "assets/img/places/bd-crane-sm.webp",
      "w": 1000,
      "h": 1500,
@@ -1283,6 +1302,8 @@ window.WORLD = {
        "power": 0.8
       }
      ],
+     "key": "bd-orizutsu-morning",
+     "depth": "assets/img/places/bd-orizutsu-morning_depth.webp",
      "sm": "assets/img/places/bd-orizutsu-morning-sm.webp",
      "w": 1024,
      "h": 1536,
@@ -1379,6 +1400,8 @@ window.WORLD = {
       "x": 45,
       "y": 45
      },
+     "key": "lo-old",
+     "depth": "assets/img/places/lo-old_depth.webp",
      "sm": "assets/img/places/lo-old-sm.webp",
      "w": 634,
      "h": 1125,
@@ -1585,6 +1608,8 @@ window.WORLD = {
        "power": 0.8
       }
      ],
+     "key": "lo-concourse-morning",
+     "depth": "assets/img/places/lo-concourse-morning_depth.webp",
      "sm": "assets/img/places/lo-concourse-morning-sm.webp",
      "w": 1000,
      "h": 1500,
@@ -1662,6 +1687,8 @@ window.WORLD = {
        "power": 0.9
       }
      ],
+     "key": "lo-light-well",
+     "depth": "assets/img/places/lo-light-well_depth.webp",
      "sm": "assets/img/places/lo-light-well-sm.webp",
      "w": 750,
      "h": 1125,
@@ -1953,6 +1980,11 @@ window.WORLD = {
        "power": 1.0
       }
      ],
+     "parallax": {
+      "particles": 0.16
+     },
+     "key": "lo-hikari-tower-night",
+     "depth": "assets/img/places/lo-hikari-tower-night_depth.webp",
      "sm": "assets/img/places/lo-hikari-tower-night-sm.webp",
      "w": 1000,
      "h": 1500,
