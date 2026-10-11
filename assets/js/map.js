@@ -78,6 +78,8 @@
   }
 
   function artHtml(place, art, cls) {
+    // パララックスで動かす絵（深度マップあり）は、GL と同じ大きい版を使う（ダウンロードを1回で済ませる）
+    if (art.depth && window.Parallax && window.Parallax.supported()) art = { ...art, sm: null };
     const dims = art.w && art.h ? ` width="${art.w}" height="${art.h}"` : "";
     const srcset = art.sm && art.smw && art.w ? ` srcset="${esc(art.sm)} ${art.smw}w, ${esc(art.src)} ${art.w}w" sizes="(max-width: 900px) 100vw, 440px"` : "";
     const pos = art.focus ? ` style="object-position:${art.focus.x}% ${art.focus.y}%"` : "";
@@ -252,7 +254,10 @@
         );
       })
       .join("");
-    return list ? `<h3 class="section-title">ガイドと歩く</h3><ul class="place-list course-list">${list}</ul>` : "";
+    const gal = (W.places || []).some((p) => p.art && Object.values(p.art).some((a) => a.depth))
+      ? `<a class="gallery-link" href="gallery/">絵だけをながめる ─ ギャラリー</a>`
+      : "";
+    return list ? `<h3 class="section-title">ガイドと歩く</h3><ul class="place-list course-list">${list}</ul>${gal}` : "";
   }
 
   // この場所を通るコース。押すと、そのコースを該当の場所から開く。
@@ -360,6 +365,18 @@
     }
   });
 
+  // 場所ページの絵も、深度マップがあれば、コース画面と同じパララックスで動かす（無ければ、通常の絵のまま）
+  let placeHost = null;
+  function mountPlaceArt(p) {
+    const PX = window.Parallax;
+    const art = artFor(p);
+    const fig = $panel.querySelector(".place-art");
+    if (!PX || !art || !art.depth || !fig || !PX.supported()) return;
+    if (!PX.mount(fig, { anchor: { x: 0.5, y: 0.5 }, motion: 0.5 })) return;
+    placeHost = fig;
+    PX.show(art, { first: true });
+  }
+
   // ---- routing ----
   function go(id, { scroll = false } = {}) {
     if (!byId.has(id)) id = ROOT_ID;
@@ -373,10 +390,13 @@
   function select(id, scroll) {
     if (window.GuideCourse) window.GuideCourse.close();
     const p = byId.get(id) || byId.get(ROOT_ID);
+    if (placeHost && window.Parallax) window.Parallax.unmount(placeHost);
+    placeHost = null;
     state.selected = p.id;
     const home = $tabs.querySelector("[data-home]");
     if (home) (p.id === ROOT_ID ? home.setAttribute("aria-current", "page") : home.removeAttribute("aria-current"));
     renderPanel(p);
+    mountPlaceArt(p);
     updatePins();
     document.title = p.id === ROOT_ID ? "新宿・水上都市 ロケーションガイド" : `${p.name}｜新宿・水上都市`;
     if (scroll && mobile.matches) $panel.scrollIntoView({ block: "start" });

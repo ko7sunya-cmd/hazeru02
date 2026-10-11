@@ -18,6 +18,7 @@
   const SHEET_CYCLE = ["half", "full", "name"];
   const SHEET_LABEL = { half: "文字の箱: ふつう", full: "文字の箱: ひろげる（ここまでの流れ）", name: "文字の箱: たたむ（絵だけ見る）" };
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const P = window.Parallax; // 深度パララックス（assets/js/parallax.js）。無くても、通常の表示で動く
 
   // ---- 設定（ブラウザ内にだけ保存。保存できなくても動く）----
   const SETTINGS_KEY = "shinjuku.settings";
@@ -54,6 +55,9 @@
     over: null, // map | settings | null
     place: null,
     scene: null, // { kind: "art"|"window", art, layout }
+    px: null, // いま、パララックスで動いている絵の key（動いていなければ null）
+    pxWant: null,
+    pxMounted: false,
     timer: 0,
     lastTap: 0,
     wake: null,
@@ -187,6 +191,10 @@
 
   function close() {
     if (!isOpen()) return;
+    if (P && S.pxMounted) P.unmount(ui.art);
+    S.pxMounted = false;
+    S.px = null;
+    S.pxWant = null;
     clearTimeout(S.timer);
     clearTimeout(toastTimer);
     stopRipples();
@@ -451,11 +459,39 @@
   }
 
   function pickSrc(art, dw) {
+    if (art.depth && P && P.supported()) return art.src;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     return art.sm && art.smw && dw * dpr <= art.smw * 1.05 ? art.sm : art.src;
   }
 
+  // 深度マップがある絵だけ、パララックスで動かす。無い絵・WebGL が使えないときは、通常の表示のまま
+  function nextArt() {
+    const st = S.course.steps[S.step + 1];
+    if (!st) return null;
+    const a = G.artFor(byId.get(st.place), G.timeKeyOf(st.time));
+    return a && a.depth ? a : null;
+  }
+  function startParallax(art) {
+    if (!P || !art.depth || !P.supported()) return stopParallax();
+    if (!S.pxMounted) {
+      // 文字の窓が下の約40%を覆うので、見せ所は上の約1/3（anchor.y）に寄せる
+      S.pxMounted = P.mount(ui.art, { anchor: { x: 0.5, y: 0.32 }, ignore: ".sheet, .stage__top, .ov", motion: 0.6, before: ui.canvas });
+    }
+    if (!S.pxMounted) return;
+    const key = art.key;
+    S.pxWant = key;
+    P.show(art, { next: nextArt() }).then((ok) => {
+      if (S.pxWant === key) S.px = ok ? key : null;
+    });
+  }
+  function stopParallax() {
+    S.pxWant = null;
+    S.px = null;
+    if (P && S.pxMounted) P.hide();
+  }
+
   function showArt(art) {
+    startParallax(art);
     const { w, h } = colSize();
     const guess = artLayout(art, w, h, { w: 1000, h: 1500 });
     const url = pickSrc(art, guess.dw);
@@ -487,6 +523,7 @@
   }
 
   function showWindow(place) {
+    stopParallax();
     const { w, h } = colSize();
     const s = Math.max(w / MAP_W, h / MAP_H) * 1.5;
     const dw = MAP_W * s;
@@ -562,7 +599,8 @@
   function rippleRects() {
     const sc = S.scene;
     if (!sc || sc.kind !== "art" || !sc.art.ripple || !sc.layout) return [];
-    const L = sc.layout;
+    const r = P && S.px && P.active(S.px) ? P.rect() : null;
+    const L = r || sc.layout;
     return sc.art.ripple.map((r) => ({
       x0: L.ox + (r.x[0] / 100) * L.dw,
       x1: L.ox + (r.x[1] / 100) * L.dw,

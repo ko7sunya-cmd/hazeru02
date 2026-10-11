@@ -24,6 +24,8 @@ except ImportError:  # pragma: no cover
     Image = None
 
 ART_KEYS = ("default", "morning", "day", "dusk", "night")
+# 深度パララックスの設定値（assets/js/parallax.js の DEFAULTS と同じ名前）。絵ごとに上書きできる
+PARALLAX_KEYS = ("strength", "light", "bump", "particles", "focus")
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 REQUIRED = ["id", "type", "name", "reading", "en", "tags", "access", "name_origin", "summary"]
 LAYER_PREFIX = {"up-city": "up-", "bd-market": "bd-", "lo-old": "lo-"}
@@ -96,6 +98,16 @@ def check_art_entry(where, key, entry):
         return [f"{label} は画像パス、または src を含む辞書で書く"]
     if not (ROOT / str(entry["src"])).exists():
         errors.append(f"{label} の画像 {entry['src']} がない")
+    px = entry.get("parallax")
+    if px is not None:
+        if not isinstance(px, dict):
+            errors.append(f"{label}.parallax は {{strength, light, bump, particles, focus}} の辞書で書く")
+        else:
+            for k, v in px.items():
+                if k not in PARALLAX_KEYS:
+                    errors.append(f"{label}.parallax のキー {k} は {', '.join(PARALLAX_KEYS)} のどれか")
+                elif not (isinstance(v, (int, float)) and not isinstance(v, bool) and 0 <= v <= 1):
+                    errors.append(f"{label}.parallax.{k} は 0〜1 の数")
     f = entry.get("focus")
     if f is not None and not (isinstance(f, dict) and _pct(f.get("x")) and _pct(f.get("y"))):
         errors.append(f"{label}.focus は {{x, y}}（0〜100）で書く")
@@ -273,9 +285,13 @@ def build_art(art):
         full = ROOT / path
         sm_path = re.sub(r"\.webp$", "-sm.webp", path)
         item = {"src": path}
-        for extra in ("focus", "zoom", "ripple"):
+        for extra in ("focus", "zoom", "ripple", "parallax"):
             if entry.get(extra) is not None:
                 item[extra] = entry[extra]
+        item["key"] = Path(path).stem  # 例: bd-orizutsu-morning（ギャラリー・テクスチャの名前に使う）
+        depth_path = re.sub(r"\.webp$", "_depth.webp", path)
+        if (ROOT / depth_path).exists() and depth_path != path:
+            item["depth"] = depth_path  # 深度マップがある絵だけ、パララックスで動く
         if (ROOT / sm_path).exists() and sm_path != path:
             item["sm"] = sm_path
         if Image is not None:

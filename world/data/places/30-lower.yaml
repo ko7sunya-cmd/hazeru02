@@ -280,6 +280,7 @@
     night:
       src: assets/img/places/lo-hikari-tower-night.webp
       focus: {x: 58, y: 36}
+      parallax: {particles: 0.16}
       ripple:
         - {x: [0, 100], y: [75, 100], power: 1.0}
   adjacent:

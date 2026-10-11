@@ -199,6 +199,7 @@
     default:
       src: assets/img/places/bd-lantern.webp
       focus: {x: 50, y: 42}
+      parallax: {particles: 0.16}
       ripple:
         - {x: [0, 100], y: [52, 100], power: 1.0}
   adjacent:
