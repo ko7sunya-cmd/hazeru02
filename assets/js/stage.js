@@ -152,6 +152,8 @@
     ui.ctx = ui.canvas.getContext("2d");
 
     ui.column.addEventListener("click", onClick);
+    // 絵の長押しで、選択・コピー・検索のメニューが出ないようにする
+    ["selectstart", "contextmenu"].forEach((t) => ui.art.addEventListener(t, (e) => e.preventDefault()));
     window.addEventListener("resize", onResize);
     document.addEventListener("keydown", onKey);
     document.addEventListener("visibilitychange", () => {

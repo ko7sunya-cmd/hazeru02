@@ -84,7 +84,7 @@
     const srcset = art.sm && art.smw && art.w ? ` srcset="${esc(art.sm)} ${art.smw}w, ${esc(art.src)} ${art.w}w" sizes="(max-width: 900px) 100vw, 440px"` : "";
     const pos = art.focus ? ` style="object-position:${art.focus.x}% ${art.focus.y}%"` : "";
     return (
-      `<figure class="${cls}"><img src="${esc(art.src)}"${srcset}${dims}${pos} loading="lazy" decoding="async" ` +
+      `<figure class="${cls}"><img src="${esc(art.src)}"${srcset}${dims}${pos} loading="lazy" decoding="async" draggable="false" ` +
       `alt="${esc(place.name)}のイラスト"></figure>`
     );
   }
@@ -365,6 +365,21 @@
     }
   });
 
+  // 絵のカードの長押し・ダブルタップで、絵の周りの文字（バッジなど）まで選択されて、コピー／検索のメニューが出るのを防ぐ。
+  // 選択は、絵の上で始まっても、近くの選択できる文字に飛ぶので、絵の `selectstart` では止まらない。
+  // そこで、絵に指（マウス）を置いている間と、離した直後は、どこでも選択の開始を止める。本文の文章を、普通に選ぶときには、かからない。
+  let artHold = false;
+  let artHoldT = 0;
+  const holdOn = () => { artHold = true; clearTimeout(artHoldT); };
+  const holdOff = () => { clearTimeout(artHoldT); artHoldT = setTimeout(() => (artHold = false), 600); };
+  document.addEventListener("selectstart", (e) => { if (artHold) e.preventDefault(); });
+  ["pointerup", "pointercancel", "touchend", "touchcancel"].forEach((t) => document.addEventListener(t, () => artHold && holdOff(), true));
+  function guardArt(fig) {
+    if (!fig) return;
+    ["pointerdown", "touchstart"].forEach((t) => fig.addEventListener(t, holdOn, { passive: true }));
+    ["selectstart", "contextmenu", "dblclick"].forEach((t) => fig.addEventListener(t, (e) => e.preventDefault()));
+  }
+
   // 場所ページの絵も、深度マップがあれば、コース画面と同じパララックスで動かす（無ければ、通常の絵のまま）
   let placeHost = null;
   function mountPlaceArt(p) {
@@ -396,6 +411,7 @@
     const home = $tabs.querySelector("[data-home]");
     if (home) (p.id === ROOT_ID ? home.setAttribute("aria-current", "page") : home.removeAttribute("aria-current"));
     renderPanel(p);
+    guardArt($panel.querySelector(".place-art"));
     mountPlaceArt(p);
     updatePins();
     document.title = p.id === ROOT_ID ? "新宿・水上都市 ロケーションガイド" : `${p.name}｜新宿・水上都市`;

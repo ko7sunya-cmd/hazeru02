@@ -386,3 +386,14 @@ button { font: inherit; color: inherit; }
 /* ギャラリーへの入口（控えめなリンクを1つだけ） */
 .gallery-link { display: inline-block; margin: 4px 0 18px; padding: 2px 0; font-size: 13px; letter-spacing: 0.12em; color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--line-strong); }
 .gallery-link:hover { color: var(--text); border-bottom-color: var(--accent); }
+
+/* 絵のカードは、長押しで「選択／コピー／検索」や「画像を保存」のメニューを出さない（本文の文章は、これまでどおり選べる） */
+.place-art,
+.place-art img,
+.place-art canvas {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.place-art img { -webkit-user-drag: none; }

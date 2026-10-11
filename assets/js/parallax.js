@@ -137,7 +137,7 @@ void main(){
     const c = document.createElement("canvas");
     c.className = cls;
     c.setAttribute("aria-hidden", "true");
-    c.style.cssText = `position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity ${FADE_MS}ms ease;`;
+    c.style.cssText = `position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity ${FADE_MS}ms ease;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;`;
     return c;
   }
 
