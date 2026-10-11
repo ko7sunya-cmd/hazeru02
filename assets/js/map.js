@@ -80,8 +80,9 @@
   function artHtml(place, art, cls) {
     const dims = art.w && art.h ? ` width="${art.w}" height="${art.h}"` : "";
     const srcset = art.sm && art.smw && art.w ? ` srcset="${esc(art.sm)} ${art.smw}w, ${esc(art.src)} ${art.w}w" sizes="(max-width: 900px) 100vw, 440px"` : "";
+    const pos = art.focus ? ` style="object-position:${art.focus.x}% ${art.focus.y}%"` : "";
     return (
-      `<figure class="${cls}"><img src="${esc(art.src)}"${srcset}${dims} loading="lazy" decoding="async" ` +
+      `<figure class="${cls}"><img src="${esc(art.src)}"${srcset}${dims}${pos} loading="lazy" decoding="async" ` +
       `alt="${esc(place.name)}のイラスト"></figure>`
     );
   }

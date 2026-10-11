@@ -13,6 +13,10 @@
   access: open
   best_time: 一日中
   map: {x: 53, y: 17.7}
+  art:
+    default:
+      src: assets/img/places/up-city.webp
+      focus: {x: 45, y: 38}
   adjacent:
     - {to: bd-market, via: 杭見坂と荷揚げ昇降機}
   name_origin: >-

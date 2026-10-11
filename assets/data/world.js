@@ -104,6 +104,19 @@ window.WORLD = {
     "x": 53,
     "y": 17.7
    },
+   "art": {
+    "default": {
+     "src": "assets/img/places/up-city.webp",
+     "focus": {
+      "x": 45,
+      "y": 38
+     },
+     "sm": "assets/img/places/up-city-sm.webp",
+     "w": 633,
+     "h": 1125,
+     "smw": 563
+    }
+   },
    "name_origin": "正式名は「新都市」。住人は「あがり」と呼ぶ。水から上がって暮らす場所という意味と、双六の「上がり」、つまり長い道のりの末にたどり着いた場所という意味が重なっている。",
    "summary": "古い新宿の上に杭を打ち、百年かけて積み上げた暮らしの層。",
    "layer": "up-city",
@@ -643,6 +656,19 @@ window.WORLD = {
    "map": {
     "x": 35.5,
     "y": 46.5
+   },
+   "art": {
+    "default": {
+     "src": "assets/img/places/bd-market.webp",
+     "focus": {
+      "x": 62,
+      "y": 32
+     },
+     "sm": "assets/img/places/bd-market-sm.webp",
+     "w": 634,
+     "h": 1125,
+     "smw": 564
+    }
    },
    "name_origin": "「汀（みぎわ）」は水際のこと。水面に立つ市場なので、自然とこう呼ばれるようになった。",
    "summary": "水面の高さに浮かぶ市場。上と下と、よその町をつなぐ玄関口。",
@@ -1345,6 +1371,19 @@ window.WORLD = {
    "map": {
     "x": 35.2,
     "y": 70.4
+   },
+   "art": {
+    "default": {
+     "src": "assets/img/places/lo-old.webp",
+     "focus": {
+      "x": 45,
+      "y": 45
+     },
+     "sm": "assets/img/places/lo-old-sm.webp",
+     "w": 634,
+     "h": 1125,
+     "smw": 564
+    }
    },
    "name_origin": "正式名は「旧新宿」。住人は親しみを込めて「底宿（そこじゅく）」と呼ぶ。「新宿」を縮めた「宿」に、水の底の「底」をかぶせた言葉遊びで、悪い意味はない。",
    "summary": "封水された旧市街。窓の外を魚が泳ぐ、水底の公共の街。",

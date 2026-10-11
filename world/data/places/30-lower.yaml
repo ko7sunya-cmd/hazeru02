@@ -13,6 +13,10 @@
   access: open
   best_time: 正午・夜
   map: {x: 35.2, y: 70.4}
+  art:
+    default:
+      src: assets/img/places/lo-old.webp
+      focus: {x: 45, y: 45}
   name_origin: >-
     正式名は「旧新宿」。住人は親しみを込めて「底宿（そこじゅく）」と呼ぶ。
     「新宿」を縮めた「宿」に、水の底の「底」をかぶせた言葉遊びで、悪い意味はない。

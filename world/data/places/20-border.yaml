@@ -13,6 +13,10 @@
   access: open
   best_time: 朝・夕方
   map: {x: 35.5, y: 46.5}
+  art:
+    default:
+      src: assets/img/places/bd-market.webp
+      focus: {x: 62, y: 32}
   adjacent:
     - {to: lo-old, via: 降り筒}
   name_origin: >-
