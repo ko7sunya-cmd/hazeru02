@@ -82,6 +82,37 @@ def paragraphs(text):
     return [tidy(p) for p in re.split(r"\n\s*\n", text or "") if p.strip()]
 
 
+def _pct(v):
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and 0 <= v <= 100
+
+
+def check_art_entry(where, key, entry):
+    """art の1件を検証する。文字列なら画像パスだけ。辞書なら src・focus・zoom・ripple も見る。"""
+    errors = []
+    label = f"{where}: art.{key}"
+    if isinstance(entry, str):
+        entry = {"src": entry}
+    if not isinstance(entry, dict) or "src" not in entry:
+        return [f"{label} は画像パス、または src を含む辞書で書く"]
+    if not (ROOT / str(entry["src"])).exists():
+        errors.append(f"{label} の画像 {entry['src']} がない")
+    f = entry.get("focus")
+    if f is not None and not (isinstance(f, dict) and _pct(f.get("x")) and _pct(f.get("y"))):
+        errors.append(f"{label}.focus は {{x, y}}（0〜100）で書く")
+    z = entry.get("zoom")
+    if z is not None and not (isinstance(z, (int, float)) and 1 <= z <= 3):
+        errors.append(f"{label}.zoom は 1〜3 の数")
+    for i, r in enumerate(entry.get("ripple") or [], 1):
+        ok = isinstance(r, dict) and all(
+            isinstance(r.get(a), list) and len(r[a]) == 2 and all(_pct(v) for v in r[a]) and r[a][0] < r[a][1]
+            for a in ("x", "y")
+        )
+        pw = r.get("power", 1) if isinstance(r, dict) else None
+        if not ok or not (isinstance(pw, (int, float)) and 0 < pw <= 1):
+            errors.append(f"{label}.ripple[{i}] は {{x: [左, 右], y: [上, 下], power: 0〜1}}（%、左<右、上<下）")
+    return errors
+
+
 def validate(places, vocab, tag_set):
     errors = []
     by_id = {}
@@ -114,11 +145,11 @@ def validate(places, vocab, tag_set):
             if not isinstance(art, dict) or not art:
                 errors.append(f"{where}: art は {{時間帯: 画像パス}} の形で書く")
             else:
-                for k, path in art.items():
+                for k, entry in art.items():
                     if k not in ART_KEYS:
                         errors.append(f"{where}: art のキー {k} は {', '.join(ART_KEYS)} のどれか")
-                    elif not (ROOT / str(path)).exists():
-                        errors.append(f"{where}: art の画像 {path} がない")
+                        continue
+                    errors += check_art_entry(where, k, entry)
         if p.get("text") and not (WORLD / p["text"]).exists():
             errors.append(f"{where}: text のファイル {p['text']} がない")
 
@@ -235,10 +266,16 @@ def layer_of(p, by_id):
 def build_art(art):
     """art の各画像に、スマホ用（-sm）と縦横サイズを添える。"""
     out = {}
-    for key, path in art.items():
+    for key, entry in art.items():
+        if isinstance(entry, str):
+            entry = {"src": entry}
+        path = entry["src"]
         full = ROOT / path
         sm_path = re.sub(r"\.webp$", "-sm.webp", path)
         item = {"src": path}
+        for extra in ("focus", "zoom", "ripple"):
+            if entry.get(extra) is not None:
+                item[extra] = entry[extra]
         if (ROOT / sm_path).exists() and sm_path != path:
             item["sm"] = sm_path
         if Image is not None:

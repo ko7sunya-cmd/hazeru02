@@ -104,6 +104,19 @@ window.WORLD = {
     "x": 53,
     "y": 17.7
    },
+   "art": {
+    "default": {
+     "src": "assets/img/places/up-city.webp",
+     "focus": {
+      "x": 45,
+      "y": 38
+     },
+     "sm": "assets/img/places/up-city-sm.webp",
+     "w": 633,
+     "h": 1125,
+     "smw": 563
+    }
+   },
    "name_origin": "正式名は「新都市」。住人は「あがり」と呼ぶ。水から上がって暮らす場所という意味と、双六の「上がり」、つまり長い道のりの末にたどり着いた場所という意味が重なっている。",
    "summary": "古い新宿の上に杭を打ち、百年かけて積み上げた暮らしの層。",
    "layer": "up-city",
@@ -283,6 +296,32 @@ window.WORLD = {
     "x": 59.8,
     "y": 28.6
    },
+   "art": {
+    "day": {
+     "src": "assets/img/places/up-dome-plaza.webp",
+     "focus": {
+      "x": 50,
+      "y": 30
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        50,
+        100
+       ],
+       "power": 1.0
+      }
+     ],
+     "sm": "assets/img/places/up-dome-plaza-sm.webp",
+     "w": 750,
+     "h": 1125,
+     "smw": 667
+    }
+   },
    "name_origin": "ドームの足元に張られた浅い水盤が、ガラス屋根と空を鏡のように映すことから。",
    "summary": "噴水を抱いたガラスのドーム。新都市の待ち合わせといえば、ここ。",
    "rumor": "噴水の水には、下層の駅の匂いがかすかに残っている、と古い住人は言う。",
@@ -400,6 +439,32 @@ window.WORLD = {
    "map": {
     "x": 64,
     "y": 22
+   },
+   "art": {
+    "day": {
+     "src": "assets/img/places/up-lanterns.webp",
+     "focus": {
+      "x": 50,
+      "y": 38
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        66,
+        100
+       ],
+       "power": 0.5
+      }
+     ],
+     "sm": "assets/img/places/up-lanterns-sm.webp",
+     "w": 750,
+     "h": 1125,
+     "smw": 667
+    }
    },
    "name_origin": "塔の壁面を覆う表示幕を、住人は昔の「灯り」と「幕」をあわせて灯幕と呼ぶ。それが通りの名前になった。",
    "summary": "塔の壁一面に灯幕が並ぶ大通り。夜は水面まで光の色に染まる。",
@@ -592,6 +657,19 @@ window.WORLD = {
     "x": 35.5,
     "y": 46.5
    },
+   "art": {
+    "default": {
+     "src": "assets/img/places/bd-market.webp",
+     "focus": {
+      "x": 62,
+      "y": 32
+     },
+     "sm": "assets/img/places/bd-market-sm.webp",
+     "w": 634,
+     "h": 1125,
+     "smw": 564
+    }
+   },
    "name_origin": "「汀（みぎわ）」は水際のこと。水面に立つ市場なので、自然とこう呼ばれるようになった。",
    "summary": "水面の高さに浮かぶ市場。上と下と、よその町をつなぐ玄関口。",
    "layer": "bd-market",
@@ -781,6 +859,23 @@ window.WORLD = {
    "art": {
     "day": {
      "src": "assets/img/places/bd-horo-row.webp",
+     "focus": {
+      "x": 50,
+      "y": 34
+     },
+     "ripple": [
+      {
+       "x": [
+        84,
+        100
+       ],
+       "y": [
+        50,
+        64
+       ],
+       "power": 0.5
+      }
+     ],
      "sm": "assets/img/places/bd-horo-row-sm.webp",
      "w": 750,
      "h": 1125,
@@ -867,6 +962,32 @@ window.WORLD = {
    "map": {
     "x": 40,
     "y": 44.5
+   },
+   "art": {
+    "day": {
+     "src": "assets/img/places/bd-nozoki.webp",
+     "focus": {
+      "x": 57,
+      "y": 45
+     },
+     "ripple": [
+      {
+       "x": [
+        40,
+        100
+       ],
+       "y": [
+        52,
+        88
+       ],
+       "power": 0.9
+      }
+     ],
+     "sm": "assets/img/places/bd-nozoki-sm.webp",
+     "w": 750,
+     "h": 1125,
+     "smw": 667
+    }
    },
    "name_origin": "床の一部がガラス張りで、真下の水中を覗けることから。",
    "summary": "ガラスの床ごしに、真下の旧駅舎を眺めながらお茶が飲める。",
@@ -957,6 +1078,23 @@ window.WORLD = {
    "art": {
     "default": {
      "src": "assets/img/places/bd-lantern.webp",
+     "focus": {
+      "x": 50,
+      "y": 42
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        52,
+        100
+       ],
+       "power": 1.0
+      }
+     ],
      "sm": "assets/img/places/bd-lantern-sm.webp",
      "w": 1000,
      "h": 1500,
@@ -1004,6 +1142,34 @@ window.WORLD = {
    "art": {
     "default": {
      "src": "assets/img/places/bd-crane.webp",
+     "focus": {
+      "x": 45,
+      "y": 33
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        42
+       ],
+       "y": [
+        78,
+        100
+       ],
+       "power": 0.9
+      },
+      {
+       "x": [
+        42,
+        100
+       ],
+       "y": [
+        60,
+        100
+       ],
+       "power": 0.9
+      }
+     ],
      "sm": "assets/img/places/bd-crane-sm.webp",
      "w": 1000,
      "h": 1500,
@@ -1089,6 +1255,34 @@ window.WORLD = {
    "art": {
     "morning": {
      "src": "assets/img/places/bd-orizutsu-morning.webp",
+     "focus": {
+      "x": 50,
+      "y": 38
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        36
+       ],
+       "y": [
+        33,
+        100
+       ],
+       "power": 0.8
+      },
+      {
+       "x": [
+        62,
+        100
+       ],
+       "y": [
+        33,
+        100
+       ],
+       "power": 0.8
+      }
+     ],
      "sm": "assets/img/places/bd-orizutsu-morning-sm.webp",
      "w": 1024,
      "h": 1536,
@@ -1177,6 +1371,19 @@ window.WORLD = {
    "map": {
     "x": 35.2,
     "y": 70.4
+   },
+   "art": {
+    "default": {
+     "src": "assets/img/places/lo-old.webp",
+     "focus": {
+      "x": 45,
+      "y": 45
+     },
+     "sm": "assets/img/places/lo-old-sm.webp",
+     "w": 634,
+     "h": 1125,
+     "smw": 564
+    }
    },
    "name_origin": "正式名は「旧新宿」。住人は親しみを込めて「底宿（そこじゅく）」と呼ぶ。「新宿」を縮めた「宿」に、水の底の「底」をかぶせた言葉遊びで、悪い意味はない。",
    "summary": "封水された旧市街。窓の外を魚が泳ぐ、水底の公共の街。",
@@ -1361,6 +1568,23 @@ window.WORLD = {
    "art": {
     "morning": {
      "src": "assets/img/places/lo-concourse-morning.webp",
+     "focus": {
+      "x": 50,
+      "y": 43
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        62,
+        100
+       ],
+       "power": 0.8
+      }
+     ],
      "sm": "assets/img/places/lo-concourse-morning-sm.webp",
      "w": 1000,
      "h": 1500,
@@ -1417,6 +1641,32 @@ window.WORLD = {
    "map": {
     "x": 50,
     "y": 59
+   },
+   "art": {
+    "day": {
+     "src": "assets/img/places/lo-light-well.webp",
+     "focus": {
+      "x": 50,
+      "y": 38
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        78,
+        100
+       ],
+       "power": 0.9
+      }
+     ],
+     "sm": "assets/img/places/lo-light-well-sm.webp",
+     "w": 750,
+     "h": 1125,
+     "smw": 667
+    }
    },
    "name_origin": "ビルの谷間が井戸のように縦に抜けていて、そこへ陽の光が汲み込まれるように落ちてくることから。",
    "summary": "正午だけ、陽の光が真上から水底まで落ちてくる場所。",
@@ -1682,6 +1932,32 @@ window.WORLD = {
    "map": {
     "x": 69,
     "y": 74.5
+   },
+   "art": {
+    "night": {
+     "src": "assets/img/places/lo-hikari-tower-night.webp",
+     "focus": {
+      "x": 58,
+      "y": 36
+     },
+     "ripple": [
+      {
+       "x": [
+        0,
+        100
+       ],
+       "y": [
+        75,
+        100
+       ],
+       "power": 1.0
+      }
+     ],
+     "sm": "assets/img/places/lo-hikari-tower-night-sm.webp",
+     "w": 1000,
+     "h": 1500,
+     "smw": 667
+    }
    },
    "name_origin": "量販店だった高いビルに、夜に光る小魚・灯魚が棲みついたことから。",
    "summary": "灯魚が棲む塔。夜になると、窓という窓がほのかに光る。",

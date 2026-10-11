@@ -13,6 +13,10 @@
   access: open
   best_time: 一日中
   map: {x: 53, y: 17.7}
+  art:
+    default:
+      src: assets/img/places/up-city.webp
+      focus: {x: 45, y: 38}
   adjacent:
     - {to: bd-market, via: 杭見坂と荷揚げ昇降機}
   name_origin: >-
@@ -89,6 +93,12 @@
   access: open
   best_time: 朝〜昼
   map: {x: 59.8, y: 28.6}
+  art:
+    day:
+      src: assets/img/places/up-dome-plaza.webp
+      focus: {x: 50, y: 30}
+      ripple:
+        - {x: [0, 100], y: [50, 100], power: 1.0}
   adjacent:
     - {to: up-hatsukui, via: 中央通り}
     - {to: up-lanterns, via: 渡り廊下}
@@ -156,6 +166,12 @@
   access: open
   best_time: 夜
   map: {x: 64, y: 22}
+  art:
+    day:
+      src: assets/img/places/up-lanterns.webp
+      focus: {x: 50, y: 38}
+      ripple:
+        - {x: [0, 100], y: [66, 100], power: 0.5}
   adjacent:
     - {to: up-shiomi, via: 塔町の大通り}
     - {to: up-horizon, via: 塔の昇降機}
